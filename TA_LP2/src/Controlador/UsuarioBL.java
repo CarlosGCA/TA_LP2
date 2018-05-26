@@ -28,4 +28,7 @@ public class UsuarioBL {
         return accesoDatos.buscarUsuarioLogin(nombre);
     }
     
+    public void bloquearUsuario(int id){
+       accesoDatos.bloquearUsuario(id);
+    }
 }

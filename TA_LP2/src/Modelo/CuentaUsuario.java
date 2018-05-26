@@ -4,6 +4,8 @@ public class CuentaUsuario{
 	private String nombreUsuario;
 	private String contrasenha;
 	private Permiso permise;
+        private Boolean bloqueado;
+        
 	public CuentaUsuario(){
             
         }
@@ -14,7 +16,21 @@ public class CuentaUsuario{
 		this.permise=permise;
 	}
 	
-	public void setidProducto(int idUsuario){
+                /**
+         * @return the bloqueado
+         */
+        public Boolean getBloqueado() {
+            return bloqueado;
+        }
+
+        /**
+         * @param bloqueado the bloqueado to set
+         */
+        public void setBloqueado(Boolean bloqueado) {
+            this.bloqueado = bloqueado;
+        }
+        
+	public void setidUsuario(int idUsuario){
 		this.idUsuario=idUsuario;
 	}
 	public int getidUsuario(){

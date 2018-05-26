@@ -74,19 +74,41 @@ public class UsuarioAD {
             
             while(rs.next()){
                 CuentaUsuario cu = new CuentaUsuario();
+                cu.setidUsuario(rs.getInt("idCuentaUsuario"));
                 cu.setcontrasenha(rs.getString("Contrasena"));
                 Permiso per = new Permiso();
                 per.setIdPermiso(rs.getInt("Permiso_idPermiso"));
                 cu.setpermise(per);
+                if(rs.getInt("bloqueado")==1)
+                    cu.setBloqueado(true);
+                else
+                    cu.setBloqueado(false);
                 return cu;
-            }
-            
-            return null;
-                
+            }          
+            return null;         
             
         }catch (Exception e) {
             System.out.println(e.toString());
             return null;
+        }
+    }
+    
+    public void bloquearUsuario(int id){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+
+            CallableStatement cs
+                    = con.prepareCall("{call "
+                            + "USUARIO_BLOQUEAR(?)}"
+                    );
+            cs.setInt(1, id);
+            cs.executeUpdate();
+                
+            System.out.println("El Usuario con id " + id + " ha sido bloqueado");
+            con.close();            
+        }catch (Exception e) {
+            System.out.println(e.toString());
         }
     }
 }

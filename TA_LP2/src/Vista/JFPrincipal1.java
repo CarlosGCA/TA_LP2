@@ -8,8 +8,11 @@ package Vista;
 import Controlador.UsuarioBL;
 import Modelo.*;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.awt.Image;
 import java.awt.TextField;
+import java.util.Map;
+import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -28,12 +31,13 @@ public class JFPrincipal1 extends javax.swing.JFrame {
     private ArrayList<CuentaUsuario> usuarios;
     private CuentaUsuario usuario;
     private UsuarioBL LogicaNegocio;
+    private Map intentosUsuario;
     
     public JFPrincipal1() throws Exception{
         initComponents();
         LogicaNegocio = new UsuarioBL();
         usuarios = new ArrayList<CuentaUsuario>();
-        
+        intentosUsuario = new HashMap();
     }
 
     /**
@@ -94,30 +98,29 @@ public class JFPrincipal1 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblContrasena)
-                            .addComponent(lblUsuario))
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                            .addComponent(txtUsuario)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnIngresar)
-                        .addGap(77, 77, 77)
-                        .addComponent(btnCancelar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(92, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(81, 81, 81))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblContrasena)
+                                .addComponent(lblUsuario))
+                            .addGap(31, 31, 31)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                .addComponent(txtUsuario)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnIngresar)
+                            .addGap(77, 77, 77)
+                            .addComponent(btnCancelar))))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUsuario)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -145,11 +148,23 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         String password = new String(jPassword.getPassword());
         
         usuario = LogicaNegocio.buscarUsuarioLogin(nombre);
-        
         if(usuario==null)
             JOptionPane.showMessageDialog(null, "Usuario no registrado", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-        else if(!password.equals(usuario.getcontrasenha()))
-            JOptionPane.showMessageDialog(null, "Contraseña Incorrecta", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        else if(usuario.getBloqueado())
+            JOptionPane.showMessageDialog(null, "Usuario bloqueado por multiples ingresos fallidos", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        else if(!password.equals(usuario.getcontrasenha())){
+            if(intentosUsuario.containsKey(nombre)){
+                if((int)intentosUsuario.get(nombre)==2){
+                    LogicaNegocio.bloquearUsuario(usuario.getidUsuario());
+                }else{
+                    int v = (int)intentosUsuario.get(nombre) + 1;
+                    intentosUsuario.put(nombre, v);
+                }
+            }else{
+                intentosUsuario.put(nombre, 1);
+            }
+            JOptionPane.showMessageDialog(null, "Contraseña Incorrecta", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);   
+        }          
         else{
             if(usuario.getpermise().getIdPermiso()==2){
                 JFPrincipalVendedor intfzPan = new JFPrincipalVendedor(this,true);
