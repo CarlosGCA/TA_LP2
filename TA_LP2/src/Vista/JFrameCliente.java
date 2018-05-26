@@ -9,7 +9,6 @@ import Controlador.ClientesBL;
 import Modelo.Empresa;
 import Modelo.Natural;
 import java.awt.Dialog;
-import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
@@ -27,8 +26,8 @@ public class JFrameCliente extends javax.swing.JDialog {
     /**
      * Creates new form JFrameCliente
      */
-    public JFrameCliente(Dialog f, boolean b) {
-        super(f, b);
+    public JFrameCliente(Dialog d, Boolean b) {
+        super(d,b);
         initComponents();
         lblNombre2.setVisible(false);
         txtNombre2.setVisible(false);
@@ -40,12 +39,12 @@ public class JFrameCliente extends javax.swing.JDialog {
         logicaNeg= new ClientesBL();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-//        addWindowListener(new WindowAdapter() {
-//            @Override
-//            public void windowClosing(WindowEvent e) {
-//                JFPrincipalVendedor.value = 0;
-//            }
-//        });
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                JFPrincipalVendedor.value = 0;
+            }
+        });
     }
 
     /**
@@ -282,8 +281,7 @@ public class JFrameCliente extends javax.swing.JDialog {
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         // TODO add your handling code here:
-        //JFPrincipalVendedor.value = 0;
-        System.out.println("clientes: "+ logicaNeg.listarEmpresa().size());
+        JFPrincipalVendedor.value = 0;
         super.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 

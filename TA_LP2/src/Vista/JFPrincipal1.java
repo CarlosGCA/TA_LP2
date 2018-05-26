@@ -80,7 +80,7 @@ public class JFPrincipal1 extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/usuario.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/usuario.png"))); // NOI18N
 
         jPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,7 +142,7 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         //this.setVisible(false);
         //this.setVisible(false);
         String nombre = txtUsuario.getText();
-        String password = jPassword.getText();
+        String password = new String(jPassword.getPassword());
         
         usuario = LogicaNegocio.buscarUsuarioLogin(nombre);
         
