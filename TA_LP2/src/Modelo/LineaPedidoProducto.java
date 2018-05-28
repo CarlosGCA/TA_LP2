@@ -16,6 +16,16 @@ public class LineaPedidoProducto {
     /**
      * @return the producto
      */
+    
+    public LineaPedidoProducto(){
+    }
+    
+    public LineaPedidoProducto(Producto prod, float cant, float desc){
+        setProducto(prod);
+        setCantidad(cant);
+        setDescuento(desc);
+    }
+    
     public Producto getProducto() {
         return producto;
     }
@@ -54,4 +64,8 @@ public class LineaPedidoProducto {
     public void setDescuento(float descuento) {
         this.descuento = descuento;
     } 
+    
+    public float getSubtotal(){
+        return getCantidad()*getProducto().getprecio() - getDescuento();
+    }
 }

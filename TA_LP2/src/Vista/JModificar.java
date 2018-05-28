@@ -97,7 +97,7 @@ public class JModificar extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        JFramePedidos.value=0;
+        //JFramePedidos.value=0;
         super.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

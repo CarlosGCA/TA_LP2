@@ -6,46 +6,27 @@ import java.text.SimpleDateFormat;
 public class PedidoProducto{
 	private int idPedido;
 	private estadoPedido estadoPed;
-	
+        
 	private Date fechaRegPed;
 	private Date fechaEntrPed;
 	
 	private Cliente cliente;
 	private ArrayList<LineaPedidoProducto> listaLineasPedido;
 	private DocumentoPago documPago;
+        private float TotalPagar;
 	
 	public PedidoProducto(Cliente cliente,DocumentoPago documPago){
 		this.cliente=cliente;
 		this.documPago=documPago;
 		listaLineasPedido= new ArrayList<LineaPedidoProducto>();
-                this.fechaEntrPed = new Date();
-                this.fechaRegPed = new Date();
-		// this.idPedido=idPedido;
-		// this.estadoPed=estadoPed;
-		// //this.cuentaUs=cuentaUs;
-		
-		// String output;
-		// try{
-			// this.fechaRegPed=new Date();
-			// SimpleDateFormat formt1=new SimpleDateFormat("dd/MM/yyyy");
-			// this.fechaRegPed=formt1.parse(fechaRegPed);
-		// }catch(ParseException e){
-			// output="error";
-		// }
-		
-		// try{
-			// this.fechaEntrPed=new Date();		
-			// SimpleDateFormat formt2=new SimpleDateFormat("dd/MM/yyyy");
-			// this.fechaEntrPed=formt2.parse(fechaEntrPed);
-		// }catch(ParseException e){
-			// output="error";
-		// }	
+                this.fechaEntrPed = new Date();	
 	}
         
         public PedidoProducto(){
             this.listaLineasPedido=new ArrayList<LineaPedidoProducto>();
             this.fechaEntrPed = new Date();
             this.fechaRegPed = new Date();
+            
         }
 	
 	public void setidPedido(int idPedido){
@@ -62,6 +43,7 @@ public class PedidoProducto{
 		return this.estadoPed;
 	}
 	
+        
 	public void setfechaRegPed(String fechaRegPed)throws Exception{
 		SimpleDateFormat formt=new SimpleDateFormat("dd/MM/yyyy");
 		this.fechaRegPed=formt.parse(fechaRegPed);
@@ -84,7 +66,21 @@ public class PedidoProducto{
 	public Cliente getcliente(){
 		return this.cliente;		
 	}	
-	
+        
+                /**
+         * @return the TotalPagar
+         */
+        public float getTotalPagar() {
+            return TotalPagar;
+        }
+
+        /**
+         * @param TotalPagar the TotalPagar to set
+         */
+        public void setTotalPagar(float TotalPagar) {
+            this.TotalPagar = TotalPagar;
+        }
+        
 	public void setdocumPago(DocumentoPago documPago){
 		this.documPago=documPago;
 	}
@@ -92,10 +88,6 @@ public class PedidoProducto{
 		return this.documPago;		
 	}
 	  
-	public int subtotal(){
-		//solo para compilar
-		return 1;
-	}
 	
 	public void registrarDocPago(){
 	}
@@ -103,7 +95,21 @@ public class PedidoProducto{
 	public void imprimirDocPago(){	
 	}
         
+            /**
+        * @return the listaLineasPedido
+        */
+       public ArrayList<LineaPedidoProducto> getListaLineasPedido() {
+           return listaLineasPedido;
+       }
+
+       /**
+        * @param listaLineasPedido the listaLineasPedido to set
+        */
+       public void setListaLineasPedido(ArrayList<LineaPedidoProducto> listaLineasPedido) {
+           this.listaLineasPedido = listaLineasPedido;
+       }
+        
         public void agregarLinea(LineaPedidoProducto nIngr){
-            listaLineasPedido.add(nIngr);
+            getListaLineasPedido().add(nIngr);
 	}
 }

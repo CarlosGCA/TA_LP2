@@ -19,27 +19,6 @@ public class JFPrincipalVendedor extends javax.swing.JDialog {
     /**
      * Creates new form JFrameCliente
      */
-    public static int value;
-    public class estadoFormulario extends Thread{
-        public void run(){
-            while(true){
-                try{
-                    if(value == 1){ 
-                        btnCliente.setEnabled(false);
-                        btnPedidos.setEnabled(false);
-                        jButton1.setEnabled(false);
-                    }
-                    if(value == 0){
-                        btnCliente.setEnabled(true);
-                        btnPedidos.setEnabled(true);
-                        jButton1.setEnabled(true);
-                    }
-                    Thread.sleep(30);
-                }catch(Exception e){}
-            }
-        }
-    }
-    //public static Semaphore semaforo;
     
     public static JFramePedidos obje;
     public static JFrameCliente obje2;
@@ -48,14 +27,6 @@ public class JFPrincipalVendedor extends javax.swing.JDialog {
     public JFPrincipalVendedor(Frame f, boolean b) {
         super(f, b);
         initComponents();
-        
-        estadoFormulario ef = new estadoFormulario();
-        value=0;
-        ef.start();
-        
-//        estadoFormulario2 ef2 = new estadoFormulario2();
-//        value2=0;
-//        ef2.start();
         
         ImageIcon imI = new javax.swing.ImageIcon(getClass().getResource("/Vista/iconoClientes.png"));
         Image img = imI.getImage();

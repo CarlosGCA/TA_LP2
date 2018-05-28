@@ -47,7 +47,7 @@ public class JBuscarProducto extends javax.swing.JDialog {
         addWindowListener(new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent e) {
-                JFramePedidos.value=0;
+                //JFramePedidos.value=0;
             }
         });
         logicaNegocio = new ProductoBL();
@@ -89,7 +89,15 @@ public class JBuscarProducto extends javax.swing.JDialog {
             new String [] {
                 "Codigo", "Descripcion", "Precio"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tableProducto);
 
         btnSalir.setText("Salir");
@@ -141,7 +149,7 @@ public class JBuscarProducto extends javax.swing.JDialog {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
-        JFramePedidos.value=0;
+        //JFramePedidos.value=0;
         super.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
@@ -150,7 +158,7 @@ public class JBuscarProducto extends javax.swing.JDialog {
         try{
             setProductoElegido(new Producto());
             setProductoElegido(listaProductos.get(tableProducto.getSelectedRow()));
-            JFramePedidos.value=2;
+            //JFramePedidos.value=2;
             super.dispose();
         }catch(Exception e){
             System.out.println(e.toString());

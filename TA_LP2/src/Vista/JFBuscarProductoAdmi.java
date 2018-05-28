@@ -24,7 +24,7 @@ public class JFBuscarProductoAdmi extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent e) {
-                JFramePedidos.value=0;
+                //JFramePedidos.value=0;
             }
         });
     }

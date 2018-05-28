@@ -6,7 +6,7 @@
 package AccesoData;
 
 import java.util.ArrayList;
-//import Modelo.Pedido;
+import Modelo.PedidoProducto;
 
 /**
  *
@@ -17,4 +17,9 @@ public class PedidoAD {
     //public ArrayList<Pedido> obtenerLista() {
 //        return;
 //    }
+    
+    public int registrarPedido(PedidoProducto ped){
+        int idped=0;
+        return idped;
+    }
 }

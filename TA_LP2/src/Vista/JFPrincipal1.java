@@ -148,7 +148,10 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         String password = new String(jPassword.getPassword());
         
         usuario = LogicaNegocio.buscarUsuarioLogin(nombre);
-        if(usuario==null)
+        
+        if(nombre.isEmpty() || password.isEmpty())
+            JOptionPane.showMessageDialog(null, "Complete todos los campos por favor", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        else if(usuario==null)
             JOptionPane.showMessageDialog(null, "Usuario no registrado", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         else if(usuario.getBloqueado())
             JOptionPane.showMessageDialog(null, "Usuario bloqueado por multiples ingresos fallidos", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);

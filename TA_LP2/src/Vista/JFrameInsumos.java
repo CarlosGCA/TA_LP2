@@ -58,7 +58,6 @@ public class JFrameInsumos extends javax.swing.JDialog {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                JFPrincipalVendedor.value=0;
             }
         });
     }

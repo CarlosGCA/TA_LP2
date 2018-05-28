@@ -93,7 +93,7 @@ public class JFBuscarCliente extends javax.swing.JDialog {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                JFramePedidos.value=0;
+                //JFramePedidos.value=0;
             }
         });
     }
@@ -180,7 +180,7 @@ public class JFBuscarCliente extends javax.swing.JDialog {
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         // TODO add your handling code here:
-        JFramePedidos.value=0;
+        //JFramePedidos.value=0;
         super.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
@@ -194,7 +194,7 @@ public class JFBuscarCliente extends javax.swing.JDialog {
                 setNaturalSeleccionado(new Natural());
                 setNaturalSeleccionado(listaNatural.get(tableCliente.getSelectedRow()));
             }
-            JFramePedidos.value=2;
+            //JFramePedidos.value=2;
             super.dispose();
         }catch(Exception e){
             System.out.println(e.toString());

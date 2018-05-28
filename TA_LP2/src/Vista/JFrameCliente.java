@@ -42,7 +42,6 @@ public class JFrameCliente extends javax.swing.JDialog {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                JFPrincipalVendedor.value = 0;
             }
         });
     }
@@ -281,7 +280,6 @@ public class JFrameCliente extends javax.swing.JDialog {
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         // TODO add your handling code here:
-        JFPrincipalVendedor.value = 0;
         super.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 

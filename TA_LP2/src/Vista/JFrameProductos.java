@@ -27,7 +27,7 @@ public class JFrameProductos extends javax.swing.JDialog{
         addWindowListener(new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent e) {
-                JFramePedidos.value=0;
+                //JFramePedidos.value=0;
             }
         });
     }
