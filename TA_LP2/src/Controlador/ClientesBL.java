@@ -35,4 +35,10 @@ public class ClientesBL {
     public ArrayList<Empresa> listarEmpresa(){
         return accesoDatos.listarEmpresa();
     }
+    public void modificarCliEmpresa(Empresa empresa){
+         accesoDatos.modificarCliEmpresa(empresa);
+     }
+    public void modificarCliNatural(Natural natural){
+         accesoDatos.modificarCliNatural(natural);
+     }
 }

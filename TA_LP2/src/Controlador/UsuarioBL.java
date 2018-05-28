@@ -8,6 +8,7 @@ package Controlador;
 import AccesoData.UsuarioAD;
 import Modelo.CuentaUsuario;
 import Modelo.Empleado;
+import java.util.ArrayList;
 
 /**
  *
@@ -31,4 +32,15 @@ public class UsuarioBL {
     public void bloquearUsuario(int id){
        accesoDatos.bloquearUsuario(id);
     }
+    
+    public ArrayList<Empleado> listarEmpleados(){
+        return accesoDatos.listarEmpleados();
+    }
+     public void elimEmpl(Empleado empSelec){
+         accesoDatos.eliminarEmp(empSelec);
+     }
+     
+     public void modificarEmp(Empleado empSelec){
+         accesoDatos.modificarEmp(empSelec);
+     }
 }

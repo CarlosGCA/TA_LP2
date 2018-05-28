@@ -17,9 +17,11 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 //import java.util.Date;
 
 public class UsuarioAD {
@@ -108,6 +110,89 @@ public class UsuarioAD {
             System.out.println("El Usuario con id " + id + " ha sido bloqueado");
             con.close();            
         }catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+    
+    public ArrayList<Empleado> listarEmpleados() {
+        ArrayList<Empleado> lista = new ArrayList<Empleado>();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+
+            Statement sentencia = con.createStatement();
+            String sql = "Select * from inf282g7.Empleado;";
+            ResultSet rs = sentencia.executeQuery(sql);
+            while (rs.next()) {
+                Empleado emp = new Empleado();
+
+                emp.setID(rs.getInt("idEmpleado"));
+                emp.setNombre(rs.getString("Nombre"));
+                String auxdni = rs.getString("DNI");
+                emp.setDNI(Integer.parseInt(auxdni));
+                emp.setApellido(rs.getString("Apellidos"));
+                emp.setSexo((rs.getString("Sexo")).charAt(0));
+
+                //System.out.println(rs.getDate("Fecha_Nacimiento"));
+                Date fN = rs.getDate("Fecha_Nacimiento");
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaComoCadena = sdf.format(fN);
+                //System.out.println(fechaComoCadena);
+                //System.out.println(rs.getString("Sexo").charAt(0));
+                emp.setFechaNac(fechaComoCadena);
+                lista.add(emp);
+            }
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return lista;
+    }
+
+    public void eliminarEmp(Empleado emp) {
+        try {
+            //Registrar el Driver
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+
+            CallableStatement cs
+                    = con.prepareCall("{call "
+                            + "ELIMINAREMP(?)}"
+                    );
+            cs.setString(1, Integer.toString(emp.getID()));
+
+            cs.executeUpdate();
+
+            System.out.println("El Usuario: " + Integer.toString(emp.getID()) + " ha sido eliminado");
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    public void modificarEmp(Empleado emp) {
+        try {
+            //Registrar el Driver
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+
+            CallableStatement cs
+                    = con.prepareCall("{call "
+                            + "MODIFICAREMP(?,?,?,?,?,?)}"
+                    );
+            cs.setString(1, Integer.toString(emp.getID()));
+            cs.setString(2, Integer.toString(emp.getDNI()));
+            cs.setString(3, emp.getNombre());
+            cs.setString(4, emp.getApellido());
+            cs.setString(5, emp.getFechaNac());
+            cs.setString(6, String.valueOf(emp.getSexo()));
+
+            cs.executeUpdate();
+
+            System.out.println("El Usuario: " + Integer.toString(emp.getID()) + " ha sido modificado");
+            con.close();
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
     }
