@@ -138,7 +138,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         } else if (!ap.matches("^[A-Za-z ]*$")) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del apellido", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (!auxdni.matches("^[0-9]*$")) {
+        } else if (!auxdni.matches("^[0-9]*$") || (auxdni.length() != 8)) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del DNI", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
         } else if (!nomUs.matches("^[A-Za-z0-9 ]*$")) {
@@ -224,9 +224,6 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             }
         });
 
-        jcbTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mañana", "Tarde", "Noche" }));
-
-        jcbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "JEFE PANADERO", "PANADERO", "SUPERVISOR" }));
         jcbRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbRolActionPerformed(evt);
@@ -377,7 +374,6 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(27, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegresar2)
                         .addGap(52, 52, 52))))
         );
@@ -415,12 +411,8 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                                 .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(88, 88, 88)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(fechaNacimientoChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(fechaNacimientoChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
@@ -465,7 +457,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         String ap = txtApellido.getText();
         String auxdni = txtDNI.getText();
         String nomUs = txtUsuario.getText();
-
+        System.out.println("lendni: " + auxdni.length());
         if (!nom1.matches("^[A-Za-z ]*$")) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del nombre", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
@@ -475,7 +467,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         } else if (!ap.matches("^[A-Za-z ]*$")) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del apellido", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (!auxdni.matches("^[0-9]*$")) {
+        } else if (!auxdni.matches("^[0-9]*$") || (auxdni.length() != 8)) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del DNI", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
         } else if (!nomUs.matches("^[A-Za-z0-9 ]*$")) {
@@ -493,8 +485,8 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             String fechaString = dateFormat.format(dateChooser);
 
             emp.setFechaNac(fechaString);
-
-            if (cbFem.getText().equals('F')) {
+            String nm = cbFem.getText();
+            if (nm == "F") {
                 emp.setSexo('F');
             } else {
                 emp.setSexo('M');
@@ -521,19 +513,17 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             cuenU.setcontrasenha(cont);
             String auxRol = (String) jcbRol.getSelectedItem();
             Permiso perm = new Permiso();
-
             perm.setNombre(auxRol);
-
             cuenU.setpermise(perm);
-
             emp.setUsuario(cuenU);
-
             System.out.println(
                     "nom: " + emp.getNombre());
             System.out.println(
                     "ap: " + emp.getApellido());
             System.out.println(
                     "dni: " + emp.getDNI());
+            System.out.println(
+                    "sexo: " + emp.getSexo());
             System.out.println(
                     "turno: " + emp.getTurno().toString());
             System.out.println(
@@ -546,7 +536,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             logicaNeg.registrarProfesor(emp);
 
             txtID.setText(Integer.toString(emp.getID()));
-            JOptionPane.showMessageDialog(null, "El usuario: " + Integer.toString(emp.getID()) + " ha sido agregado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El usuario: " + emp.getID() + " ha sido agregado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
 
         } else {
             this.enableInputMethods(true);
@@ -610,9 +600,9 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                 System.out.println("asdf");
                 System.out.println(cbFem.getText());
                 String nm = cbFem.getText();
-                if (nm=="F") {
+                if (nm == "F") {
                     emp.setSexo('F');
-                } else  {
+                } else {
                     emp.setSexo('M');
                 }
                 System.out.println(emp.getSexo());

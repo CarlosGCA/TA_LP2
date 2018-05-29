@@ -53,8 +53,9 @@ public class UsuarioAD {
             cs.executeUpdate();
             int numM1;
             numM1 = cs.getInt(1);
-
-            System.out.println("El Usuario ha sido registrado correctamente");
+            System.out.println(numM1);
+            emp.setID(numM1);
+            System.out.println("El Usuario "+ numM1 +" ha sido registrado correctamente");
             con.close();
 
         } catch (Exception e) {
