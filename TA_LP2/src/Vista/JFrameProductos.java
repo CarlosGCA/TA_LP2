@@ -173,7 +173,7 @@ public class JFrameProductos extends javax.swing.JDialog{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        JFBuscarInsumo bi = new JFBuscarInsumo();
+        JFBuscarInsumo bi = new JFBuscarInsumo(this,true);
         bi.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -5,16 +5,19 @@
  */
 package Vista;
 
+import javax.swing.JDialog;
+
 /**
  *
  * @author Sebastian
  */
-public class JFBuscarInsumo extends javax.swing.JFrame {
+public class JFBuscarInsumo extends javax.swing.JDialog {
 
     /**
      * Creates new form JFBuscarInsumo
      */
-    public JFBuscarInsumo() {
+    public JFBuscarInsumo(JDialog d, Boolean b) {
+        super(d,b);
         initComponents();
     }
 
@@ -38,7 +41,7 @@ public class JFBuscarInsumo extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Datos de Insumo");
 
@@ -151,7 +154,7 @@ public class JFBuscarInsumo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFBuscarInsumo().setVisible(true);
+                new JFBuscarInsumo(null,false).setVisible(true);
             }
         });
     }
