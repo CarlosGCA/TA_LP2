@@ -1,39 +1,16 @@
 package Email;
 
-import java.util.Date;
-import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.PasswordAuthentication ;
-import javax.mail.internet.MimeBodyPart;
-
-
-import java.io.*;
-import java.net.InetAddress;
 import java.util.Properties;
 import java.util.Date;
-
-import javax.mail.*;
-import javax.mail.internet.*;
-
 import com.sun.mail.smtp.*;
-
+import AccesoData.EmailAD;
 /**
- * 
- * import java.io.*;
-import java.net.InetAddress;
-import java.util.Properties;
-import java.util.Date;
-
-import javax.mail.*;
-import javax.mail.internet.*;
-
-import com.sun.mail.smtp.*;
  *
  * @author alfredo
  */
@@ -52,10 +29,20 @@ public class Email {
         mailServerProperties.put("mail.smtp.auth", "true");
       
     }
+    
+    public String getEmailDB(String user){
+        EmailAD emailAD = new EmailAD();
+        return emailAD.returnEmail(user);
+    }
+    
+    public String getPassword(String user ){
+        EmailAD emailAD = new EmailAD();
+        return emailAD.returnContrasena(user);
+    }
 
    public  void sendEmail(String subject,String emailToSend, String toEmail ) throws AddressException, MessagingException {
        
-       
+   
         getMailSession = Session.getInstance(mailServerProperties ,null);
         getMailSession.setDebug(true);
        
