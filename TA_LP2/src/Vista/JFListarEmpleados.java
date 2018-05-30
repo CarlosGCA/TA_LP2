@@ -46,11 +46,12 @@ public class JFListarEmpleados extends javax.swing.JDialog {
         logicaNeg = new UsuarioBL();
         listaEmpleados = new ArrayList<Empleado>(logicaNeg.listarEmpleados());
         DefaultTableModel modelo = (DefaultTableModel) tableEmpleados.getModel();
-        Object[] fila = new Object[3];
+        Object[] fila = new Object[2];
+
         for(int i=0; i<listaEmpleados.size(); i++){
-            fila[0] = listaEmpleados.get(i).getID();
-            fila[1] = listaEmpleados.get(i).getDNI();
-            fila[2] = listaEmpleados.get(i).getNombre();
+            //fila[0] = listaEmpleados.get(i).getID();
+            fila[0] = listaEmpleados.get(i).getDNI();
+            fila[1] = listaEmpleados.get(i).getNombre()+" "+listaEmpleados.get(i).getApellido();
             modelo.addRow(fila);
         }
     }
@@ -81,6 +82,7 @@ public class JFListarEmpleados extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         txtFiltrar = new javax.swing.JTextField();
         btnSalir = new javax.swing.JButton();
+        btnFiltrar = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -188,18 +190,30 @@ public class JFListarEmpleados extends javax.swing.JDialog {
 
             },
             new String [] {
-                "IdEmpleado", "DNI", "Nombre Empleado"
+                "DNI", "Nombre Empleado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane1.setViewportView(tableEmpleados);
+        if (tableEmpleados.getColumnModel().getColumnCount() > 0) {
+            tableEmpleados.getColumnModel().getColumn(0).setResizable(false);
+            tableEmpleados.getColumnModel().getColumn(0).setPreferredWidth(12);
+            tableEmpleados.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         btnSeleccionar.setText("Seleccionar");
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
@@ -208,12 +222,19 @@ public class JFListarEmpleados extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("Filtrar:");
+        jLabel1.setText("Nombre:");
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
+            }
+        });
+
+        btnFiltrar.setText("Filtrar");
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
             }
         });
 
@@ -228,12 +249,14 @@ public class JFListarEmpleados extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(28, 28, 28)
-                        .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(150, 150, 150)
+                        .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFiltrar)
+                        .addGap(87, 87, 87)
                         .addComponent(btnSeleccionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,10 +266,11 @@ public class JFListarEmpleados extends javax.swing.JDialog {
                     .addComponent(btnSeleccionar)
                     .addComponent(jLabel1)
                     .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                    .addComponent(btnSalir)
+                    .addComponent(btnFiltrar))
+                .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -269,6 +293,26 @@ public class JFListarEmpleados extends javax.swing.JDialog {
         JFrameUsuarios.value=0;
         super.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        // TODO add your handling code here:
+        String filtro=txtFiltrar.getText().toLowerCase();
+        ArrayList<Empleado> listaFiltro = new ArrayList<Empleado>();
+        for (int i = 0; i < listaEmpleados.size(); i++) {
+            if(listaEmpleados.get(i).getNombre().toLowerCase().contains(filtro) || listaEmpleados.get(i).getApellido().toLowerCase().contains(filtro)){
+                listaFiltro.add(listaEmpleados.get(i));
+            }
+        }
+        DefaultTableModel modelo = (DefaultTableModel) tableEmpleados.getModel();
+        modelo.setRowCount(0);
+        Object[] fila = new Object[2];
+        for(int i=0; i<listaFiltro.size(); i++){
+            //fila[0] = listaEmpleados.get(i).getID();
+            fila[0] = listaFiltro.get(i).getDNI();
+            fila[1] = listaFiltro.get(i).getNombre()+" "+listaFiltro.get(i).getApellido();
+            modelo.addRow(fila);
+        }
+    }//GEN-LAST:event_btnFiltrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -306,6 +350,7 @@ public class JFListarEmpleados extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSeleccionar;
     private javax.swing.JDialog jDialog1;

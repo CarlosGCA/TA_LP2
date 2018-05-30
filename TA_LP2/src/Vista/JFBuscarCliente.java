@@ -15,17 +15,20 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+
 /**
  *
  * @author Kathy Ruiz :)
  */
 public class JFBuscarCliente extends javax.swing.JDialog {
+
     private String tipo;
     private ClientesBL LogicaNegocio;
     private ArrayList<Natural> listaNatural;
     private ArrayList<Empresa> listaEmpresa;
     private Natural naturalSeleccionado;
     private Empresa empresaSeleccionada;
+
     /**
      * @return the naturalSeleccionado
      */
@@ -57,38 +60,38 @@ public class JFBuscarCliente extends javax.swing.JDialog {
     /**
      * Creates new form JFBuscarCliente
      */
-    public JFBuscarCliente(String tipo,Dialog f, boolean b) {
+    public JFBuscarCliente(String tipo, Dialog f, boolean b) {
         super(f, b);
         initComponents();
         LogicaNegocio = new ClientesBL();
-        listaEmpresa=new  ArrayList<Empresa>(LogicaNegocio.listarEmpresa());
+        listaEmpresa = new ArrayList<Empresa>(LogicaNegocio.listarEmpresa());
         listaNatural = new ArrayList<Natural>(LogicaNegocio.listarNatural());
         this.tipo = tipo;
-        
+
         DefaultTableModel modelo = (DefaultTableModel) tableCliente.getModel();
-        if(tipo=="Empresa"){      
+        if (tipo == "Empresa") {
             modelo.addColumn("RUC");
             modelo.addColumn("RAZON SOCIAL");
-            
-            Object[] fila = new Object[2]; 
-            for(int i=0; i<listaEmpresa.size(); i++){
+
+            Object[] fila = new Object[2];
+            for (int i = 0; i < listaEmpresa.size(); i++) {
                 fila[0] = listaEmpresa.get(i).getRuc();
                 fila[1] = listaEmpresa.get(i).getRazonSocial();
                 modelo.addRow(fila);
-            } 
-            
-        }else{
+            }
+
+        } else {
             modelo.addColumn("DNI");
             modelo.addColumn("NOMBRE");
-            
-            Object[] fila = new Object[2]; 
-            for(int i=0; i<listaNatural.size(); i++){
+
+            Object[] fila = new Object[2];
+            for (int i = 0; i < listaNatural.size(); i++) {
                 fila[0] = listaNatural.get(i).getDNI();
-                fila[1] = listaNatural.get(i).getNombre();
+                fila[1] = listaNatural.get(i).getNombre() + " " + listaNatural.get(i).getApellidos();
                 modelo.addRow(fila);
             }
         }
-        
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
@@ -112,6 +115,9 @@ public class JFBuscarCliente extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         btnCerrar = new javax.swing.JButton();
         btnSelect = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtFiltro = new javax.swing.JTextField();
+        btnFiltrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -142,36 +148,58 @@ public class JFBuscarCliente extends javax.swing.JDialog {
             }
         });
 
+        jLabel2.setText("Nombre:");
+
+        btnFiltrar.setText("Filtrar");
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSelect)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnCerrar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnFiltrar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSelect)
+                            .addGap(37, 37, 37)
+                            .addComponent(btnCerrar))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnCerrar)
-                        .addComponent(btnSelect)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFiltrar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSelect)
+                            .addComponent(btnCerrar))
+                        .addGap(32, 32, 32)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addContainerGap())
         );
 
         pack();
@@ -186,20 +214,58 @@ public class JFBuscarCliente extends javax.swing.JDialog {
 
     private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
         // TODO add your handling code here:
-        try{
-            if(tipo=="Empresa"){
+        try {
+            if (tipo == "Empresa") {
                 setEmpresaSeleccionada(new Empresa());
                 setEmpresaSeleccionada(listaEmpresa.get(tableCliente.getSelectedRow()));
-            }else{
+            } else {
                 setNaturalSeleccionado(new Natural());
                 setNaturalSeleccionado(listaNatural.get(tableCliente.getSelectedRow()));
             }
             //JFramePedidos.value=2;
             super.dispose();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
     }//GEN-LAST:event_btnSelectActionPerformed
+
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        // TODO add your handling code here:
+        String filtro = txtFiltro.getText().toLowerCase();
+        if (tipo == "Empresa") {
+            ArrayList<Empresa> listaFiltro = new ArrayList<Empresa>();
+            for (int i = 0; i < listaEmpresa.size(); i++) {
+                if (listaEmpresa.get(i).getRazonSocial().toLowerCase().contains(filtro)) {
+                    listaFiltro.add(listaEmpresa.get(i));
+                }
+            }
+            DefaultTableModel modelo = (DefaultTableModel) tableCliente.getModel();
+            modelo.setRowCount(0);
+            Object[] fila = new Object[2];
+            for (int i = 0; i < listaFiltro.size(); i++) {
+                //fila[0] = listaEmpleados.get(i).getID();
+                fila[0] = listaFiltro.get(i).getRuc();
+                fila[1] = listaFiltro.get(i).getRazonSocial();
+                modelo.addRow(fila);
+            }
+        } else {
+            ArrayList<Natural> listaFiltro = new ArrayList<Natural>();
+            for (int i = 0; i < listaNatural.size(); i++) {
+                if (listaNatural.get(i).getNombre().toLowerCase().contains(filtro) || listaNatural.get(i).getApellidos().toLowerCase().contains(filtro)) {
+                    listaFiltro.add(listaNatural.get(i));
+                }
+            }
+            DefaultTableModel modelo = (DefaultTableModel) tableCliente.getModel();
+            modelo.setRowCount(0);
+            Object[] fila = new Object[2];
+            for (int i = 0; i < listaFiltro.size(); i++) {
+                //fila[0] = listaEmpleados.get(i).getID();
+                fila[0] = listaFiltro.get(i).getDNI();
+                fila[1] = listaFiltro.get(i).getNombre() + " " + listaFiltro.get(i).getApellidos();
+                modelo.addRow(fila);
+            }
+        }
+    }//GEN-LAST:event_btnFiltrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,9 +297,9 @@ public class JFBuscarCliente extends javax.swing.JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try{
+                try {
                     //new JFBuscarCliente().setVisible(true);
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
                 //new JFBuscarCliente().setVisible(true);
@@ -243,9 +309,12 @@ public class JFBuscarCliente extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnSelect;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableCliente;
+    private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 }
