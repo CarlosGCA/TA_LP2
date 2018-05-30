@@ -20,7 +20,9 @@ import Modelo.LineaPedidoProducto;
 import Modelo.EstadoPedido;
 import Controlador.PedidoBL;
 import Modelo.CuentaUsuario;
+import java.awt.Desktop;
 import java.awt.Dialog;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
@@ -788,12 +790,17 @@ public class JFramePedidos extends javax.swing.JDialog {
 //            con.close();
             DocumentoPagoBL documentoPagoAD = new DocumentoPagoBL();
             documentoPagoAD.exportarBoletaPDF(5, "");
+            int seleccion = JOptionPane.showConfirmDialog(null, "Documento generado exitosamente,\n¿desea abrirlo?",
+                                          "Mensaje",JOptionPane.YES_NO_OPTION);
+            if(seleccion == JOptionPane.YES_OPTION)
+                Desktop.getDesktop().open(new File("Boleta.pdf"));
 
 
 //        } catch (Exception ex) {
 //            System.out.println(ex.getMessage());
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnGenerarDocumentoPagoActionPerformed
 
