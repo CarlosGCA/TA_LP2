@@ -180,7 +180,12 @@ public class JFPrincipal1 extends javax.swing.JFrame {
             else if(usuario.getpermise().getIdPermiso()==3){
                 JFPrincipalAdmi intrfSuper = new JFPrincipalAdmi(this,true);
                 intrfSuper.setVisible(true);
-            }else
+            }
+            else if(usuario.getpermise().getIdPermiso()==1){
+                JFPrincipalAdmi intrfSuper = new JFPrincipalAdmi(this,true);
+                intrfSuper.setVisible(true);
+            }
+            else
                 JOptionPane.showMessageDialog(null, "No tiene permiso", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
 
