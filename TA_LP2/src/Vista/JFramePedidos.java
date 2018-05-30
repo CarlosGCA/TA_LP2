@@ -5,6 +5,8 @@
  */
 package Vista;
 
+import AccesoData.DocumentoPagoAD;
+import Controlador.DocumentoPagoBL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -19,10 +21,20 @@ import Modelo.EstadoPedido;
 import Controlador.PedidoBL;
 import Modelo.CuentaUsuario;
 import java.awt.Dialog;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 /**
  *
  * @author Kathy Ruiz :)
@@ -187,7 +199,7 @@ public class JFramePedidos extends javax.swing.JDialog {
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnGenerarDocumentoPago = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         txtIDDPago = new javax.swing.JTextField();
 
@@ -487,7 +499,12 @@ public class JFramePedidos extends javax.swing.JDialog {
 
         jLabel12.setText("Contabilizar:");
 
-        jButton1.setText("Generar Documento de Pago");
+        btnGenerarDocumentoPago.setText("Generar Documento de Pago");
+        btnGenerarDocumentoPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarDocumentoPagoActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("Nro. Doc:");
 
@@ -505,7 +522,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtIDDPago, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnGenerarDocumentoPago))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -514,7 +531,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jButton1))
+                    .addComponent(btnGenerarDocumentoPago))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtIDDPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -750,6 +767,36 @@ public class JFramePedidos extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRazonS1ActionPerformed
 
+    private void btnGenerarDocumentoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarDocumentoPagoActionPerformed
+        try {
+            // TODO add your handling code here:
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+//            //Connection con  = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/a20141988","a20141988","muajaja");
+//            JasperReport reporte =  (JasperReport) JRLoader.loadObjectFromFile("src/Reportes/Blank_Letter.jasper");
+//            
+//            
+//            
+//            
+//            JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,null,con);
+//            //JasperExportManager.exportReportToPdfFile(jasperPrint, "reporte3.pdf");
+//            
+//            JasperViewer view = new JasperViewer(jasperPrint, false);
+//            view.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+//            view.setVisible(true);
+//            
+//            con.close();
+            DocumentoPagoBL documentoPagoAD = new DocumentoPagoBL();
+            documentoPagoAD.exportarBoletaPDF(5, "");
+
+
+//        } catch (Exception ex) {
+//            System.out.println(ex.getMessage());
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_btnGenerarDocumentoPagoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -796,11 +843,11 @@ public class JFramePedidos extends javax.swing.JDialog {
     private javax.swing.JButton btnAnular;
     private javax.swing.JButton btnBuscarDNI;
     private javax.swing.JButton btnBuscarProducto;
+    private javax.swing.JButton btnGenerarDocumentoPago;
     private javax.swing.JButton btnGrabar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cboTipoCliente;
-    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
