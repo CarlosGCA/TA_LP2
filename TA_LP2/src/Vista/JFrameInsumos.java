@@ -191,7 +191,7 @@ public class JFrameInsumos extends javax.swing.JDialog {
         int idInsumo = Integer.parseInt(textID.getText());
         String nombre = textNombre.getText();
         String auxMedida = (String)jComboBox2.getSelectedItem();
-        int medida=0;
+        int medida=1;
         for(int i=0;i<unidadesMedida.size();i++){
             String aux = unidadesMedida.get(i);
             if(auxMedida.equals(aux)){

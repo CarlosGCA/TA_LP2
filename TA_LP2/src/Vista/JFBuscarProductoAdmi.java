@@ -7,17 +7,19 @@ package Vista;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.Dialog;
 
 /**
  *
  * @author Sebastian
  */
-public class JFBuscarProductoAdmi extends javax.swing.JFrame {
+public class JFBuscarProductoAdmi extends javax.swing.JDialog {
 
     /**
      * Creates new form JFBuscarProductoAdmi
      */
-    public JFBuscarProductoAdmi() {
+    public JFBuscarProductoAdmi(Dialog f,Boolean b) {
+        super(f,b);
         initComponents();
         
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -122,7 +124,7 @@ public class JFBuscarProductoAdmi extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFBuscarProductoAdmi().setVisible(true);
+                new JFBuscarProductoAdmi(null,false).setVisible(true);
             }
         });
     }
