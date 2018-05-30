@@ -1,3 +1,7 @@
+#nuevos
+*.xml
+*.properties
+
 # Compiled class file
 *.class
 

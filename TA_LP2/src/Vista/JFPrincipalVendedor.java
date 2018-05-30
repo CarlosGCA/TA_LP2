@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Modelo.CuentaUsuario;
 import java.awt.Frame;
 import java.awt.Image;
 import java.util.concurrent.Semaphore;
@@ -22,12 +23,28 @@ public class JFPrincipalVendedor extends javax.swing.JDialog {
     
     public static JFramePedidos obje;
     public static JFrameCliente obje2;
+    private CuentaUsuario userLogin;
+    
+       /**
+     * @return the userLogin
+     */
+    public CuentaUsuario getUserLogin() {
+        return userLogin;
+    }
+
+    /**
+     * @param userLogin the userLogin to set
+     */
+    public void setUserLogin(CuentaUsuario userLogin) {
+        this.userLogin = userLogin;
+    }
     
     
-    public JFPrincipalVendedor(Frame f, boolean b) {
+    public JFPrincipalVendedor(Frame f, boolean b, CuentaUsuario user) {
         super(f, b);
         initComponents();
         
+        setUserLogin(user);
         ImageIcon imI = new javax.swing.ImageIcon(getClass().getResource("/Vista/iconoClientes.png"));
         Image img = imI.getImage();
         Image newi = img.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
@@ -117,7 +134,7 @@ public class JFPrincipalVendedor extends javax.swing.JDialog {
 
     private void btnPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedidosActionPerformed
         // TODO add your handling code here:   
-        obje= new JFramePedidos(this,true);
+        obje= new JFramePedidos(this,true,getUserLogin());
         obje.setVisible(true);
         //value = 1;
     }//GEN-LAST:event_btnPedidosActionPerformed
@@ -165,7 +182,7 @@ public class JFPrincipalVendedor extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                  try{
-                    new JFPrincipalVendedor(null,false).setVisible(true);
+                    new JFPrincipalVendedor(null,false,null).setVisible(true);
                 }catch(Exception e){
                     System.out.println(e.getMessage());
                 }

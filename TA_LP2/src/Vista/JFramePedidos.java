@@ -15,19 +15,25 @@ import javax.swing.JOptionPane;
 import Modelo.PedidoProducto;
 import Modelo.Producto;
 import Modelo.LineaPedidoProducto;
+import Modelo.EstadoPedido;
+import Controlador.PedidoBL;
+import Modelo.CuentaUsuario;
 import java.awt.Dialog;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Kathy Ruiz :)
  */
 
-
 public class JFramePedidos extends javax.swing.JDialog {
-    
+
+    private PedidoBL logicaNegocio;
     private PedidoProducto Pedido;
     private Producto productoSeleccionado;
+    private CuentaUsuario userLogin;
     DefaultTableModel modelo;
         /**
      * @return the Pedido
@@ -57,23 +63,28 @@ public class JFramePedidos extends javax.swing.JDialog {
         this.productoSeleccionado = ultimoProducto;
     }
     
-    public JFramePedidos(Dialog f, boolean b) {
+    /**
+     * @return the userLogin
+     */
+    public CuentaUsuario getUserLogin() {
+        return userLogin;
+    }
+
+    /**
+     * @param userLogin the userLogin to set
+     */
+    public void setUserLogin(CuentaUsuario userLogin) {
+        this.userLogin = userLogin;
+    }
+    
+    public JFramePedidos(Dialog f, boolean b, CuentaUsuario user) {
         super(f, b);
         initComponents();
-
-        txtFechaPed.setEnabled(false);
-        txtProducto.setEnabled(false);
-        txtPrecio.setEnabled(false);
-        txtTotal.setEnabled(false);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setTitle("Ventana Principal");
-        txtFechaPed.setText(fechaActual());
-        txtIDDPago.setEnabled(false);
-        txtIDProd.setEnabled(false);
-        txtIDCLI.setEnabled(false);
-        txtRuc1.setEnabled(false);
-        txtRazonS1.setEnabled(false);
+        
+        logicaNegocio = new PedidoBL();
+        setUserLogin(user);
+        
+        estadoCampos(1);
         
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -84,6 +95,26 @@ public class JFramePedidos extends javax.swing.JDialog {
         
         Pedido = new PedidoProducto();
         modelo = (DefaultTableModel) JTablePedidos.getModel();
+    }
+    
+    public void estadoCampos(int est){
+        switch(est){
+            case 1:
+                txtFechaPed.setEnabled(false);
+                txtProducto.setEnabled(false);
+                txtPrecio.setEnabled(false);
+                txtTotal.setEnabled(false);
+                setLocationRelativeTo(null);
+                setResizable(false);
+                setTitle("Ventana Principal");
+                txtFechaPed.setText(fechaActual());
+                txtIDDPago.setEnabled(false);
+                txtIDProd.setEnabled(false);
+                txtIDCLI.setEnabled(false);
+                txtRuc1.setEnabled(false);
+                txtRazonS1.setEnabled(false);
+                break;
+        }
     }
     
     public void actualizarTabla(){
@@ -538,9 +569,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -646,8 +675,6 @@ public class JFramePedidos extends javax.swing.JDialog {
         objeBuscarPro= new JBuscarProducto(this,true);
         objeBuscarPro.setAlwaysOnTop(true);
         objeBuscarPro.setVisible(true);
-        //value = 1;
-
         if(!(objeBuscarPro.getProductoElegido()==null)){
             productoSeleccionado = objeBuscarPro.getProductoElegido();
             txtIDProd.setText(Integer.toString(productoSeleccionado.getidProducto()));
@@ -670,7 +697,7 @@ public class JFramePedidos extends javax.swing.JDialog {
             if(Pedido.getListaLineasPedido().isEmpty())
                 JOptionPane.showMessageDialog(null, "No hay lineas que eliminar", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
             else
-                JOptionPane.showMessageDialog(null, "¡Seleccione una linea del pedido!", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Seleccione una linea del pedido", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -684,7 +711,35 @@ public class JFramePedidos extends javax.swing.JDialog {
 
     private void btnGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrabarActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Se ha guardado satisfactoriamente", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        try{
+            Date dateEntrega = jDateChooser1.getDate();
+            Date dateRegistro = new Date();
+            
+            if(dateEntrega == null)
+                throw new Exception("Coloque una fecha de entrega");
+            if(dateEntrega.before(dateRegistro))
+                throw new Exception("La Fecha de Entrega no puede ser menor a la Fecha de Fedido");
+            if(Pedido.getListaLineasPedido().size()==0)
+                throw new Exception("El pedido no tiene ningun producto agregado");
+            if(Pedido.getcliente()==null)
+                throw new Exception("El pedido no tiene Cliente");
+ 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String fechEntrega = dateFormat.format(dateEntrega);
+            
+            Pedido.setfechaEntrPed(fechEntrega);
+            
+            EstadoPedido estPed = EstadoPedido.EnProceso;
+            Pedido.setestadoPedo(estPed);
+            
+            int idped=logicaNegocio.registrarPedido(Pedido, userLogin.getidUsuario());
+            if(idped==0)
+                throw new Exception("Error al registrar pedido");
+            
+            JOptionPane.showMessageDialog(null, "Pedido registrado correctamente con id " + idped, "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }   
     }//GEN-LAST:event_btnGrabarActionPerformed
 
     private void txtProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductoActionPerformed
@@ -727,7 +782,7 @@ public class JFramePedidos extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try{
-                    new JFramePedidos(null,false).setVisible(true);
+                    new JFramePedidos(null,false,null).setVisible(true);
                 }catch(Exception ex){
                     System.out.println(ex.getMessage());
                 }
