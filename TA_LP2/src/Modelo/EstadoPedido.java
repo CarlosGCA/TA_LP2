@@ -4,9 +4,4 @@
  * and open the template in the editor.
  */
 package Modelo;
-
-/**
- *
- * @author LENOVO
- */
-enum estadoPedido {Aprobado,Pendiente,Listo,Cancelado}
+public enum EstadoPedido {Aprobado,Pendiente,Listo,Cancelado,EnProceso}

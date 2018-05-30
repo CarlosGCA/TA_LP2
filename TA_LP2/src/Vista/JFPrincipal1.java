@@ -170,7 +170,7 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         }          
         else{
             if(usuario.getpermise().getIdPermiso()==2){
-                JFPrincipalVendedor intfzPan = new JFPrincipalVendedor(this,true);
+                JFPrincipalVendedor intfzPan = new JFPrincipalVendedor(this,true,usuario);
                 intfzPan.setVisible(true);
             }
             else if(usuario.getpermise().getIdPermiso()==3){

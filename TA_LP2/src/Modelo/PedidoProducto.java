@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class PedidoProducto{
 	private int idPedido;
-	private estadoPedido estadoPed;
+	private EstadoPedido estadoPed;
         
 	private Date fechaRegPed;
 	private Date fechaEntrPed;
@@ -36,10 +36,10 @@ public class PedidoProducto{
 		return this.idPedido;
 	}
 	
-	public void setestadoPedo(estadoPedido estadoPed){
+	public void setestadoPedo(EstadoPedido estadoPed){
 		this.idPedido=idPedido;
 	}
-	public estadoPedido getestadoPed(){
+	public EstadoPedido getestadoPed(){
 		return this.estadoPed;
 	}
 	

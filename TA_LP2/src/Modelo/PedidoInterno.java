@@ -4,7 +4,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 public class PedidoInterno{
-        private estadoPedido estadoPed;
+        private EstadoPedido estadoPed;
         private int idPedido;
 
 	private Date fechaRegPed;
@@ -34,10 +34,10 @@ public class PedidoInterno{
 		return this.idPedido;
 	}
 	
-	public void setestadoPedo(estadoPedido estadoPed){
+	public void setestadoPedo(EstadoPedido estadoPed){
 		this.idPedido=idPedido;
 	}
-	public estadoPedido getestadoPed(){
+	public EstadoPedido getestadoPed(){
 		return this.estadoPed;
 	}
 	public void setfechaRegPed(String fechaRegPed)throws Exception{
