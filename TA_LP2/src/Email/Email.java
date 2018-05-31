@@ -51,7 +51,6 @@ public class Email {
             generateMailMessage.setFrom(new InternetAddress("pracinfobtpucp@gmail.com"));
             generateMailMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
             generateMailMessage.setSubject(subject);     
-            //
             generateMailMessage.setText(emailToSend);
             // 
             generateMailMessage.setHeader("X-Mailer", "smtpsend");
