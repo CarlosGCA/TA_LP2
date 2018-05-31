@@ -184,7 +184,12 @@ public class JFrameInsumos extends javax.swing.JDialog {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-        
+        int indx = jTable1.getSelectedRow();
+        int auxID = Integer.parseInt(jTable1.getModel().getValueAt(indx, 0).toString());
+        String auxNombreInsumo = jTable1.getModel().getValueAt(indx, 1).toString();
+        String auxUnidadMedida = jTable1.getModel().getValueAt(indx, 2).toString();
+        logicaNegocio.eliminarInsumo(auxID);
+        ((DefaultTableModel)jTable1.getModel()).removeRow(indx);
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -201,8 +206,24 @@ public class JFrameInsumos extends javax.swing.JDialog {
             };
         }        
         int resul=logicaNegocio.registrarInsumo(idInsumo, nombre,medida );
-        if(resul >0) 
+        if(resul >0){
+            listaInsumo = logicaNegocio.listarInsumo();
+            DefaultTableModel aux= (DefaultTableModel) jTable1.getModel();
+            Object [] fila = new Object [3];
+            unidadMed um;
+            for(int i=0;i<listaInsumo.size();i++){
+                fila[0] = listaInsumo.get(i).getidInsumo();
+                fila[1] = listaInsumo.get(i).getdescripcion();
+                um = listaInsumo.get(i).getunidMed();
+                if(um == unidadMed.kg) fila[2] = "KILOGRAMOS";
+                else if(um == unidadMed.cajas) fila[2] = "CAJAS";
+                else if(um == unidadMed.lt) fila[2] = "LITROS";
+                else if(um == unidadMed.unid) fila[2] = "UNIDADES";            
+                aux.addRow(fila);            
+            }
             JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        } 
+            
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
