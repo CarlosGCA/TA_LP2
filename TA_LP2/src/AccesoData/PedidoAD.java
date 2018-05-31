@@ -50,7 +50,7 @@ public class PedidoAD {
             
             cs.setString(2, fechEntrega);
             cs.setInt(3, iduser);
-            cs.setInt(4, 5);
+            cs.setInt(4, 2);
             cs.setInt(5, ped.getcliente().getId_cliente());
             
             cs.execute();
