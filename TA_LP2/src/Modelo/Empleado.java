@@ -24,13 +24,15 @@ public class Empleado {
         setFechaNac(fechaNac);
         setUsuario(usuario);
         setTurno(turno);
+        
 
     }
 
     public Empleado() {
     }
 
- 
+    
+    
     public int getDNI() {
         return DNI;
     }

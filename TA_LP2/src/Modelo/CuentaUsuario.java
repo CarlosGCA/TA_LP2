@@ -5,7 +5,7 @@ public class CuentaUsuario{
 	private String contrasenha;
 	private Permiso permise;
         private Boolean bloqueado;
-        
+        private String correo;
 	public CuentaUsuario(){
             
         }
@@ -14,6 +14,7 @@ public class CuentaUsuario{
 		this.nombreUsuario=nombreUsuario;
 		this.contrasenha=contrasenha;
 		this.permise=permise;
+                this.correo ="";
 	}
 	
                 /**
@@ -23,6 +24,13 @@ public class CuentaUsuario{
             return bloqueado;
         }
 
+       public String getCorreo(){
+        return correo;
+    }
+    
+    public void setCorreo(String correo){
+        this.correo = correo;
+    }
         /**
          * @param bloqueado the bloqueado to set
          */
