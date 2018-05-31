@@ -94,8 +94,10 @@ public class UsuarioAD {
                     cu.setBloqueado(true);
                 else
                     cu.setBloqueado(false);
+                con.close();
                 return cu;
-            }          
+            }
+            con.close();
             return null;         
             
         }catch (Exception e) {
@@ -145,7 +147,7 @@ public class UsuarioAD {
                 //System.out.println(rs.getDate("Fecha_Nacimiento"));
                 Date fN = rs.getDate("Fecha_Nacimiento");
 
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 String fechaComoCadena = sdf.format(fN);
                 //System.out.println(fechaComoCadena);
                 //System.out.println(rs.getString("Sexo").charAt(0));

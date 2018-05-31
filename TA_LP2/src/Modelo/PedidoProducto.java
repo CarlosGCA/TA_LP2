@@ -45,7 +45,7 @@ public class PedidoProducto{
 	
         
 	public void setfechaRegPed(String fechaRegPed)throws Exception{
-		SimpleDateFormat formt=new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formt=new SimpleDateFormat("yyyy-MM-dd");
 		this.fechaRegPed=formt.parse(fechaRegPed);
 	}
 	public Date getfechaRegPed(){
@@ -53,7 +53,7 @@ public class PedidoProducto{
 	}
 	
 	public void setfechaEntrPed(String fechaEntrPed)throws Exception{
-		SimpleDateFormat formt=new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formt=new SimpleDateFormat("yyyy-MM-dd");
 		this.fechaEntrPed=formt.parse(fechaEntrPed);
 	}
 	public Date getfechaEntrPed(){
@@ -71,7 +71,11 @@ public class PedidoProducto{
          * @return the TotalPagar
          */
         public float getTotalPagar() {
-            return TotalPagar;
+            float total=0;
+            for(LineaPedidoProducto lpp : listaLineasPedido){
+                total+= lpp.getCantidad()*lpp.getProducto().getprecio();
+            }
+            return total;
         }
 
         /**

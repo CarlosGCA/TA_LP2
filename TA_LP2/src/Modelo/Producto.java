@@ -43,5 +43,8 @@ public class Producto{
 	public float getprecio(){
 		return this.precio;
 	}
+        public void agregarIngrediente(Ingrediente i){
+            Receta.add(i);
+        }
 	
 }
