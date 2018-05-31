@@ -732,6 +732,7 @@ public class JFramePedidos extends javax.swing.JDialog {
         JBuscarProducto objeBuscarPro;
         objeBuscarPro= new JBuscarProducto(this,true);
         objeBuscarPro.setVisible(true);
+        
         if(!(objeBuscarPro.getProductoElegido()==null)){
             productoSeleccionado = objeBuscarPro.getProductoElegido();
             txtIDProd.setText(Integer.toString(productoSeleccionado.getidProducto()));
