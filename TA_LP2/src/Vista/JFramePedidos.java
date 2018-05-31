@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import Email.Email;
 /**
  *
  * @author Kathy Ruiz :)
@@ -790,7 +791,12 @@ public class JFramePedidos extends javax.swing.JDialog {
             int idped=logicaNegocio.registrarPedido(Pedido, userLogin.getidUsuario());
             if(idped==0)
                 throw new Exception("Error al registrar pedido");
-            
+            try{
+            Email controllerEmail = new Email();
+            controllerEmail.prepareConection();
+            String correoAdmin = controllerEmail.getEmailDB("admin");
+            controllerEmail.sendEmail("Nuevo pedido registrado", "Se ha registrado el pedido " + txtIDCLI.getText() + "\n\n\t Para el cliente "+ this.txtRazonS1.getText()  , correoAdmin);
+            } catch(Exception ex){}
             JOptionPane.showMessageDialog(null, "Pedido registrado correctamente con id " + idped, "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
@@ -871,6 +877,7 @@ public class JFramePedidos extends javax.swing.JDialog {
             String fechEnt = df.format(ped.getfechaEntrPed());
             txtFechaPed.setText(fechReg);
             jDateChooser1.setDate(ped.getfechaEntrPed());
+            Pedido.setcliente(ped.getcliente());
             Pedido.setListaLineasPedido(ped.getListaLineasPedido());
             actualizarTabla();
             txtProducto.setText("");
@@ -882,6 +889,17 @@ public class JFramePedidos extends javax.swing.JDialog {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
+        Pedido=new PedidoProducto();
+        actualizarTabla();
+        txtProducto.setText("");
+        txtCantidad.setText("");
+        txtPrecio.setText("");
+        txtIDProd.setText("");
+        txtRuc1.setText("");
+        txtRazonS1.setText("");
+        txtIDCLI.setText("");
+        txtFechaPed.setText(fechaActual());
+        jDateChooser1.cleanup();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void txtIDCLIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDCLIActionPerformed
