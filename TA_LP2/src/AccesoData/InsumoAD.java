@@ -98,19 +98,20 @@ public class InsumoAD {
     }
     
     public int eliminarInsumo(int _id){
-        int id=0;
-         try{
+        int auxID=0;
+        try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
-            Statement sentencia = con.createStatement();
-            String aux = String.valueOf(_id);
-            String query ="delete from Insumo where idInsumo='aux';";
-            id = sentencia.executeUpdate(query);
+            CallableStatement sentencia = con.prepareCall("{call ELIMINAR_INSUMO(?,?)}");
+            sentencia.registerOutParameter("idEliminado", java.sql.Types.INTEGER);
+            sentencia.setInt("id", _id);
+            sentencia.execute();
+            auxID = _id;
             con.close();
         }catch(Exception e){
-            System.out.println(e.getMessage());
+            System.out.println(e.toString());
         }
-        return id;
+        return auxID;
     }
     
 }
