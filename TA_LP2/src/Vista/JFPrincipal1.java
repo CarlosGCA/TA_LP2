@@ -17,7 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
-
+import Email.Email ;
 
 /**
  *
@@ -38,6 +38,10 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         LogicaNegocio = new UsuarioBL();
         usuarios = new ArrayList<CuentaUsuario>();
         intentosUsuario = new HashMap();
+       // Email testEmail = new Email();
+       // testEmail.prepareConection();
+       // testEmail.sendEmail("pracinfobtpucp@gmail.com", "pracinfobtpucp@gmail.com", "carlos.baez@pucp.edu.pe");
+       // guide https://javaee.github.io/javamail/Gmail // new form for send email 
     }
 
     /**
