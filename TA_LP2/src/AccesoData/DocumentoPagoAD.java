@@ -37,7 +37,7 @@ public class DocumentoPagoAD {
             HashMap parametros = new HashMap();
             parametros.put("_idPedidoProductos",idPedido);
             JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,parametros,con);
-            JasperExportManager.exportReportToPdfFile(jasperPrint, ruta + "reporte4.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, ruta + "Boleta.pdf");
         closeCon();
     }
     public void exportFacturaPDF(int idPedido, String ruta) throws Exception{
