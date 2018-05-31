@@ -14,16 +14,26 @@ import Modelo.Permiso;
 import Modelo.Turno;
 import java.awt.Dialog;
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import static java.awt.image.ImageObserver.PROPERTIES;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -34,6 +44,7 @@ import javax.swing.SwingUtilities;
  */
 public class JFrameUsuarios extends javax.swing.JDialog {
 
+    public File imgFile;
     public static int value;
     public static int num;
 
@@ -101,6 +112,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
 
         controllerPuestoBL = null;
         controllerTurnoBL = null;
+
     }
 
     public JFrameUsuarios(Dialog f, Boolean b) {
@@ -152,6 +164,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame1 = new javax.swing.JFrame();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -174,7 +187,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         jcbRol = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        btnBuscarEmp = new javax.swing.JButton();
+        btnSubirImag = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -182,6 +195,19 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         fechaNacimientoChooser = new com.toedter.calendar.JDateChooser();
         btnRegresar2 = new javax.swing.JButton();
         btnRegresar1 = new javax.swing.JButton();
+        btnRegistrar1 = new javax.swing.JButton();
+        btnBuscarEmp = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestion de Usuarios");
@@ -230,12 +256,14 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             }
         });
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IconRegistrarUs.jpg"))); // NOI18N
 
-        btnBuscarEmp.setText("...");
-        btnBuscarEmp.addActionListener(new java.awt.event.ActionListener() {
+        btnSubirImag.setText("Subir Imagen");
+        btnSubirImag.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarEmpActionPerformed(evt);
+                btnSubirImagActionPerformed(evt);
             }
         });
 
@@ -244,21 +272,23 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(btnBuscarEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(143, Short.MAX_VALUE)
-                .addComponent(jLabel12)
-                .addGap(89, 89, 89))
+                .addGap(0, 106, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addGap(105, 105, 105))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnSubirImag)
+                        .addGap(131, 131, 131))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBuscarEmp)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
                 .addComponent(jLabel12)
-                .addContainerGap())
+                .addGap(46, 46, 46)
+                .addComponent(btnSubirImag)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         btnRegistrar.setText("Registrar");
@@ -293,6 +323,20 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         btnRegresar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresar1ActionPerformed(evt);
+            }
+        });
+
+        btnRegistrar1.setText("Registrar");
+        btnRegistrar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrar1ActionPerformed(evt);
+            }
+        });
+
+        btnBuscarEmp.setText("...");
+        btnBuscarEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarEmpActionPerformed(evt);
             }
         });
 
@@ -363,19 +407,26 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRegistrar)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnRegistrar)
-                                .addGap(39, 39, 39)
+                                .addGap(11, 11, 11)
+                                .addComponent(btnBuscarEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnModificar)
                                 .addGap(31, 31, 31)
                                 .addComponent(btnEliminar)
                                 .addGap(26, 26, 26)
-                                .addComponent(btnRegresar1))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(27, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnRegresar1)))
+                        .addContainerGap(47, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(btnRegistrar1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegresar2)
-                        .addGap(52, 52, 52))))
+                        .addGap(105, 105, 105))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,14 +437,15 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                     .addComponent(btnModificar)
                     .addComponent(btnEliminar)
                     .addComponent(btnRegresar1))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1)
-                        .addGap(30, 30, 30)
+                        .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscarEmp))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
@@ -435,12 +487,14 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                             .addComponent(jcbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11))
                         .addGap(50, 50, 50))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRegresar2)
-                        .addGap(71, 71, 71))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRegistrar1)
+                            .addComponent(btnRegresar2))
+                        .addGap(33, 33, 33))))
         );
 
         pack();
@@ -485,8 +539,9 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             String fechaString = dateFormat.format(dateChooser);
 
             emp.setFechaNac(fechaString);
-            String nm = cbFem.getText();
-            if (nm == "F") {
+            //String nm = cbFem.getText();
+
+            if (cbFem.isSelected()) {
                 emp.setSexo('F');
             } else {
                 emp.setSexo('M');
@@ -555,7 +610,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         // TODO add your handling code here:
         //emp.setSexo('F');
         if (num == 0) {
-            cbMas.setEnabled(false);
+            cbMas.setSelected(false);
         }
     }//GEN-LAST:event_cbFemActionPerformed
 
@@ -563,7 +618,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         // TODO add your handling code here:
         //emp.setSexo('M');
         if (num == 0) {
-            cbFem.setEnabled(false);
+            cbFem.setSelected(false);
         }
     }//GEN-LAST:event_cbMasActionPerformed
 
@@ -660,6 +715,156 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         logicaNeg.elimEmpl(empSelec);
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void btnRegistrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar1ActionPerformed
+        // TODO add your handling code here:
+        int usId;
+        num = 0;
+        emp = new Empleado();
+        int contador = 0;// validar();
+
+        String nom1 = txtNombres.getText();
+        String ap = txtApellido.getText();
+        String auxdni = txtDNI.getText();
+        String nomUs = txtUsuario.getText();
+        System.out.println("lendni: " + auxdni.length());
+        if (!nom1.matches("^[A-Za-z ]*$")) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del nombre", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+            Scanner sc = new Scanner(System.in);
+            sc.equals(txtNombres.getText());
+            System.out.println("fd");
+        } else if (!ap.matches("^[A-Za-z ]*$")) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del apellido", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        } else if (!auxdni.matches("^[0-9]*$") || (auxdni.length() != 8)) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del DNI", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        } else if (!nomUs.matches("^[A-Za-z0-9 ]*$")) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del usuario", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (contador == 0) {
+
+            emp.setNombre(txtNombres.getText());
+
+            emp.setApellido(txtApellido.getText());
+
+            Date dateChooser = fechaNacimientoChooser.getDate();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaString = dateFormat.format(dateChooser);
+
+            emp.setFechaNac(fechaString);
+            if (cbFem.isSelected()) {
+                emp.setSexo('F');
+            } else {
+                emp.setSexo('M');
+            }
+            String turn = (String) jcbTurno.getSelectedItem();
+            Turno tur;
+            if (turn
+                    == "Mañana") {
+                emp.setTurno(Turno.Mañana);
+            } else if (turn
+                    == "Tarde") {
+                emp.setTurno(Turno.Tarde);
+            } else {
+                emp.setTurno(Turno.Noche);
+            }
+            //emp.setTurno(tur);
+            int ddni = Integer.parseInt(txtDNI.getText());
+
+            emp.setDNI(ddni);
+            String cont = new String(txtContrasena.getPassword());
+            CuentaUsuario cuenU = new CuentaUsuario();
+
+            cuenU.setnombreUsuario(txtUsuario.getText());
+            cuenU.setcontrasenha(cont);
+            String auxRol = (String) jcbRol.getSelectedItem();
+            Permiso perm = new Permiso();
+            perm.setNombre(auxRol);
+            cuenU.setpermise(perm);
+            emp.setUsuario(cuenU);
+//            Byte[] imageFile = Path
+//
+//            byte[] fileContent = null;
+//            // initialize string buffer to hold contents of file
+//            StringBuffer fileContentStr = new StringBuffer("");
+//            BufferedReader reader = null;
+//            try {
+//                // initialize buffered reader
+//                reader = new BufferedReader(new FileReader(imgFile.getPath()));
+//            } catch (FileNotFoundException ex) {
+//                Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            String line = null;
+//            try {
+//                // read lines of file
+//                while ((line = reader.readLine()) != null) {
+//                    //append line to string buffer
+//                    fileContentStr.append(line).append("\n");
+//                }
+//            } catch (IOException ex) {
+//                Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            // convert string to byte array
+//            fileContent = fileContentStr.toString().trim().getBytes();
+//
+//            
+
+            //
+            System.out.println(
+                    "nom: " + emp.getNombre());
+            System.out.println(
+                    "ap: " + emp.getApellido());
+            System.out.println(
+                    "dni: " + emp.getDNI());
+            System.out.println(
+                    "sexo: " + emp.getSexo());
+            System.out.println(
+                    "turno: " + emp.getTurno().toString());
+            System.out.println(
+                    "fNac: " + emp.getFechaNac());
+            //System.out.println("nomPer: " + emp.getUsuario().getpermise().toString());//ESTO NO
+            System.out.println(
+                    "nomPer: " + emp.getUsuario().getpermise().getNombre());
+            System.out.println(
+                    "contra: " + emp.getUsuario().getcontrasenha());
+//            emp.setImageFile(fileContent);
+            logicaNeg.registrarProfesor(emp);
+
+            txtID.setText(Integer.toString(emp.getID()));
+            JOptionPane.showMessageDialog(null, "El usuario: " + emp.getImageFile()+ " ha sido agregado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            this.enableInputMethods(true);
+        }
+    }//GEN-LAST:event_btnRegistrar1ActionPerformed
+
+    private void btnSubirImagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirImagActionPerformed
+        //funcion subir imagen
+        JFileChooser chooser;
+
+        chooser = new JFileChooser();
+
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Archivo de Imagenes");
+
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            System.out.println("getCurrentDirectory(): "
+                    + chooser.getCurrentDirectory());
+            System.out.println("getSelectedFile() : "
+                    + chooser.getSelectedFile());
+        } else {
+            System.out.println("No Selection ");
+        }
+        imgFile = chooser.getSelectedFile();
+        ImageIcon image = new ImageIcon(chooser.getSelectedFile() + "");
+
+        jLabel12.setIcon(image);
+
+    }//GEN-LAST:event_btnSubirImagActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -708,11 +913,14 @@ public class JFrameUsuarios extends javax.swing.JDialog {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnRegistrar1;
     private javax.swing.JButton btnRegresar1;
     private javax.swing.JButton btnRegresar2;
+    private javax.swing.JButton btnSubirImag;
     private javax.swing.JCheckBox cbFem;
     private javax.swing.JCheckBox cbMas;
     private com.toedter.calendar.JDateChooser fechaNacimientoChooser;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

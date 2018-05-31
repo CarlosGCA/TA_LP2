@@ -13,6 +13,7 @@ public class Empleado {
     private Turno turno;
     private CuentaUsuario usuario;
     private Puesto puesto;
+    private byte[] imageFile;
 
     public Empleado(int ID,int DNI, String nombre, String apellido, char sexo, String fechaNac, Turno turno, CuentaUsuario usuario) {
         setID(ID);
@@ -23,6 +24,7 @@ public class Empleado {
         setFechaNac(fechaNac);
         setUsuario(usuario);
         setTurno(turno);
+
     }
 
     public Empleado() {
@@ -101,10 +103,26 @@ public class Empleado {
     public void setPuesto(Puesto puesto) {
         this.puesto = puesto;
     }
+    
+    
 //    @Override
 //    public String toString() {
 //        return turno.toString();
 //    }
 //    
+
+    /**
+     * @return the imageFile
+     */
+    public byte[] getImageFile() {
+        return imageFile;
+    }
+
+    /**
+     * @param imageFile the imageFile to set
+     */
+    public void setImageFile(byte[] imageFile) {
+        this.imageFile = imageFile;
+    }
 
 }

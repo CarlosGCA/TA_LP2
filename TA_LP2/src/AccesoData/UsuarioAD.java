@@ -12,6 +12,7 @@ package AccesoData;
 import Modelo.CuentaUsuario;
 import Modelo.Empleado;
 import Modelo.Permiso;
+import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
@@ -22,6 +23,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.sql.rowset.serial.SerialBlob;
 //import java.util.Date;
 
 public class UsuarioAD {
@@ -49,7 +51,9 @@ public class UsuarioAD {
             cs.setString(8, emp.getUsuario().getcontrasenha());
             cs.setString(9, emp.getUsuario().getpermise().getNombre());
             cs.setString(10, emp.getTurno().toString());
-
+//            Blob blob = new SerialBlob(emp.getImageFile());
+//            System.out.println("BLOb"+emp.getImageFile());
+//            cs.setBlob(11, blob);
             cs.executeUpdate();
             int numM1;
             numM1 = cs.getInt(1);

@@ -28,6 +28,8 @@ public class JFBuscarCliente extends javax.swing.JDialog {
     private ArrayList<Empresa> listaEmpresa;
     private Natural naturalSeleccionado;
     private Empresa empresaSeleccionada;
+    private ArrayList<Empresa> listaFiltroE;
+    private ArrayList<Natural> listaFiltroN;
 
     /**
      * @return the naturalSeleccionado
@@ -66,6 +68,9 @@ public class JFBuscarCliente extends javax.swing.JDialog {
         LogicaNegocio = new ClientesBL();
         listaEmpresa = new ArrayList<Empresa>(LogicaNegocio.listarEmpresa());
         listaNatural = new ArrayList<Natural>(LogicaNegocio.listarNatural());
+        listaFiltroE = new ArrayList<Empresa>();
+        listaFiltroN = new ArrayList<Natural>();
+
         this.tipo = tipo;
 
         DefaultTableModel modelo = (DefaultTableModel) tableCliente.getModel();
@@ -214,18 +219,34 @@ public class JFBuscarCliente extends javax.swing.JDialog {
 
     private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
         // TODO add your handling code here:
-        try {
-            if (tipo == "Empresa") {
-                setEmpresaSeleccionada(new Empresa());
-                setEmpresaSeleccionada(listaEmpresa.get(tableCliente.getSelectedRow()));
-            } else {
-                setNaturalSeleccionado(new Natural());
-                setNaturalSeleccionado(listaNatural.get(tableCliente.getSelectedRow()));
+        if (txtFiltro.getText().isEmpty()) {
+            try {
+                if (tipo == "Empresa") {
+                    setEmpresaSeleccionada(new Empresa());
+                    setEmpresaSeleccionada(listaEmpresa.get(tableCliente.getSelectedRow()));
+                } else {
+                    setNaturalSeleccionado(new Natural());
+                    setNaturalSeleccionado(listaNatural.get(tableCliente.getSelectedRow()));
+                }
+                //JFramePedidos.value=2;
+                super.dispose();
+            } catch (Exception e) {
+                System.out.println(e.toString());
             }
-            //JFramePedidos.value=2;
-            super.dispose();
-        } catch (Exception e) {
-            System.out.println(e.toString());
+        }else{
+            try {
+                if (tipo == "Empresa") {
+                    setEmpresaSeleccionada(new Empresa());
+                    setEmpresaSeleccionada(listaFiltroE.get(tableCliente.getSelectedRow()));
+                } else {
+                    setNaturalSeleccionado(new Natural());
+                    setNaturalSeleccionado(listaFiltroN.get(tableCliente.getSelectedRow()));
+                }
+                //JFramePedidos.value=2;
+                super.dispose();
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
         }
     }//GEN-LAST:event_btnSelectActionPerformed
 
@@ -233,35 +254,34 @@ public class JFBuscarCliente extends javax.swing.JDialog {
         // TODO add your handling code here:
         String filtro = txtFiltro.getText().toLowerCase();
         if (tipo == "Empresa") {
-            ArrayList<Empresa> listaFiltro = new ArrayList<Empresa>();
             for (int i = 0; i < listaEmpresa.size(); i++) {
                 if (listaEmpresa.get(i).getRazonSocial().toLowerCase().contains(filtro)) {
-                    listaFiltro.add(listaEmpresa.get(i));
+                    listaFiltroE.add(listaEmpresa.get(i));
                 }
             }
             DefaultTableModel modelo = (DefaultTableModel) tableCliente.getModel();
             modelo.setRowCount(0);
             Object[] fila = new Object[2];
-            for (int i = 0; i < listaFiltro.size(); i++) {
+            for (int i = 0; i < listaFiltroE.size(); i++) {
                 //fila[0] = listaEmpleados.get(i).getID();
-                fila[0] = listaFiltro.get(i).getRuc();
-                fila[1] = listaFiltro.get(i).getRazonSocial();
+                fila[0] = listaFiltroE.get(i).getRuc();
+                fila[1] = listaFiltroE.get(i).getRazonSocial();
                 modelo.addRow(fila);
             }
         } else {
-            ArrayList<Natural> listaFiltro = new ArrayList<Natural>();
+
             for (int i = 0; i < listaNatural.size(); i++) {
                 if (listaNatural.get(i).getNombre().toLowerCase().contains(filtro) || listaNatural.get(i).getApellidos().toLowerCase().contains(filtro)) {
-                    listaFiltro.add(listaNatural.get(i));
+                    listaFiltroN.add(listaNatural.get(i));
                 }
             }
             DefaultTableModel modelo = (DefaultTableModel) tableCliente.getModel();
             modelo.setRowCount(0);
             Object[] fila = new Object[2];
-            for (int i = 0; i < listaFiltro.size(); i++) {
+            for (int i = 0; i < listaFiltroN.size(); i++) {
                 //fila[0] = listaEmpleados.get(i).getID();
-                fila[0] = listaFiltro.get(i).getDNI();
-                fila[1] = listaFiltro.get(i).getNombre() + " " + listaFiltro.get(i).getApellidos();
+                fila[0] = listaFiltroN.get(i).getDNI();
+                fila[1] = listaFiltroN.get(i).getNombre() + " " + listaFiltroN.get(i).getApellidos();
                 modelo.addRow(fila);
             }
         }
