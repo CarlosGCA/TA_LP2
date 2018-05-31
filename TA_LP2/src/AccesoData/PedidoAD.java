@@ -79,4 +79,14 @@ public class PedidoAD {
              System.out.println(e.toString());
          }
     }
+    
+    public ArrayList<PedidoProducto> listarPedidos(){
+        ArrayList<PedidoProducto> lista = new ArrayList<PedidoProducto>();
+        try{
+            
+        }catch(Exception e){
+            System.out.println(e.toString());
+        }
+        return lista;
+    }
 }
