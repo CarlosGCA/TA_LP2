@@ -246,13 +246,18 @@ public class JFPrincipal1 extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Falta nombre de usuario");
             } else {
                Email recoverEmail = new Email();
-                recoverEmail.prepareConection();
                 String correo = recoverEmail.getEmailDB(nombreField.getText());
-                if (correo.isEmpty()){
+                if (correo == null){
+                     JOptionPane.showMessageDialog(null, "Usted no posee cuenta ");
+                     return ;
+                }
+                if (correo.isEmpty() ){
                     JOptionPane.showMessageDialog(null, "Su cuenta no tiene correo ligado a ella ");
                     return;
 
                 }
+                
+                recoverEmail.prepareConection();
                 String contrasena = recoverEmail.getPassword((nombreField.getText()));
                 if (contrasena.isEmpty()){
                     return;
