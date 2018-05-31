@@ -871,6 +871,7 @@ public class JFramePedidos extends javax.swing.JDialog {
             String fechEnt = df.format(ped.getfechaEntrPed());
             txtFechaPed.setText(fechReg);
             jDateChooser1.setDate(ped.getfechaEntrPed());
+            Pedido.setcliente(ped.getcliente());
             Pedido.setListaLineasPedido(ped.getListaLineasPedido());
             actualizarTabla();
             txtProducto.setText("");
@@ -882,6 +883,17 @@ public class JFramePedidos extends javax.swing.JDialog {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
+        Pedido=new PedidoProducto();
+        actualizarTabla();
+        txtProducto.setText("");
+        txtCantidad.setText("");
+        txtPrecio.setText("");
+        txtIDProd.setText("");
+        txtRuc1.setText("");
+        txtRazonS1.setText("");
+        txtIDCLI.setText("");
+        txtFechaPed.setText(fechaActual());
+        jDateChooser1.cleanup();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void txtIDCLIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDCLIActionPerformed
