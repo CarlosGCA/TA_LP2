@@ -680,31 +680,34 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         objeBuscarEmp = new JFListarEmpleados(this, true);
         //objeBuscarEmp.setAlwaysOnTop(true);
         objeBuscarEmp.setVisible(true);
-        Empleado empleadoSeleccionado = new Empleado();
-        empleadoSeleccionado = objeBuscarEmp.getEmpleadoSeleccionado();
-        txtNombres.setText(empleadoSeleccionado.getNombre());
-        txtDNI.setText(Integer.toString(empleadoSeleccionado.getDNI()));
-        txtID.setText(Integer.toString(empleadoSeleccionado.getID()));
-        txtApellido.setText(empleadoSeleccionado.getApellido());
+        
+        if(objeBuscarEmp.getEmpleadoSeleccionado()!=null){
+            Empleado empleadoSeleccionado = objeBuscarEmp.getEmpleadoSeleccionado();
+            txtNombres.setText(empleadoSeleccionado.getNombre());
+            txtDNI.setText(Integer.toString(empleadoSeleccionado.getDNI()));
+            txtID.setText(Integer.toString(empleadoSeleccionado.getID()));
+            txtApellido.setText(empleadoSeleccionado.getApellido());
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateInString = empleadoSeleccionado.getFechaNac();
-        Date date;
-        try {
-            date = formatter.parse(dateInString);
-            fechaNacimientoChooser.setDate((date));
-        } catch (ParseException ex) {
-            Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //fechaNacimientoChooser.setDateFormatString(date);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String dateInString = empleadoSeleccionado.getFechaNac();
+            Date date;
+            try {
+                date = formatter.parse(dateInString);
+                fechaNacimientoChooser.setDate((date));
+            } catch (ParseException ex) {
+                Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //fechaNacimientoChooser.setDateFormatString(date);
 
-        if (empleadoSeleccionado.getSexo() == 'F') {
-            cbFem.setSelected(true);
-        } else if (empleadoSeleccionado.getSexo() == 'M') {
-            cbMas.setSelected(true);
+            if (empleadoSeleccionado.getSexo() == 'F') {
+                cbFem.setSelected(true);
+            } else if (empleadoSeleccionado.getSexo() == 'M') {
+                cbMas.setSelected(true);
+            }
+            txtUsuario.setEnabled(false);
+            txtContrasena.setEnabled(false);
         }
-        txtUsuario.setEnabled(false);
-        txtContrasena.setEnabled(false);
+        
         //System.out.println(fechaC);
     }//GEN-LAST:event_btnBuscarEmpActionPerformed
 

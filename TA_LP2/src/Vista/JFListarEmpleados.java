@@ -23,6 +23,7 @@ public class JFListarEmpleados extends javax.swing.JDialog {
     private UsuarioBL logicaNeg;
     private ArrayList<Empleado> listaEmpleados;
     private Empleado empleadoSeleccionado;
+    private ArrayList<Empleado> listaFiltro;
     
     public Empleado getEmpleadoSeleccionado() {
         return empleadoSeleccionado;
@@ -279,9 +280,15 @@ public class JFListarEmpleados extends javax.swing.JDialog {
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
         // TODO add your handling code here:
         try{
-            setEmpleadoSeleccionado(new Empleado());
-            setEmpleadoSeleccionado(listaEmpleados.get(tableEmpleados.getSelectedRow()));
-            JFrameUsuarios.value=2;
+            if(txtFiltrar.getText().isEmpty()){
+                setEmpleadoSeleccionado(new Empleado());
+                setEmpleadoSeleccionado(listaEmpleados.get(tableEmpleados.getSelectedRow()));
+            }
+            else{
+                setEmpleadoSeleccionado(new Empleado());
+                setEmpleadoSeleccionado(listaFiltro.get(tableEmpleados.getSelectedRow()));
+            }
+            
             super.dispose();
         }catch(Exception e){
             System.out.println(e.toString());
@@ -297,7 +304,7 @@ public class JFListarEmpleados extends javax.swing.JDialog {
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
         // TODO add your handling code here:
         String filtro=txtFiltrar.getText().toLowerCase();
-        ArrayList<Empleado> listaFiltro = new ArrayList<Empleado>();
+        listaFiltro = new ArrayList<Empleado>();
         for (int i = 0; i < listaEmpleados.size(); i++) {
             if(listaEmpleados.get(i).getNombre().toLowerCase().contains(filtro) || listaEmpleados.get(i).getApellido().toLowerCase().contains(filtro)){
                 listaFiltro.add(listaEmpleados.get(i));

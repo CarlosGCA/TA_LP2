@@ -553,29 +553,29 @@ public class JFrameCliente extends javax.swing.JDialog {
             objeBuscarCli = new JFBuscarCliente("Empresa", this, true);
             //objeBuscarEmp.setAlwaysOnTop(true);
             objeBuscarCli.setVisible(true);
-            Empresa empresaSeleccionada = new Empresa();
-            empresaSeleccionada = objeBuscarCli.getEmpresaSeleccionada();
-            txtIDCliente.setText(Integer.toString(empresaSeleccionada.getId_cliente()));
-            txtRuc.setText(empresaSeleccionada.getRuc());
-            txtNombre1.setText(empresaSeleccionada.getRazonSocial());
-            txtNombre2.setText(empresaSeleccionada.getDireccion());
-            txtDireccion.setText(Integer.toString(empresaSeleccionada.getTelefono()));
-            txtTelefono.setText(empresaSeleccionada.getCuentaBancaria());
-            txtCuentaBan.setText(empresaSeleccionada.getCorreo());
-
+            if(objeBuscarCli.getEmpresaSeleccionada()!=null){
+                Empresa empresaSeleccionada = objeBuscarCli.getEmpresaSeleccionada();
+                txtIDCliente.setText(Integer.toString(empresaSeleccionada.getId_cliente()));
+                txtRuc.setText(empresaSeleccionada.getRuc());
+                txtNombre1.setText(empresaSeleccionada.getRazonSocial());
+                txtNombre2.setText(empresaSeleccionada.getDireccion());
+                txtDireccion.setText(Integer.toString(empresaSeleccionada.getTelefono()));
+                txtTelefono.setText(empresaSeleccionada.getCuentaBancaria());
+                txtCuentaBan.setText(empresaSeleccionada.getCorreo());
+            }
         } else {
             objeBuscarCli = new JFBuscarCliente("Natural", this, true);
             objeBuscarCli.setVisible(true);
-            Natural naturalSeleccionado = new Natural();
-            naturalSeleccionado = objeBuscarCli.getNaturalSeleccionado();
-            txtRuc.setText(naturalSeleccionado.getDNI());
-            txtNombre1.setText(naturalSeleccionado.getNombre());
-            txtNombre2.setText(naturalSeleccionado.getApellidos());
-            txtDireccion.setText(naturalSeleccionado.getDireccion());
-            txtTelefono.setText(Integer.toString(naturalSeleccionado.getTelefono()));
-            txtCuentaBan.setText(naturalSeleccionado.getCuentaBancaria());
-            txtEmail.setText(naturalSeleccionado.getCorreo());
-
+            if(objeBuscarCli.getNaturalSeleccionado()!=null){
+               Natural naturalSeleccionado= objeBuscarCli.getNaturalSeleccionado();
+                txtRuc.setText(naturalSeleccionado.getDNI());
+                txtNombre1.setText(naturalSeleccionado.getNombre());
+                txtNombre2.setText(naturalSeleccionado.getApellidos());
+                txtDireccion.setText(naturalSeleccionado.getDireccion());
+                txtTelefono.setText(Integer.toString(naturalSeleccionado.getTelefono()));
+                txtCuentaBan.setText(naturalSeleccionado.getCuentaBancaria());
+                txtEmail.setText(naturalSeleccionado.getCorreo()); 
+            }
         }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 

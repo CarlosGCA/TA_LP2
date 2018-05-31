@@ -9,6 +9,7 @@ import java.util.ArrayList;
 //import Modelo.Pedido;
 import AccesoData.PedidoAD;
 import Modelo.LineaPedidoProducto;
+import Modelo.Natural;
 import Modelo.PedidoProducto;
 /**
  *
@@ -29,5 +30,27 @@ public class PedidoBL {
                 accesoDatos.registrarLineaPedido(lpp, idped);
         }
         return idped;
+    }
+    
+    public ArrayList<PedidoProducto> listarPedidos(){
+        ArrayList<PedidoProducto> lista = new ArrayList<PedidoProducto>(accesoDatos.listarPedidos());
+            
+        for(int i=0; i<lista.size(); i++){
+            int idCli = lista.get(i).getcliente().getId_cliente();
+            int idPed = lista.get(i).getidPedido();
+            
+            if(lista.get(i).getcliente() instanceof Natural){
+                lista.get(i).setcliente(accesoDatos.buscarNatural(idCli));
+            }else{
+                lista.get(i).setcliente(accesoDatos.buscarEmpresa(idCli));
+            }
+            
+            //lista.get(i).setListaLineasPedido(accesoDatos.listarLineasPedido(idPed));
+        }
+        return lista;
+    }
+    
+    public ArrayList<LineaPedidoProducto> listarLineasPedido(int idped){
+        return accesoDatos.listarLineasPedido(idped);
     }
 }
