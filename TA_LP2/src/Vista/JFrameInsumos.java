@@ -31,6 +31,7 @@ public class JFrameInsumos extends javax.swing.JDialog {
         
         //muestra id correlativo
         textID.setText(String.valueOf(logicaNegocio.obtenerID()));
+        
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
         unidadesMedida = logicaNegocio.listarMedidas();
         for(String v:unidadesMedida){
