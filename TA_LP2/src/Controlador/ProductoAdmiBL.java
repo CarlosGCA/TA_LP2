@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ProductoAdmiBL {
     private ProductoAdmiAD accesoDatos;
     
-    private ProductoAdmiBL(){
+    public ProductoAdmiBL(){
         accesoDatos = new ProductoAdmiAD();
     }
     
@@ -25,5 +25,17 @@ public class ProductoAdmiBL {
     
     public ArrayList<Producto> listarProductos(){
         return accesoDatos.listarProductos();
+    }
+    
+    public int registrarProducto(int id,String nombre,float precio){
+        return accesoDatos.registarProducto(id, nombre, precio);
+    }
+    
+    public int registrarIngrediente(int cantidad,int idInsumo){
+        return accesoDatos.registarIngrediente(cantidad, idInsumo);
+    }
+    
+    public int registarIngredientexProducto(int a,int b){
+        return accesoDatos.registrarIngredientesxProducto(a, b);
     }
 }
