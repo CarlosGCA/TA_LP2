@@ -23,11 +23,13 @@ public class JFBuscarInsumo extends javax.swing.JDialog {
      */
     private ArrayList<Insumo> listaInsumo;
     private InsumoBL logicaNegocio;
+    private Insumo insumoElegido;
     
     public JFBuscarInsumo(JDialog d, Boolean b) {
         super(d,b);
         initComponents();
         
+        logicaNegocio = new InsumoBL();
         listaInsumo = logicaNegocio.listarInsumo();
         DefaultTableModel aux= (DefaultTableModel) jTable1.getModel();
         Object [] fila = new Object [3];
@@ -42,6 +44,14 @@ public class JFBuscarInsumo extends javax.swing.JDialog {
             else if(um == unidadMed.unid) fila[2] = "UNIDADES";            
             aux.addRow(fila);
         }
+    }
+    
+    public Insumo getInsumoElegido(){
+        return insumoElegido;
+    }
+    
+    public void setInsumoElegido(Insumo i){
+        insumoElegido=i;
     }
 
     /**
@@ -74,6 +84,11 @@ public class JFBuscarInsumo extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTable1);
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnRegresar.setText("Regresar");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
@@ -116,7 +131,16 @@ public class JFBuscarInsumo extends javax.swing.JDialog {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
+        super.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        Insumo i = new Insumo();
+        i = listaInsumo.get(jTable1.getSelectedRow());
+        setInsumoElegido(i);
+        super.dispose();
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
     /**
      * @param args the command line arguments
