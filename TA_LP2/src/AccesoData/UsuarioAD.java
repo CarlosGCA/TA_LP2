@@ -44,17 +44,17 @@ public class UsuarioAD {
 
 
             String nomE1, nomE2;
-            cs.registerOutParameter(0, Types.INTEGER);
-            cs.setString(1, Integer.toString(emp.getDNI()));
-            cs.setString(2, emp.getNombre());
-            cs.setString(3, emp.getApellido());
-            cs.setString(4, String.valueOf(emp.getSexo()));
-            cs.setDate(5, Date.valueOf(emp.getFechaNac()));
-            cs.setString(6, emp.getUsuario().getnombreUsuario());
-            cs.setString(7, emp.getUsuario().getcontrasenha());
-            cs.setString(8, emp.getUsuario().getpermise().getNombre());
-            cs.setString(9, emp.getTurno().toString());
-            cs.setString(10, emp.getUsuario().getCorreo());
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setString(2, Integer.toString(emp.getDNI()));
+            cs.setString(3, emp.getNombre());
+            cs.setString(4, emp.getApellido());
+            cs.setString(5, String.valueOf(emp.getSexo()));
+            cs.setDate(6, Date.valueOf(emp.getFechaNac()));
+            cs.setString(7, emp.getUsuario().getnombreUsuario());
+            cs.setString(8, emp.getUsuario().getcontrasenha());
+            cs.setString(9, emp.getUsuario().getpermise().getNombre());
+            cs.setString(10, emp.getTurno().toString());
+            cs.setString(11, emp.getUsuario().getCorreo());
 //            Blob blob = new SerialBlob(emp.getImageFile());
 //            System.out.println("BLOb"+emp.getImageFile());
 //            cs.setBlob(11, blob);
@@ -67,7 +67,7 @@ public class UsuarioAD {
             con.close();
 
         } catch (Exception e) {
-            System.out.println(e.toString());
+            System.err.println(e.toString());
         }
     }
     
