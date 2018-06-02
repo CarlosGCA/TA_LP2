@@ -24,13 +24,13 @@ public class CuentaUsuario{
             return bloqueado;
         }
 
-       public String getCorreo(){
-        return correo;
-    }
+        public String getCorreo(){
+            return correo;
+        }
     
-    public void setCorreo(String correo){
-        this.correo = correo;
-    }
+        public void setCorreo(String correo){
+            this.correo = correo;
+        }
         /**
          * @param bloqueado the bloqueado to set
          */
@@ -79,9 +79,5 @@ public class CuentaUsuario{
 		// }
 		
 	}
-	
-	public void registrarUsario(String nombreUsuario,String contrasenha){
-	}
-	
 	
 } 

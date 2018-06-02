@@ -38,7 +38,7 @@ public class UsuarioAD {
 
             CallableStatement cs
                     = con.prepareCall("{call "
-                            + "REGISTRAR_USUARIO(?,?,? ,?,?,? ,?,?,? ,?,?)}"
+                            + "REGISTRAR_USUARIO(?,?,?,?,?,?,?,?,?,?,?)}"
                     );
 
 

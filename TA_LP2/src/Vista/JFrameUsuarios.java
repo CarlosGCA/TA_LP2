@@ -161,6 +161,107 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         return contador;
     }
 
+    public void registrarUsuario(){
+        int usId;
+        num = 0;
+        emp = new Empleado();
+        int contador = 0;// validar();
+
+        String nom1 = txtNombres.getText();
+        String ap = txtApellido.getText();
+        String auxdni = txtDNI.getText();
+        String nomUs = txtUsuario.getText();
+        String auxCorr = txtCorreo.getText();
+        System.out.println("lendni: " + auxdni.length());
+        if (!nom1.matches("^[A-Za-z ]*$")) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del nombre", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+            Scanner sc = new Scanner(System.in);
+            sc.equals(txtNombres.getText());
+            System.out.println("fd");
+        } else if (!ap.matches("^[A-Za-z ]*$")) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del apellido", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        } else if (!auxdni.matches("^[0-9]*$") || (auxdni.length() != 8)) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del DNI", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        } else if (!nomUs.matches("^[A-Za-z0-9 ]*$")) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del usuario", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (contador == 0) {
+
+            emp.setNombre(txtNombres.getText());
+
+            emp.setApellido(txtApellido.getText());
+
+            Date dateChooser = fechaNacimientoChooser.getDate();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaString = dateFormat.format(dateChooser);
+
+            emp.setFechaNac(fechaString);
+            //String nm = cbFem.getText();
+            
+            
+
+            if (cbFem.isSelected()) {
+                emp.setSexo('F');
+            } else {
+                emp.setSexo('M');
+            }
+            String turn = (String) jcbTurno.getSelectedItem();
+            Turno tur;
+            if (turn
+                    == "Mañana") {
+                emp.setTurno(Turno.Mañana);
+            } else if (turn
+                    == "Tarde") {
+                emp.setTurno(Turno.Tarde);
+            } else {
+                emp.setTurno(Turno.Noche);
+            }
+            //emp.setTurno(tur);
+            int ddni = Integer.parseInt(txtDNI.getText());
+
+            emp.setDNI(ddni);
+            String cont = new String(txtContrasena.getPassword());
+            CuentaUsuario cuenU = new CuentaUsuario();
+
+            cuenU.setnombreUsuario(txtUsuario.getText());
+            cuenU.setcontrasenha(cont);
+            cuenU.setCorreo(auxCorr);
+            String auxRol = (String) jcbRol.getSelectedItem();
+            Permiso perm = new Permiso();
+            perm.setNombre(auxRol);
+            cuenU.setpermise(perm);
+            emp.setUsuario(cuenU);
+            System.out.println(
+                    "nom: " + emp.getNombre());
+            System.out.println(
+                    "ap: " + emp.getApellido());
+            System.out.println(
+                    "dni: " + emp.getDNI());
+            System.out.println(
+                    "sexo: " + emp.getSexo());
+            System.out.println(
+                    "turno: " + emp.getTurno().toString());
+            System.out.println(
+                    "fNac: " + emp.getFechaNac());
+            System.out.println(
+                    "nomPer: " + emp.getUsuario().getpermise().getNombre());
+            System.out.println(
+                    "contra: " + emp.getUsuario().getcontrasenha());
+            System.out.println(
+                    "correo: " + emp.getUsuario().getCorreo());
+            logicaNeg.registrarProfesor(emp);
+
+            txtID.setText(Integer.toString(emp.getID()));
+            JOptionPane.showMessageDialog(null, "El usuario: " + emp.getID() + " ha sido agregado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            this.enableInputMethods(true);
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -345,6 +446,12 @@ public class JFrameUsuarios extends javax.swing.JDialog {
 
         jLabel13.setText("Correo:");
 
+        txtCorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCorreoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -512,103 +619,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        int usId;
-        num = 0;
-        emp = new Empleado();
-        int contador = 0;// validar();
-
-        String nom1 = txtNombres.getText();
-        String ap = txtApellido.getText();
-        String auxdni = txtDNI.getText();
-        String nomUs = txtUsuario.getText();
-        System.out.println("lendni: " + auxdni.length());
-        if (!nom1.matches("^[A-Za-z ]*$")) {
-            contador++;
-            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del nombre", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-            Scanner sc = new Scanner(System.in);
-            sc.equals(txtNombres.getText());
-            System.out.println("fd");
-        } else if (!ap.matches("^[A-Za-z ]*$")) {
-            contador++;
-            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del apellido", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (!auxdni.matches("^[0-9]*$") || (auxdni.length() != 8)) {
-            contador++;
-            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del DNI", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (!nomUs.matches("^[A-Za-z0-9 ]*$")) {
-            contador++;
-            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del usuario", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        }
-        if (contador == 0) {
-
-            emp.setNombre(txtNombres.getText());
-
-            emp.setApellido(txtApellido.getText());
-
-            Date dateChooser = fechaNacimientoChooser.getDate();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String fechaString = dateFormat.format(dateChooser);
-
-            emp.setFechaNac(fechaString);
-            //String nm = cbFem.getText();
-            
-            
-
-            if (cbFem.isSelected()) {
-                emp.setSexo('F');
-            } else {
-                emp.setSexo('M');
-            }
-            String turn = (String) jcbTurno.getSelectedItem();
-            Turno tur;
-            if (turn
-                    == "Mañana") {
-                emp.setTurno(Turno.Mañana);
-            } else if (turn
-                    == "Tarde") {
-                emp.setTurno(Turno.Tarde);
-            } else {
-                emp.setTurno(Turno.Noche);
-            }
-            //emp.setTurno(tur);
-            int ddni = Integer.parseInt(txtDNI.getText());
-
-            emp.setDNI(ddni);
-            String cont = new String(txtContrasena.getPassword());
-            CuentaUsuario cuenU = new CuentaUsuario();
-
-            cuenU.setnombreUsuario(txtUsuario.getText());
-            cuenU.setcontrasenha(cont);
-            cuenU.setCorreo(txtCorreo.getText());
-            String auxRol = (String) jcbRol.getSelectedItem();
-            Permiso perm = new Permiso();
-            perm.setNombre(auxRol);
-            cuenU.setpermise(perm);
-            emp.setUsuario(cuenU);
-            System.out.println(
-                    "nom: " + emp.getNombre());
-            System.out.println(
-                    "ap: " + emp.getApellido());
-            System.out.println(
-                    "dni: " + emp.getDNI());
-            System.out.println(
-                    "sexo: " + emp.getSexo());
-            System.out.println(
-                    "turno: " + emp.getTurno().toString());
-            System.out.println(
-                    "fNac: " + emp.getFechaNac());
-            //System.out.println("nomPer: " + emp.getUsuario().getpermise().toString());//ESTO NO
-            System.out.println(
-                    "nomPer: " + emp.getUsuario().getpermise().getNombre());
-            System.out.println(
-                    "contra: " + emp.getUsuario().getcontrasenha());
-            logicaNeg.registrarProfesor(emp);
-
-            txtID.setText(Integer.toString(emp.getID()));
-            JOptionPane.showMessageDialog(null, "El usuario: " + emp.getID() + " ha sido agregado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
-
-        } else {
-            this.enableInputMethods(true);
-        }
+        registrarUsuario();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void jcbRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbRolActionPerformed
@@ -734,127 +745,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
 
     private void btnRegistrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar1ActionPerformed
         // TODO add your handling code here:
-        int usId;
-        num = 0;
-        emp = new Empleado();
-        int contador = 0;// validar();
-
-        String nom1 = txtNombres.getText();
-        String ap = txtApellido.getText();
-        String auxdni = txtDNI.getText();
-        String nomUs = txtUsuario.getText();
-        System.out.println("lendni: " + auxdni.length());
-        if (!nom1.matches("^[A-Za-z ]*$")) {
-            contador++;
-            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del nombre", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-            Scanner sc = new Scanner(System.in);
-            sc.equals(txtNombres.getText());
-            System.out.println("fd");
-        } else if (!ap.matches("^[A-Za-z ]*$")) {
-            contador++;
-            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del apellido", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (!auxdni.matches("^[0-9]*$") || (auxdni.length() != 8)) {
-            contador++;
-            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del DNI", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (!nomUs.matches("^[A-Za-z0-9 ]*$")) {
-            contador++;
-            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del usuario", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        }
-        if (contador == 0) {
-
-            emp.setNombre(txtNombres.getText());
-
-            emp.setApellido(txtApellido.getText());
-
-            Date dateChooser = fechaNacimientoChooser.getDate();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String fechaString = dateFormat.format(dateChooser);
-
-            emp.setFechaNac(fechaString);
-            if (cbFem.isSelected()) {
-                emp.setSexo('F');
-            } else {
-                emp.setSexo('M');
-            }
-            String turn = (String) jcbTurno.getSelectedItem();
-            Turno tur;
-            if (turn
-                    == "Mañana") {
-                emp.setTurno(Turno.Mañana);
-            } else if (turn
-                    == "Tarde") {
-                emp.setTurno(Turno.Tarde);
-            } else {
-                emp.setTurno(Turno.Noche);
-            }
-            //emp.setTurno(tur);
-            int ddni = Integer.parseInt(txtDNI.getText());
-
-            emp.setDNI(ddni);
-            String cont = new String(txtContrasena.getPassword());
-            CuentaUsuario cuenU = new CuentaUsuario();
-
-            cuenU.setnombreUsuario(txtUsuario.getText());
-            cuenU.setcontrasenha(cont);
-            String auxRol = (String) jcbRol.getSelectedItem();
-            Permiso perm = new Permiso();
-            perm.setNombre(auxRol);
-            cuenU.setpermise(perm);
-            emp.setUsuario(cuenU);
-//            Byte[] imageFile = Path
-//
-//            byte[] fileContent = null;
-//            // initialize string buffer to hold contents of file
-//            StringBuffer fileContentStr = new StringBuffer("");
-//            BufferedReader reader = null;
-//            try {
-//                // initialize buffered reader
-//                reader = new BufferedReader(new FileReader(imgFile.getPath()));
-//            } catch (FileNotFoundException ex) {
-//                Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            String line = null;
-//            try {
-//                // read lines of file
-//                while ((line = reader.readLine()) != null) {
-//                    //append line to string buffer
-//                    fileContentStr.append(line).append("\n");
-//                }
-//            } catch (IOException ex) {
-//                Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            // convert string to byte array
-//            fileContent = fileContentStr.toString().trim().getBytes();
-//
-//            
-
-            //
-            System.out.println(
-                    "nom: " + emp.getNombre());
-            System.out.println(
-                    "ap: " + emp.getApellido());
-            System.out.println(
-                    "dni: " + emp.getDNI());
-            System.out.println(
-                    "sexo: " + emp.getSexo());
-            System.out.println(
-                    "turno: " + emp.getTurno().toString());
-            System.out.println(
-                    "fNac: " + emp.getFechaNac());
-            //System.out.println("nomPer: " + emp.getUsuario().getpermise().toString());//ESTO NO
-            System.out.println(
-                    "nomPer: " + emp.getUsuario().getpermise().getNombre());
-            System.out.println(
-                    "contra: " + emp.getUsuario().getcontrasenha());
-//            emp.setImageFile(fileContent);
-            logicaNeg.registrarProfesor(emp);
-
-            txtID.setText(Integer.toString(emp.getID()));
-            JOptionPane.showMessageDialog(null, "El usuario: " + emp.getImageFile()+ " ha sido agregado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
-
-        } else {
-            this.enableInputMethods(true);
-        }
+        registrarUsuario();
     }//GEN-LAST:event_btnRegistrar1ActionPerformed
 
     private void btnSubirImagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirImagActionPerformed
@@ -881,6 +772,10 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         jLabel12.setIcon(image);
 
     }//GEN-LAST:event_btnSubirImagActionPerformed
+
+    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCorreoActionPerformed
 
     /**
      * @param args the command line arguments
