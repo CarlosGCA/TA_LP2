@@ -652,8 +652,22 @@ public class JFramePedidos extends javax.swing.JDialog {
             float cant = Float.parseFloat(txtCantidad.getText());
             float subt = cant*Float.parseFloat(txtPrecio.getText());
             
-            LineaPedidoProducto lpp=new LineaPedidoProducto(productoSeleccionado,cant,0);
-            Pedido.agregarLinea(lpp);
+            int indx=0;
+            int encontrado=0;
+            for (LineaPedidoProducto lb: Pedido.getListaLineasPedido()){
+                if(lb.getProducto().getidProducto()==productoSeleccionado.getidProducto()){
+                    encontrado=1;
+                    break;
+                }
+                indx++;
+            }
+            if(encontrado==0){
+                LineaPedidoProducto lpp=new LineaPedidoProducto(productoSeleccionado,cant,0);
+                Pedido.agregarLinea(lpp);
+            }else{
+                float nuevaCant=Pedido.getListaLineasPedido().get(indx).getCantidad()+cant;
+                Pedido.getListaLineasPedido().get(indx).setCantidad(nuevaCant);
+            }
             Pedido.setTotalPagar(Pedido.getTotalPagar()+subt);
             actualizarTabla();
         }catch(Exception e){
