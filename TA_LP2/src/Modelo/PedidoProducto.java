@@ -37,7 +37,7 @@ public class PedidoProducto{
 	}
 	
 	public void setestadoPedo(EstadoPedido estadoPed){
-		this.idPedido=idPedido;
+		this.estadoPed=estadoPed;
 	}
 	public EstadoPedido getestadoPed(){
 		return this.estadoPed;
