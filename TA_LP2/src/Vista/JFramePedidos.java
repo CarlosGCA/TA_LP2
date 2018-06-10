@@ -909,8 +909,8 @@ public class JFramePedidos extends javax.swing.JDialog {
 //            view.setVisible(true);
 //            
 //            con.close();
-            DocumentoPagoBL documentoPagoAD = new DocumentoPagoBL();
-            documentoPagoAD.exportarBoletaPDF(5, "");
+            DocumentoPagoBL documentoPagoBL = new DocumentoPagoBL();
+            documentoPagoBL.exportarBoletaPDF(5, "");
 
 
 //        } catch (Exception ex) {

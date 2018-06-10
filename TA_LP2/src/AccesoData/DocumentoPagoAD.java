@@ -19,25 +19,26 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author Victor
  */
 public class DocumentoPagoAD {
-    private Connection con;
+    private Connection connection;
     public DocumentoPagoAD(){
-        con = null;
+        connection = null;
     }
     private void openCon() throws Exception{
-        con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+        Class.forName("com.mysql.jdbc.Driver");
+        connection = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
     }
     private void closeCon() throws Exception{
-        if(con != null && !con.isClosed())
-            con.close();
+        if(connection != null && !connection.isClosed())
+            connection.close();
     }
     
     public void exportBoletaPDF(int idPedido, String ruta) throws Exception{
         openCon();
-        JasperReport reporte =  (JasperReport) JRLoader.loadObjectFromFile("src/Reportes/Blank_Letter.jasper");Class.forName("com.mysql.jdbc.Driver");
-            HashMap parametros = new HashMap();
-            parametros.put("_idPedidoProductos",idPedido);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,parametros,con);
-            JasperExportManager.exportReportToPdfFile(jasperPrint, ruta + "Boleta.pdf");
+        JasperReport reporte =  (JasperReport) JRLoader.loadObjectFromFile("src/Reportes/Boleta.jasper");
+        HashMap parametros = new HashMap();
+        parametros.put("_idPedidoProductos",idPedido);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,parametros,connection);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, ruta + "Boleta.pdf");
         closeCon();
     }
     public void exportFacturaPDF(int idPedido, String ruta) throws Exception{
