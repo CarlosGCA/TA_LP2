@@ -161,7 +161,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         return contador;
     }
 
-    public void registrarUsuario(){
+    public void registrarUsuario() {
         int usId;
         num = 0;
         emp = new Empleado();
@@ -200,10 +200,6 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             String fechaString = dateFormat.format(dateChooser);
 
             emp.setFechaNac(fechaString);
-            //String nm = cbFem.getText();
-            
-            
-
             if (cbFem.isSelected()) {
                 emp.setSexo('F');
             } else {
@@ -235,6 +231,32 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             perm.setNombre(auxRol);
             cuenU.setpermise(perm);
             emp.setUsuario(cuenU);
+            //Byte[] imageFile = Path;
+
+            byte[] fileContent = null;
+            // initialize string buffer to hold contents of file
+            StringBuffer fileContentStr = new StringBuffer("");
+            BufferedReader reader = null;
+            try {
+                // initialize buffered reader
+                reader = new BufferedReader(new FileReader(imgFile.getPath()));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String line = null;
+            try {
+                // read lines of file
+                while ((line = reader.readLine()) != null) {
+                    //append line to string buffer
+                    fileContentStr.append(line).append("\n");
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            // convert string to byte array
+            fileContent = fileContentStr.toString().trim().getBytes();
+            emp.setImageFile(fileContent);
+            
             System.out.println(
                     "nom: " + emp.getNombre());
             System.out.println(
@@ -253,6 +275,8 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                     "contra: " + emp.getUsuario().getcontrasenha());
             System.out.println(
                     "correo: " + emp.getUsuario().getCorreo());
+            System.out.println(
+                    "imag: " + emp.getImageFile());
             logicaNeg.registrarProfesor(emp);
 
             txtID.setText(Integer.toString(emp.getID()));
@@ -262,6 +286,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             this.enableInputMethods(true);
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -620,6 +645,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
         registrarUsuario();
+        
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void jcbRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbRolActionPerformed
@@ -675,7 +701,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String fechaString = dateFormat.format(dateChooser);
                 System.out.println("asdf");
-                emp.setFechaNac(fechaString);                
+                emp.setFechaNac(fechaString);
                 System.out.println("asdf");
                 System.out.println(cbFem.getText());
                 String nm = cbFem.getText();
@@ -704,24 +730,25 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         objeBuscarEmp = new JFListarEmpleados(this, true);
         //objeBuscarEmp.setAlwaysOnTop(true);
         objeBuscarEmp.setVisible(true);
-        
-        if(objeBuscarEmp.getEmpleadoSeleccionado()!=null){
+
+        if (objeBuscarEmp.getEmpleadoSeleccionado() != null) {
             Empleado empleadoSeleccionado = objeBuscarEmp.getEmpleadoSeleccionado();
             txtNombres.setText(empleadoSeleccionado.getNombre());
             txtDNI.setText(Integer.toString(empleadoSeleccionado.getDNI()));
             txtID.setText(Integer.toString(empleadoSeleccionado.getID()));
             txtApellido.setText(empleadoSeleccionado.getApellido());
             //txtCorreo.setText(empleadoSeleccionado.get);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             String dateInString = empleadoSeleccionado.getFechaNac();
+            System.out.println(dateInString);
             Date date;
             try {
                 date = formatter.parse(dateInString);
                 fechaNacimientoChooser.setDate((date));
             } catch (ParseException ex) {
-                Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.toString());
             }
-            //fechaNacimientoChooser.setDateFormatString(date);
+            //fechaNacimientoChooser.setDate(date);
 
             if (empleadoSeleccionado.getSexo() == 'F') {
                 cbFem.setSelected(true);
@@ -732,7 +759,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             txtContrasena.setEnabled(false);
             txtCorreo.setEnabled(false);
         }
-        
+
         //System.out.println(fechaC);
     }//GEN-LAST:event_btnBuscarEmpActionPerformed
 

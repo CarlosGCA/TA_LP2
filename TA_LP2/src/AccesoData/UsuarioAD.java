@@ -38,7 +38,7 @@ public class UsuarioAD {
 
             CallableStatement cs
                     = con.prepareCall("{call "
-                            + "REGISTRAR_USUARIO(?,?,?,?,?,?,?,?,?,?,?)}"
+                            + "REGISTRAR_USUARIO(?,?,?,?,?,?,?,?,?,?,?,?)}"
                     );
 
 
@@ -55,9 +55,11 @@ public class UsuarioAD {
             cs.setString(9, emp.getUsuario().getpermise().getNombre());
             cs.setString(10, emp.getTurno().toString());
             cs.setString(11, emp.getUsuario().getCorreo());
-//            Blob blob = new SerialBlob(emp.getImageFile());
-//            System.out.println("BLOb"+emp.getImageFile());
-//            cs.setBlob(11, blob);
+            
+            Blob blob = new SerialBlob(emp.getImageFile());
+            System.out.println("BLOb"+emp.getImageFile());
+            cs.setBlob(12, blob);
+            
             cs.executeUpdate();
             int numM1;
             numM1 = cs.getInt(1);

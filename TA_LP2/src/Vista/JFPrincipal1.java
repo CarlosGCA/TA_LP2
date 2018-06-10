@@ -11,17 +11,14 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.awt.Image;
 import java.awt.TextField;
+import java.awt.event.KeyEvent;
 import java.util.Map;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
-import Email.Email ;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+
 
 /**
  *
@@ -42,7 +39,6 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         LogicaNegocio = new UsuarioBL();
         usuarios = new ArrayList<CuentaUsuario>();
         intentosUsuario = new HashMap();
-
     }
 
     /**
@@ -61,8 +57,6 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPassword = new javax.swing.JPasswordField();
-        helperLabel = new javax.swing.JLabel();
-        labelOlvideContra = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -98,15 +92,9 @@ public class JFPrincipal1 extends javax.swing.JFrame {
                 jPasswordActionPerformed(evt);
             }
         });
-
-        helperLabel.setText("Para recuperar su contraseña");
-
-        labelOlvideContra.setFont(new java.awt.Font("Lucida Grande", 2, 13)); // NOI18N
-        labelOlvideContra.setForeground(new java.awt.Color(0, 0, 255));
-        labelOlvideContra.setText("aqui");
-        labelOlvideContra.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                labelOlvideContraMouseClicked(evt);
+        jPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordKeyPressed(evt);
             }
         });
 
@@ -115,30 +103,23 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblContrasena)
-                                        .addComponent(lblUsuario))
-                                    .addGap(31, 31, 31)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                                        .addComponent(txtUsuario)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnIngresar)
-                                    .addGap(77, 77, 77)
-                                    .addComponent(btnCancelar)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(helperLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelOlvideContra)))
-                .addContainerGap(103, Short.MAX_VALUE))
+                                .addComponent(lblContrasena)
+                                .addComponent(lblUsuario))
+                            .addGap(31, 31, 31)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                .addComponent(txtUsuario)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnIngresar)
+                            .addGap(77, 77, 77)
+                            .addComponent(btnCancelar))))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,11 +138,7 @@ public class JFPrincipal1 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIngresar)
                     .addComponent(btnCancelar))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(helperLabel)
-                    .addComponent(labelOlvideContra))
-                .addGap(23, 23, 23))
+                .addGap(57, 57, 57))
         );
 
         pack();
@@ -205,12 +182,7 @@ public class JFPrincipal1 extends javax.swing.JFrame {
             else if(usuario.getpermise().getIdPermiso()==3){
                 JFPrincipalAdmi intrfSuper = new JFPrincipalAdmi(this,true);
                 intrfSuper.setVisible(true);
-            }
-            else if(usuario.getpermise().getIdPermiso()==1){
-                JFPrincipalAdmi intrfSuper = new JFPrincipalAdmi(this,true);
-                intrfSuper.setVisible(true);
-            }
-            else
+            }else
                 JOptionPane.showMessageDialog(null, "No tiene permiso", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
 
@@ -231,49 +203,12 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
-    
-    
-    private void labelOlvideContraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelOlvideContraMouseClicked
+    private void jPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordKeyPressed
         // TODO add your handling code here:
-        JLabel jLabel = new JLabel("Nombre de su usuario");
-        JTextField nombreField = new JTextField();
-        JPanel panel = new JPanel(new GridLayout(0,1));
-        panel.add(jLabel);
-        panel.add(nombreField);
-        int result = JOptionPane.showConfirmDialog(null, panel, "Recuperacion de contraseña " , JOptionPane.OK_CANCEL_OPTION , JOptionPane.PLAIN_MESSAGE);
-        if (result == JOptionPane.OK_OPTION){
-            if (nombreField.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null, "Falta nombre de usuario");
-            } else {
-               Email recoverEmail = new Email();
-                String correo = recoverEmail.getEmailDB(nombreField.getText());
-                if (correo == null){
-                     JOptionPane.showMessageDialog(null, "Usted no posee cuenta ");
-                     return ;
-                }
-                if (correo.isEmpty() ){
-                    JOptionPane.showMessageDialog(null, "Su cuenta no tiene correo ligado a ella ");
-                    return;
-
-                }
-                
-                recoverEmail.prepareConection();
-                String contrasena = recoverEmail.getPassword((nombreField.getText()));
-                if (contrasena.isEmpty()){
-                    return;
-                }
-                try{
-                    recoverEmail.sendEmail("Recuperacion de Contraseña ", "La clave de su usuario es : " + contrasena , correo);
-                    JOptionPane.showMessageDialog(this, "Se envio a su correo su contrasena");
-                } catch (Exception ex) {
-                    System.err.println(ex);
-                };
-
-                 // guide https://javaee.github.io/javamail/Gmail // new form for send email 
-            }
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnIngresar.doClick();
         }
-        
-    }//GEN-LAST:event_labelOlvideContraMouseClicked
+    }//GEN-LAST:event_jPasswordKeyPressed
 
     /**
      * @param args the command line arguments
@@ -318,10 +253,8 @@ public class JFPrincipal1 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnIngresar;
-    private javax.swing.JLabel helperLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPasswordField jPassword;
-    private javax.swing.JLabel labelOlvideContra;
     private javax.swing.JLabel lblContrasena;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JTextField txtUsuario;
