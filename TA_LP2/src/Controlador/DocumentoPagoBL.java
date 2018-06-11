@@ -17,9 +17,9 @@ public class DocumentoPagoBL {
         documentoPagoAD = new DocumentoPagoAD();
     }
     
-    public void exportarBoletaPDF(int idPedido, String ruta){
+    public void exportarBoletaPDF(int idPedido, String nombArch){
         try{
-            documentoPagoAD.exportBoletaPDF(idPedido, ruta);
+            documentoPagoAD.exportBoletaPDF(idPedido, nombArch);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

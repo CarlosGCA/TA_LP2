@@ -909,8 +909,11 @@ public class JFramePedidos extends javax.swing.JDialog {
 //            view.setVisible(true);
 //            
 //            con.close();
+            String strPedido = txtIDPedido.getText();
+            int idPedido = Integer.parseInt(strPedido);
             DocumentoPagoBL documentoPagoBL = new DocumentoPagoBL();
-            documentoPagoBL.exportarBoletaPDF(5, "");
+            String nombArchRep = "Boleta pedido "+strPedido+".pdf";
+            documentoPagoBL.exportarBoletaPDF(idPedido, nombArchRep);
 
 
 //        } catch (Exception ex) {
@@ -921,7 +924,7 @@ public class JFramePedidos extends javax.swing.JDialog {
             int seleccion = JOptionPane.showConfirmDialog(null, "Documento generado exitosamente,\n¿desea abrirlo?",
                                           "Mensaje",JOptionPane.YES_NO_OPTION);
             if(seleccion == JOptionPane.YES_OPTION)
-                Desktop.getDesktop().open(new File("Boleta.pdf"));
+                Desktop.getDesktop().open(new File(nombArchRep));
 
 
 //        } catch (Exception ex) {

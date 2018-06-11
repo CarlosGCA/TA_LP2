@@ -32,13 +32,13 @@ public class DocumentoPagoAD {
             connection.close();
     }
     
-    public void exportBoletaPDF(int idPedido, String ruta) throws Exception{
+    public void exportBoletaPDF(int idPedido, String nombArch) throws Exception{
         openCon();
         JasperReport reporte =  (JasperReport) JRLoader.loadObjectFromFile("src/Reportes/Boleta.jasper");
         HashMap parametros = new HashMap();
         parametros.put("_idPedidoProductos",idPedido);
         JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,parametros,connection);
-        JasperExportManager.exportReportToPdfFile(jasperPrint, ruta + "Boleta.pdf");
+        JasperExportManager.exportReportToPdfFile(jasperPrint, nombArch);
         closeCon();
     }
     public void exportFacturaPDF(int idPedido, String ruta) throws Exception{
