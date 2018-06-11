@@ -27,7 +27,8 @@ public class PedidoBL {
         
         if(idped!=0){
             for(LineaPedidoProducto lpp : ped.getListaLineasPedido())
-                accesoDatos.registrarLineaPedido(lpp, idped);
+                if(lpp.getHabilitado())
+                    accesoDatos.registrarLineaPedido(lpp, idped);
         }
         return idped;
     }
@@ -52,5 +53,17 @@ public class PedidoBL {
     
     public ArrayList<LineaPedidoProducto> listarLineasPedido(int idped){
         return accesoDatos.listarLineasPedido(idped);
+    }
+    
+    public void modificarPedido(PedidoProducto ped, int id_user){
+        accesoDatos.modificarPedido(ped, id_user);
+        
+        int idped = ped.getidPedido();
+        for(LineaPedidoProducto lpp : ped.getListaLineasPedido())
+            accesoDatos.modificarLineaPedido(lpp, idped);
+    }
+    
+    public void anularPedido(int idped){
+        accesoDatos.anularPedido(idped);
     }
 }

@@ -73,7 +73,8 @@ public class PedidoProducto{
         public float getTotalPagar() {
             float total=0;
             for(LineaPedidoProducto lpp : listaLineasPedido){
-                total+= lpp.getCantidad()*lpp.getProducto().getprecio();
+                if(lpp.getHabilitado())
+                    total+= lpp.getCantidad()*lpp.getProducto().getprecio();
             }
             return total;
         }

@@ -46,14 +46,28 @@ import Email.Email;
  *
  * @author Kathy Ruiz :)
  */
+enum operacion {Crear, Modificar};
 
 public class JFramePedidos extends javax.swing.JDialog {
-
     private PedidoBL logicaNegocio;
     private PedidoProducto Pedido;
     private Producto productoSeleccionado;
     private CuentaUsuario userLogin;
+    private operacion accion;
     DefaultTableModel modelo;
+    /**
+     * @return the accion
+     */
+    public operacion getAccion() {
+        return accion;
+    }
+
+    /**
+     * @param accion the accion to set
+     */
+    public void setAccion(operacion accion) {
+        this.accion = accion;
+    }
         /**
      * @return the Pedido
      */
@@ -117,7 +131,6 @@ public class JFramePedidos extends javax.swing.JDialog {
         txtRuc1.setEnabled(false);
         txtRazonS1.setEnabled(false);
         txtIDPedido.setEnabled(false);
-        
         estadoCampos(1);
         
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -133,17 +146,82 @@ public class JFramePedidos extends javax.swing.JDialog {
     
     public void estadoCampos(int est){
         switch(est){
+            //inicial
             case 1:
                 btnGrabar.setEnabled(false);
                 btnModificar.setEnabled(false);
                 btnAnular.setEnabled(false);
                 txtFechaPed.setText(fechaActual());
+                btnBuscarDNI.setEnabled(false);
+                btnBuscarProducto.setEnabled(false);
+                txtCantidad.setEnabled(false);
+                btnAgrega.setEnabled(false);
+                btnElimina.setEnabled(false);
+                jDateChooser1.setEnabled(false);
+                btnGenerarDocumentoPago.setEnabled(false);
+                JTablePedidos.setEnabled(false);
+                cboTipoCliente.setEnabled(false);
                 break;
+                
+            //nuevo
             case 2:
                 btnGrabar.setEnabled(true);
-                btnModificar.setEnabled(true);
-                btnAnular.setEnabled(true);
+                btnBuscarDNI.setEnabled(true);
+                btnModificar.setEnabled(false);
+                btnAnular.setEnabled(false);
+                btnBuscarProducto.setEnabled(true);
+                txtCantidad.setEnabled(true);
+                btnAgrega.setEnabled(true);
+                btnElimina.setEnabled(true);
+                jDateChooser1.setEnabled(true);
+                cboTipoCliente.setEnabled(true);
+                btnGenerarDocumentoPago.setEnabled(false);
+                
+                txtIDPedido.setText("");
+                jLEstado.setText("");
+                txtProducto.setText("");
+                txtCantidad.setText("");
+                txtPrecio.setText("");
+                txtIDProd.setText("");
+                txtRuc1.setText("");
+                txtRazonS1.setText("");
+                txtIDCLI.setText("");
+                txtFechaPed.setText(fechaActual());
+                jDateChooser1.setCalendar(null);
+                JTablePedidos.setEnabled(true);
                 break;
+                
+            //visualizar
+            case 3:
+                btnGrabar.setEnabled(false);
+                btnModificar.setEnabled(true);
+                btnAnular.setEnabled(false);
+                btnBuscarDNI.setEnabled(false);
+                btnBuscarProducto.setEnabled(false);
+                txtCantidad.setEnabled(false);
+                btnAgrega.setEnabled(false);
+                btnElimina.setEnabled(false);
+                jDateChooser1.setEnabled(false);
+                btnGenerarDocumentoPago.setEnabled(false);
+                JTablePedidos.setEnabled(false);
+                cboTipoCliente.setEnabled(false);
+                break;
+            
+            //Modificar
+            case 4:
+                btnGrabar.setEnabled(true);
+                btnBuscarDNI.setEnabled(true);
+                btnModificar.setEnabled(false);
+                btnAnular.setEnabled(true);
+                btnBuscarProducto.setEnabled(true);
+                txtCantidad.setEnabled(true);
+                btnAgrega.setEnabled(true);
+                btnElimina.setEnabled(true);
+                jDateChooser1.setEnabled(true);
+                cboTipoCliente.setEnabled(true);
+                btnGenerarDocumentoPago.setEnabled(true);
+                JTablePedidos.setEnabled(true);
+                cboTipoCliente.setEnabled(true);
         }
     }
     
@@ -151,13 +229,15 @@ public class JFramePedidos extends javax.swing.JDialog {
         modelo.setRowCount(0);
         Object[] fila = new Object[5];
         for(int i=0; i<Pedido.getListaLineasPedido().size(); i++){
-            fila[0] = Pedido.getListaLineasPedido().get(i).getProducto().getidProducto();
-            fila[1] = Pedido.getListaLineasPedido().get(i).getProducto().getnombProducto();
-            fila[2] = Pedido.getListaLineasPedido().get(i).getCantidad();
-            fila[3] = Pedido.getListaLineasPedido().get(i).getProducto().getprecio();
-            fila[4] = Pedido.getListaLineasPedido().get(i).getCantidad() *
-                    Pedido.getListaLineasPedido().get(i).getProducto().getprecio();
-            modelo.addRow(fila);
+            if(Pedido.getListaLineasPedido().get(i).getHabilitado()){
+                fila[0] = Pedido.getListaLineasPedido().get(i).getProducto().getidProducto();
+                fila[1] = Pedido.getListaLineasPedido().get(i).getProducto().getnombProducto();
+                fila[2] = Pedido.getListaLineasPedido().get(i).getCantidad();
+                fila[3] = Pedido.getListaLineasPedido().get(i).getProducto().getprecio();
+                fila[4] = Pedido.getListaLineasPedido().get(i).getCantidad() *
+                        Pedido.getListaLineasPedido().get(i).getProducto().getprecio();
+                modelo.addRow(fila);
+            }
         }
         txtTotal.setText(Float.toString(Pedido.getTotalPagar()));
     }
@@ -179,8 +259,8 @@ public class JFramePedidos extends javax.swing.JDialog {
         jDialog2 = new javax.swing.JDialog();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jLabel1 = new javax.swing.JLabel();
-        javax.swing.JButton btnAgregar = new javax.swing.JButton();
-        javax.swing.JButton btnEliminar = new javax.swing.JButton();
+        btnAgrega = new javax.swing.JButton();
+        btnElimina = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTablePedidos = new javax.swing.JTable();
@@ -246,17 +326,17 @@ public class JFramePedidos extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 11)); // NOI18N
         jLabel1.setText("Pedidos de Productos");
 
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        btnAgrega.setText("Agregar");
+        btnAgrega.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                btnAgregaActionPerformed(evt);
             }
         });
 
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnElimina.setText("Eliminar");
+        btnElimina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnEliminaActionPerformed(evt);
             }
         });
 
@@ -396,6 +476,11 @@ public class JFramePedidos extends javax.swing.JDialog {
         });
 
         btnAnular.setText("Anular");
+        btnAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnularActionPerformed(evt);
+            }
+        });
 
         btnModificar.setText("Modificar");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -651,8 +736,8 @@ public class JFramePedidos extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnElimina, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAgrega, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -692,9 +777,9 @@ public class JFramePedidos extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregar)
+                        .addComponent(btnAgrega)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEliminar))
+                        .addComponent(btnElimina))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 19, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -708,39 +793,6 @@ public class JFramePedidos extends javax.swing.JDialog {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:   
-        try{
-            float cant = Float.parseFloat(txtCantidad.getText());
-            float subt = cant*Float.parseFloat(txtPrecio.getText());
-            
-            int indx=0;
-            int encontrado=0;
-            for (LineaPedidoProducto lb: Pedido.getListaLineasPedido()){
-                if(lb.getProducto().getidProducto()==productoSeleccionado.getidProducto()){
-                    encontrado=1;
-                    break;
-                }
-                indx++;
-            }
-            if(encontrado==0){
-                LineaPedidoProducto lpp=new LineaPedidoProducto(productoSeleccionado,cant,0);
-                Pedido.agregarLinea(lpp);
-            }else{
-                float nuevaCant=Pedido.getListaLineasPedido().get(indx).getCantidad()+cant;
-                Pedido.getListaLineasPedido().get(indx).setCantidad(nuevaCant);
-            }
-            Pedido.setTotalPagar(Pedido.getTotalPagar()+subt);
-            actualizarTabla();
-        }catch(Exception e){
-            if(txtPrecio.getText().isEmpty())
-                JOptionPane.showMessageDialog(null, "¡Seleccione un producto!", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-            else
-                JOptionPane.showMessageDialog(null, "¡Indique una cantidad correcta!", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-        }     
-        
-    }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
@@ -820,65 +872,95 @@ public class JFramePedidos extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnBuscarProductoActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-        try{
-            int indx = JTablePedidos.getSelectedRow();
-            float subtFila = Pedido.getListaLineasPedido().get(indx).getSubtotal();
-            Pedido.setTotalPagar(Pedido.getTotalPagar()-subtFila);
-            Pedido.getListaLineasPedido().remove(indx);
-            txtTotal.setText(Float.toString(Pedido.getTotalPagar()));
-            actualizarTabla();
-        }catch(Exception e){
-            if(Pedido.getListaLineasPedido().isEmpty())
-                JOptionPane.showMessageDialog(null, "No hay lineas que eliminar", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-            else
-                JOptionPane.showMessageDialog(null, "Seleccione una linea del pedido", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
         //value = 1;
+        try{
+            if(Pedido.getestadoPed()==EstadoPedido.EnProceso)
+                throw new Exception("No se puede modificar un pedido En Proceso");
+            if(Pedido.getestadoPed()==EstadoPedido.Cancelado)
+                throw new Exception("No se puede modificar un pedido Cancelado");
+            setAccion(operacion.Modificar);
+            estadoCampos(4);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrabarActionPerformed
         // TODO add your handling code here:
-        try{
-            Date dateEntrega = jDateChooser1.getDate();
-            Date dateRegistro = new Date();
-            
-            if(dateEntrega == null)
-                throw new Exception("Coloque una fecha de entrega");
-            if(dateEntrega.before(dateRegistro))
-                throw new Exception("La Fecha de Entrega no puede ser menor a la Fecha de Fedido");
-            if(Pedido.getListaLineasPedido().size()==0)
-                throw new Exception("El pedido no tiene ningun producto agregado");
-            if(Pedido.getcliente()==null)
-                throw new Exception("El pedido no tiene Cliente");
- 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String fechEntrega = dateFormat.format(dateEntrega);
-            
-            Pedido.setfechaEntrPed(fechEntrega);
-            
-            EstadoPedido estPed = EstadoPedido.Pendiente;
-            Pedido.setestadoPedo(estPed);
-            
-            int idped=logicaNegocio.registrarPedido(Pedido, userLogin.getidUsuario());
-            if(idped==0)
-                throw new Exception("Error al registrar pedido");
+        if(accion==operacion.Crear){
             try{
-            Email controllerEmail = new Email();
-            controllerEmail.prepareConection();
-            String correoAdmin = controllerEmail.getEmailDB("admin");
-            controllerEmail.sendEmail("Nuevo pedido registrado", "Se ha registrado el pedido " + txtIDCLI.getText() + "\n\n\t Para el cliente "+ this.txtRazonS1.getText()  , correoAdmin);
-            } catch(Exception ex){}
-            txtIDPedido.setText(Integer.toString(idped));
-            jLEstado.setText(estPed.toString());
-            JOptionPane.showMessageDialog(null, "Pedido registrado correctamente con id " + idped, "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+                Date dateEntrega = jDateChooser1.getDate();
+                Date dateRegistro = new Date();
+
+                if(dateEntrega == null)
+                    throw new Exception("Coloque una fecha de entrega");
+                if(dateEntrega.before(dateRegistro))
+                    throw new Exception("La Fecha de Entrega no puede ser menor a la Fecha de Fedido");
+                if(Pedido.getListaLineasPedido().size()==0)
+                    throw new Exception("El pedido no tiene ningun producto agregado");
+                if(Pedido.getcliente()==null)
+                    throw new Exception("El pedido no tiene Cliente");
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String fechEntrega = dateFormat.format(dateEntrega);
+
+                Pedido.setfechaEntrPed(fechEntrega);
+
+                EstadoPedido estPed = EstadoPedido.Pendiente;
+                Pedido.setestadoPedo(estPed);
+
+                int idped=logicaNegocio.registrarPedido(Pedido, userLogin.getidUsuario());
+                if(idped==0)
+                    throw new Exception("Error al registrar pedido");
+                try{
+                    Email controllerEmail = new Email();
+                    controllerEmail.prepareConection();
+                    String correoAdmin = controllerEmail.getEmailDB("admin");
+                    controllerEmail.sendEmail("Nuevo pedido registrado", "Se ha registrado el pedido " + txtIDPedido.getText() + "\n\n\t Para el cliente "+ this.txtRazonS1.getText()  , correoAdmin);
+                } catch(Exception ex){}
+                txtIDPedido.setText(Integer.toString(idped));
+                jLEstado.setText(estPed.toString());
+                estadoCampos(3);
+                JOptionPane.showMessageDialog(null, "Pedido registrado correctamente con id " + idped, "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }else if(accion==operacion.Modificar){
+            try{
+                Date dateEntrega = jDateChooser1.getDate();
+                Date dateRegistro = Pedido.getfechaRegPed();
+                Date datehoy = new Date();
+
+                if(dateEntrega == null)
+                    throw new Exception("Coloque una fecha de entrega");
+                if(dateEntrega.before(dateRegistro))
+                    throw new Exception("La Fecha de Entrega no puede ser menor a la Fecha de Fedido");
+                if(dateEntrega.before(datehoy))
+                    throw new Exception("La Fecha de Entrega no puede ser menor a la Fecha de hoy");
+                if(Pedido.getListaLineasPedido().size()==0)
+                    throw new Exception("El pedido no tiene ningun producto agregado");
+                if(Pedido.getcliente()==null)
+                    throw new Exception("El pedido no tiene Cliente");
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String fechEntrega = dateFormat.format(dateEntrega);
+
+                Pedido.setfechaEntrPed(fechEntrega);
+                
+                logicaNegocio.modificarPedido(Pedido, userLogin.getidUsuario());
+//                try{
+//                    Email controllerEmail = new Email();
+//                    controllerEmail.prepareConection();
+//                    String correoAdmin = controllerEmail.getEmailDB("admin");
+//                    controllerEmail.sendEmail("Se ha modificado un pedido", "Se ha modificado el pedido " + txtIDPedido.getText() + "\n\n\t Para el cliente "+ this.txtRazonS1.getText()  , correoAdmin);
+//                } catch(Exception ex){}
+                estadoCampos(3);
+                JOptionPane.showMessageDialog(null, "Pedido " + txtIDPedido.getText() + " modificado correctamente", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+            }
         }   
     }//GEN-LAST:event_btnGrabarActionPerformed
 
@@ -937,7 +1019,7 @@ public class JFramePedidos extends javax.swing.JDialog {
         JFBuscarPedidos objet= new JFBuscarPedidos(this,true);
         objet.setVisible(true);
         if(objet.getPedidoElegido()!=null){
-            estadoCampos(2);
+            estadoCampos(3);
             PedidoProducto ped = objet.getPedidoElegido();
             txtIDPedido.setText(Integer.toString(ped.getidPedido()));
             jLEstado.setText(ped.getestadoPed().toString());
@@ -959,8 +1041,9 @@ public class JFramePedidos extends javax.swing.JDialog {
             String fechEnt = df.format(ped.getfechaEntrPed());
             txtFechaPed.setText(fechReg);
             jDateChooser1.setDate(ped.getfechaEntrPed());
-            Pedido.setcliente(ped.getcliente());
-            Pedido.setListaLineasPedido(ped.getListaLineasPedido());
+            
+            Pedido = ped;
+            
             actualizarTabla();
             txtProducto.setText("");
             txtCantidad.setText("");
@@ -972,18 +1055,9 @@ public class JFramePedidos extends javax.swing.JDialog {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
         Pedido=new PedidoProducto();
+        estadoCampos(2);
         actualizarTabla();
-        txtIDPedido.setText("");
-        jLEstado.setText("");
-        txtProducto.setText("");
-        txtCantidad.setText("");
-        txtPrecio.setText("");
-        txtIDProd.setText("");
-        txtRuc1.setText("");
-        txtRazonS1.setText("");
-        txtIDCLI.setText("");
-        txtFechaPed.setText(fechaActual());
-        jDateChooser1.cleanup();
+        setAccion(operacion.Crear);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void txtIDCLIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDCLIActionPerformed
@@ -993,6 +1067,81 @@ public class JFramePedidos extends javax.swing.JDialog {
     private void txtIDPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDPedidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIDPedidoActionPerformed
+
+    private void btnAgregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregaActionPerformed
+        // TODO add your handling code here:
+        try{
+            float cant = Float.parseFloat(txtCantidad.getText());
+            float subt = cant*Float.parseFloat(txtPrecio.getText());
+
+            int indx=0;
+            int encontrado=0;
+            for (LineaPedidoProducto lb: Pedido.getListaLineasPedido()){
+                if(lb.getProducto().getidProducto()==productoSeleccionado.getidProducto()){
+                    encontrado=1;
+                    break;
+                }
+                indx++;
+            }
+            if(encontrado==0){
+                LineaPedidoProducto lpp=new LineaPedidoProducto(productoSeleccionado,cant,0);
+                Pedido.agregarLinea(lpp);
+            }else{
+                if(Pedido.getListaLineasPedido().get(indx).getHabilitado()){
+                    float nuevaCant=Pedido.getListaLineasPedido().get(indx).getCantidad()+cant;
+                    Pedido.getListaLineasPedido().get(indx).setCantidad(nuevaCant);
+                }else{
+                    Pedido.getListaLineasPedido().get(indx).setCantidad(cant);
+                    Pedido.getListaLineasPedido().get(indx).setHabilitado(true);
+                }
+            }
+            Pedido.setTotalPagar(Pedido.getTotalPagar());
+            actualizarTabla();
+        }catch(Exception e){
+            if(txtPrecio.getText().isEmpty())
+            JOptionPane.showMessageDialog(null, "¡Seleccione un producto!", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+            else
+            JOptionPane.showMessageDialog(null, "¡Indique una cantidad correcta!", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnAgregaActionPerformed
+
+    private void btnEliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminaActionPerformed
+        // TODO add your handling code here:
+        try{
+            int indx = JTablePedidos.getSelectedRow();
+            int idPro = (int) JTablePedidos.getModel().getValueAt(indx, 0);
+            
+            int indxP=0;
+            for (LineaPedidoProducto lb: Pedido.getListaLineasPedido()){
+                if(lb.getProducto().getidProducto()==idPro){
+                    break;
+                }
+                indxP++;
+            }
+            
+            Pedido.getListaLineasPedido().get(indxP).setHabilitado(false);
+            Pedido.setTotalPagar(Pedido.getTotalPagar());
+            txtTotal.setText(Float.toString(Pedido.getTotalPagar()));
+            actualizarTabla();
+        }catch(Exception e){
+            if(Pedido.getListaLineasPedido().isEmpty())
+            JOptionPane.showMessageDialog(null, "No hay lineas que eliminar", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+            else
+            JOptionPane.showMessageDialog(null, "Seleccione una linea del pedido", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminaActionPerformed
+
+    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
+        // TODO add your handling code here:
+        int decision = JOptionPane.showConfirmDialog(null, "¿Esta seguro de anular el pedido?", "MENSAJE", JOptionPane.YES_NO_OPTION);
+        if(decision==JOptionPane.YES_OPTION){
+            logicaNegocio.anularPedido(Pedido.getidPedido());
+            jLEstado.setText(EstadoPedido.Cancelado.toString());
+            estadoCampos(3);
+            JOptionPane.showMessageDialog(null, "Pedido con id " + Pedido.getidPedido() +" anulado correctamente", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAnularActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1037,10 +1186,12 @@ public class JFramePedidos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTablePedidos;
+    private javax.swing.JButton btnAgrega;
     private javax.swing.JButton btnAnular;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscarDNI;
     private javax.swing.JButton btnBuscarProducto;
+    private javax.swing.JButton btnElimina;
     private javax.swing.JButton btnGenerarDocumentoPago;
     private javax.swing.JButton btnGrabar;
     private javax.swing.JButton btnModificar;
@@ -1087,4 +1238,5 @@ public class JFramePedidos extends javax.swing.JDialog {
     private javax.swing.JTextField txtRuc1;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
+
 }
