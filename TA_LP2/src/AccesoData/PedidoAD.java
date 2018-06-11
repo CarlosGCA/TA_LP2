@@ -203,6 +203,8 @@ public class PedidoAD {
                 Producto p = new Producto(rs.getInt(1), rs.getString(2), rs.getFloat(4));
                 lpp.setProducto(p);
                 lpp.setCantidad(rs.getInt(3));
+                lpp.setDescuento(rs.getFloat(5));
+                lpp.setHabilitado(rs.getBoolean(6));
                 lista.add(lpp);
             }
             con.close();
@@ -211,5 +213,72 @@ public class PedidoAD {
               System.out.println(e.toString());  
         }
         return lista;
+    }
+    
+    public void modificarPedido(PedidoProducto ped, int iduser){
+        try {
+            //Registrar el Driver
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+
+            CallableStatement cs
+                    = con.prepareCall("{call "
+                            + "MODIFICAR_PEDIDO_PRODUCTOS(?,?,?,?)}"
+                    );
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String fechEntrega = dateFormat.format(ped.getfechaEntrPed());
+            
+            cs.setInt(1, ped.getidPedido());
+            cs.setString(2, fechEntrega);
+            cs.setInt(3, iduser);
+            cs.setInt(4, ped.getcliente().getId_cliente());
+            
+            cs.execute();
+            con.close();
+            System.out.println("Pedido Modificado correctamente");
+         }catch(Exception e){
+             System.out.println(e.toString());
+         }
+    }
+    
+    public void modificarLineaPedido(LineaPedidoProducto lpp, int id_ped){
+        try {
+            //Registrar el Driver
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+
+            CallableStatement cs
+                    = con.prepareCall("{call "
+                            + "MODIFICAR_LINEA_PEDIDO_PRODUCTO(?,?,?,?,?)}"
+                    );
+            
+            cs.setFloat(1, lpp.getCantidad());
+            cs.setFloat(2, lpp.getDescuento());
+            cs.setBoolean(3, lpp.getHabilitado());
+            cs.setInt(4, lpp.getProducto().getidProducto());
+            cs.setInt(5, id_ped);
+            
+            cs.executeUpdate();
+            System.out.println("Se modifico la linea");
+            con.close();
+         }catch(Exception e){
+             System.out.println(e.toString());
+         }
+    }
+    
+    public void anularPedido(int idped){
+        try {
+            //Registrar el Driver
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+
+            Statement sentencia = con.createStatement();
+            String sql = "UPDATE PedidoProductos SET EstadoPedido_idEstadoPedido = 4 WHERE idPedidoProductos = " +idped+";";
+            sentencia.executeUpdate(sql);
+            System.out.println("Pedido Anulado Correctamente");
+            con.close();
+         }catch(Exception e){
+             System.out.println(e.toString());
+         }
     }
 }

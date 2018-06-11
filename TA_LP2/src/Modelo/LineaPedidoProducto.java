@@ -10,9 +10,25 @@ package Modelo;
  * @author LENOVO
  */
 public class LineaPedidoProducto {
+
     private Producto producto;
     private float cantidad;
     private float descuento;
+    private Boolean habilitado;
+    
+    /**
+     * @return the habilitado
+     */
+    public Boolean getHabilitado() {
+        return habilitado;
+    }
+
+    /**
+     * @param habilitado the habilitado to set
+     */
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+    }
     /**
      * @return the producto
      */
@@ -24,6 +40,7 @@ public class LineaPedidoProducto {
         setProducto(prod);
         setCantidad(cant);
         setDescuento(desc);
+        setHabilitado(true);
     }
     
     public Producto getProducto() {
