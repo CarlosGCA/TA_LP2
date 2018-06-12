@@ -35,7 +35,7 @@ public class DocumentoPagoAD {
     
     public int generarBoleta(float total, int idPedido, int igv) throws Exception{
         openCon();
-        CallableStatement cs = connection.prepareCall("{call CREAR_BOLETA_O_EXISTENTE(?,?,?,?)}");
+        CallableStatement cs = connection.prepareCall("{call CREAR_BOLETA_O_MODIFICAR(?,?,?,?)}");
         cs.setFloat("_total", total);
         cs.setInt("_idPedidoProductos", idPedido);
         cs.setInt("_igv", igv);
