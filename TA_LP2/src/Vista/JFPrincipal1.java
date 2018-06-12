@@ -99,7 +99,12 @@ public class JFPrincipal1 extends javax.swing.JFrame {
                 jPasswordActionPerformed(evt);
             }
         });
-
+		jPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordKeyPressed(evt);
+            }
+        });
+		
         helperLabel.setText("Para recuperar su contraseña");
 
         labelOlvideContra.setFont(new java.awt.Font("Lucida Grande", 2, 13)); // NOI18N
