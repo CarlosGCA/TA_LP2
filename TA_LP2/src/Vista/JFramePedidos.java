@@ -995,6 +995,15 @@ public class JFramePedidos extends javax.swing.JDialog {
             int idPedido = Integer.parseInt(strPedido);
             DocumentoPagoBL documentoPagoBL = new DocumentoPagoBL();
             String nombArchRep = "Boleta pedido "+strPedido+".pdf";
+            
+            File archDocPago = new File(nombArchRep);
+            if(archDocPago.isFile()) //borramos por defecto
+                archDocPago.delete();
+            
+            float total = Float.parseFloat(txtTotal.getText());
+            
+            int idBoleta = documentoPagoBL.generarBoleta(total, idPedido, 18);
+            txtIDDPago.setText(Integer.toString(idBoleta));
             documentoPagoBL.exportarBoletaPDF(idPedido, nombArchRep);
 
 
@@ -1006,7 +1015,7 @@ public class JFramePedidos extends javax.swing.JDialog {
             int seleccion = JOptionPane.showConfirmDialog(null, "Documento generado exitosamente,\n¿desea abrirlo?",
                                           "Mensaje",JOptionPane.YES_NO_OPTION);
             if(seleccion == JOptionPane.YES_OPTION)
-                Desktop.getDesktop().open(new File(nombArchRep));
+                Desktop.getDesktop().open(archDocPago);
 
 
 //        } catch (Exception ex) {

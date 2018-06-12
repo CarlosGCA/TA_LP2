@@ -5,6 +5,7 @@
  */
 package AccesoData;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
@@ -31,6 +32,21 @@ public class DocumentoPagoAD {
         if(connection != null && !connection.isClosed())
             connection.close();
     }
+    
+    public int generarBoleta(float total, int idPedido, int igv) throws Exception{
+        openCon();
+        CallableStatement cs = connection.prepareCall("{call CREAR_BOLETA_O_EXISTENTE(?,?,?,?)}");
+        cs.setFloat("_total", total);
+        cs.setInt("_idPedidoProductos", idPedido);
+        cs.setInt("_igv", igv);
+        cs.registerOutParameter("_idBoleta", java.sql.Types.INTEGER);
+        
+        cs.execute();
+        int idBoleta = cs.getInt("_idBoleta");
+        closeCon();
+        return idBoleta;
+    }
+    
     
     public void exportBoletaPDF(int idPedido, String nombArch) throws Exception{
         openCon();
