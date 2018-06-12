@@ -41,13 +41,16 @@ public class DocumentoPagoBL {
     public void exportarBoletaPDF (int idPedido, String nombArch)throws Exception{
         documentoPagoAD.exportBoletaPDF(idPedido, nombArch);
     }
+    public void exportarFacturaPDF (int idPedido, String nombArch)throws Exception{
+        documentoPagoAD.exportFacturaPDF(idPedido, nombArch);
+    }
     
     public void exportarDocPagoPDF(PedidoProducto pedido, String nombArch) throws Exception{
         if(pedido.getcliente() instanceof Natural){
             exportarBoletaPDF(pedido.getidPedido(), nombArch);
         }
         else{
-            throw new NotImplemented();
+            exportarFacturaPDF(pedido.getidPedido(), nombArch);
         }
     }
     

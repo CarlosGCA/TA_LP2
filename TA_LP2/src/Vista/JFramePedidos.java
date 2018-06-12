@@ -981,8 +981,8 @@ public class JFramePedidos extends javax.swing.JDialog {
 
             
 //            int idPedido = Integer.parseInt(strPedido);
-            
-            String nombArchRep = "Boleta pedido "+txtIDPedido.getText()+".pdf";
+            String tipoDoc = (Pedido.getcliente() instanceof Natural)?"Boleta":"Factura";
+            String nombArchRep = tipoDoc + " pedido "+txtIDPedido.getText()+".pdf";
             
             File archDocPago = new File(nombArchRep);
             if(archDocPago.isFile()) //borramos por defecto

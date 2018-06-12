@@ -48,7 +48,7 @@ public class DocumentoPagoAD {
     }
     public int generarFactura(float total, int idPedido, int igv) throws Exception{
         openCon();
-        CallableStatement cs = connection.prepareCall("{call CREAR_FACTURA_O_EXISTENTE(?,?,?,?)}");
+        CallableStatement cs = connection.prepareCall("{call CREAR_FACTURA_O_MODIFICAR(?,?,?,?)}");
         cs.setFloat("_total", total);
         cs.setInt("_idPedidoProductos", idPedido);
         cs.setInt("_igv", igv);
@@ -70,9 +70,13 @@ public class DocumentoPagoAD {
         JasperExportManager.exportReportToPdfFile(jasperPrint, nombArch);
         closeCon();
     }
-    public void exportFacturaPDF(int idPedido, String ruta) throws Exception{
+    public void exportFacturaPDF(int idPedido, String nombArch) throws Exception{
         openCon();
-            
+        JasperReport reporte =  (JasperReport) JRLoader.loadObjectFromFile("src/Reportes/Factura.jasper");
+        HashMap parametros = new HashMap();
+        parametros.put("_idPedidoProductos",idPedido);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,parametros,connection);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, nombArch);
         closeCon();
     }
     
