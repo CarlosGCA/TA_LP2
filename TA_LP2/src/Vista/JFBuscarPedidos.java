@@ -49,7 +49,7 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
         logicaNegocio=new PedidoBL();
         listaPedidos = new ArrayList<PedidoProducto>(logicaNegocio.listarPedidos());
         DefaultTableModel modelo = (DefaultTableModel) tablePedidos.getModel();
-        Object[] fila = new Object[4];
+        Object[] fila = new Object[6];
         for(int i=0; i<listaPedidos.size(); i++){
             fila[0]=listaPedidos.get(i).getidPedido();
             
@@ -61,12 +61,16 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
             SimpleDateFormat formatoFechaEnt= new SimpleDateFormat("dd/MM/yyyy");
             fila[2]=formatoFechaEnt.format(fechaEnt);
             
+            fila[3]=listaPedidos.get(i).getestadoPed();
+            
             if(listaPedidos.get(i).getcliente() instanceof Natural){
                 Natural nat = (Natural) listaPedidos.get(i).getcliente();
-                fila[3]=nat.getNombre()+" " +nat.getApellidos();
+                fila[4]=nat.getNombre()+" " +nat.getApellidos();
+                fila[5]="Natural";
             }else{
                 Empresa emp = (Empresa) listaPedidos.get(i).getcliente();
-                fila[3]=emp.getRazonSocial();
+                fila[4]=emp.getRazonSocial();
+                fila[5]="Empresa";
             }
 
             modelo.addRow(fila);
@@ -95,11 +99,11 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
 
             },
             new String [] {
-                "IdPedido", "Fecha Registro", "Fecha Entrega", "Cliente"
+                "IdPedido", "Fecha Registro", "Fecha Entrega", "Estado Pedido", "Cliente", "Tipo Cliente"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -129,16 +133,16 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(346, 346, 346)
+                        .addGap(359, 359, 359)
                         .addComponent(btnSelect)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSalir)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

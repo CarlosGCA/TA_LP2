@@ -943,6 +943,8 @@ public class JFramePedidos extends javax.swing.JDialog {
                     throw new Exception("El pedido no tiene ningun producto agregado");
                 if(Pedido.getcliente()==null)
                     throw new Exception("El pedido no tiene Cliente");
+                if(Pedido.getTotalPagar()==0)
+                    throw new Exception("El pedido no puede tener precio 0");
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String fechEntrega = dateFormat.format(dateEntrega);

@@ -92,9 +92,8 @@ public class PedidoAD {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
 
-            Statement sentencia = con.createStatement();
-            String sql = "select idPedidoProductos,FechaRegistro,FechaEntrega,EstadoPedido_idEstadoPedido,Cliente_idCliente,tipo from PedidoProductos inner join Cliente where PedidoProductos.Cliente_idCliente=Cliente.idCliente;";
-            ResultSet rs = sentencia.executeQuery(sql);
+            CallableStatement cs = con.prepareCall("{call LISTAR_PEDIDOS_PRODUCTO()}");
+            ResultSet rs = cs.executeQuery();
             while (rs.next()) {
                 PedidoProducto pp = new PedidoProducto();
                 
@@ -116,10 +115,17 @@ public class PedidoAD {
                 if(TipoCli.equals("Natural")){
                     Natural n = new Natural();
                     n.setId_cliente(rs.getInt(5));
+                    String nombreCompleto = rs.getString(7);
+                    String[] nombreApellido = nombreCompleto.split("-");
+                    n.setNombre(nombreApellido[0]);
+                    n.setApellidos(nombreApellido[1]);
+                    n.setDNI(rs.getString(8));
                     pp.setcliente(n);
                 }else{
                     Empresa e = new Empresa();
                     e.setId_cliente(rs.getInt(5));
+                    e.setRazonSocial(rs.getString(7));
+                    e.setRuc(rs.getString(8));
                     pp.setcliente(e);
                 } 
                 lista.add(pp);
@@ -129,61 +135,6 @@ public class PedidoAD {
             System.out.println(e.toString());
         }
         return lista;
-    }
-    
-    public Natural buscarNatural(int idNat){
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
-
-            CallableStatement cs
-                    = con.prepareCall("{call "
-                            + "BUSCAR_NATURAL(?)}"
-                    );
-            cs.setInt(1, idNat);
-            ResultSet rs = cs.executeQuery();
-            while (rs.next()){
-                Natural nat = new Natural();
-                nat.setId_cliente(idNat);
-                nat.setDNI(rs.getString(2));
-                nat.setNombre(rs.getString(3));
-                nat.setApellidos(rs.getString(4));
-                con.close();
-                return nat;
-            }
-            con.close();
-            return null;
-        }catch(Exception e){
-            System.out.println(e.toString());
-            return null;
-        }
-    }
-    
-    public Empresa buscarEmpresa(int idEmp){
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
-
-            CallableStatement cs
-                    = con.prepareCall("{call "
-                            + "BUSCAR_EMPRESA(?)}"
-                    );
-            cs.setInt(1, idEmp);
-            ResultSet rs = cs.executeQuery();
-            while (rs.next()){
-                Empresa nat = new Empresa();
-                nat.setId_cliente(idEmp);
-                nat.setRuc(rs.getString(2));
-                nat.setRazonSocial(rs.getString(3));
-                con.close();
-                return nat;
-            }
-            con.close();
-            return null;
-        }catch(Exception e){
-            System.out.println(e.toString());
-            return null;
-        }
     }
     
     public ArrayList<LineaPedidoProducto> listarLineasPedido(int idPed){
