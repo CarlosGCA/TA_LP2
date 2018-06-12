@@ -6,6 +6,9 @@
 package Controlador;
 
 import AccesoData.DocumentoPagoAD;
+import Modelo.Natural;
+import Modelo.PedidoProducto;
+import com.mysql.jdbc.NotImplemented;
 
 /**
  *
@@ -18,15 +21,35 @@ public class DocumentoPagoBL {
     }
     
     
-    public int generarBoleta(float total, int idPedido, int igv) throws Exception{
-        return documentoPagoAD.generarBoleta(total, idPedido, igv);
+    public int generarBoleta(PedidoProducto pedido) throws Exception{
+        return documentoPagoAD.generarBoleta(pedido.getTotalPagar(), pedido.getidPedido(), 18);
+    }
+    public int generarFactura(PedidoProducto pedido) throws Exception{
+        return documentoPagoAD.generarFactura(pedido.getTotalPagar(), pedido.getidPedido(), 18);
+    }
+    
+    
+    public int generarDocPago(PedidoProducto pedido) throws Exception{
+        if(pedido.getcliente() instanceof Natural){
+            return generarBoleta(pedido);
+        }
+        else{
+            return generarFactura(pedido);
+        }
     }
     
     public void exportarBoletaPDF (int idPedido, String nombArch)throws Exception{
-//        try{
-            documentoPagoAD.exportBoletaPDF(idPedido, nombArch);
-//        }catch(Exception e){
-//            System.out.println(e.getMessage());
-//        }
+        documentoPagoAD.exportBoletaPDF(idPedido, nombArch);
     }
+    
+    public void exportarDocPagoPDF(PedidoProducto pedido, String nombArch) throws Exception{
+        if(pedido.getcliente() instanceof Natural){
+            exportarBoletaPDF(pedido.getidPedido(), nombArch);
+        }
+        else{
+            throw new NotImplemented();
+        }
+    }
+    
+    
 }

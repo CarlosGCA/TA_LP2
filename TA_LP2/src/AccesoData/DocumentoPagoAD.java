@@ -46,6 +46,19 @@ public class DocumentoPagoAD {
         closeCon();
         return idBoleta;
     }
+    public int generarFactura(float total, int idPedido, int igv) throws Exception{
+        openCon();
+        CallableStatement cs = connection.prepareCall("{call CREAR_FACTURA_O_EXISTENTE(?,?,?,?)}");
+        cs.setFloat("_total", total);
+        cs.setInt("_idPedidoProductos", idPedido);
+        cs.setInt("_igv", igv);
+        cs.registerOutParameter("_idFactura", java.sql.Types.INTEGER);
+        
+        cs.execute();
+        int idFactura = cs.getInt("_idFactura");
+        closeCon();
+        return idFactura;
+    }
     
     
     public void exportBoletaPDF(int idPedido, String nombArch) throws Exception{

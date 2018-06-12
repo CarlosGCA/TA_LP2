@@ -55,6 +55,7 @@ public class JFramePedidos extends javax.swing.JDialog {
     private CuentaUsuario userLogin;
     private operacion accion;
     DefaultTableModel modelo;
+    private DocumentoPagoBL documentoPagoBL;
     /**
      * @return the accion
      */
@@ -142,6 +143,7 @@ public class JFramePedidos extends javax.swing.JDialog {
         
         Pedido = new PedidoProducto();
         modelo = (DefaultTableModel) JTablePedidos.getModel();
+        documentoPagoBL = new DocumentoPagoBL();
     }
     
     public void estadoCampos(int est){
@@ -976,52 +978,33 @@ public class JFramePedidos extends javax.swing.JDialog {
 
     private void btnGenerarDocumentoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarDocumentoPagoActionPerformed
         try {
-            // TODO add your handling code here:
-//            Class.forName("com.mysql.jdbc.Driver");
-//            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
-//            //Connection con  = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/a20141988","a20141988","muajaja");
-//            JasperReport reporte =  (JasperReport) JRLoader.loadObjectFromFile("src/Reportes/Blank_Letter.jasper");
-//            
-//            
-//            
-//            
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,null,con);
-//            //JasperExportManager.exportReportToPdfFile(jasperPrint, "reporte3.pdf");
-//            
-//            JasperViewer view = new JasperViewer(jasperPrint, false);
-//            view.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-//            view.setVisible(true);
-//            
-//            con.close();
-            String strPedido = txtIDPedido.getText();
-            int idPedido = Integer.parseInt(strPedido);
-            DocumentoPagoBL documentoPagoBL = new DocumentoPagoBL();
-            String nombArchRep = "Boleta pedido "+strPedido+".pdf";
+
+            
+//            int idPedido = Integer.parseInt(strPedido);
+            
+            String nombArchRep = "Boleta pedido "+txtIDPedido.getText()+".pdf";
             
             File archDocPago = new File(nombArchRep);
             if(archDocPago.isFile()) //borramos por defecto
                 archDocPago.delete();
             
-            float total = Float.parseFloat(txtTotal.getText());
+//            float total = Float.parseFloat(txtTotal.getText());
             
-            int idBoleta = documentoPagoBL.generarBoleta(total, idPedido, 18);
+//            int idBoleta = documentoPagoBL.generarBoleta(total, idPedido, 18);
+            int idBoleta = documentoPagoBL.generarDocPago(Pedido);
             txtIDDPago.setText(Integer.toString(idBoleta));
-            documentoPagoBL.exportarBoletaPDF(idPedido, nombArchRep);
+            //documentoPagoBL.generarDocumentoPago(Pedido); //IMPLEMENTAR
+            documentoPagoBL.exportarDocPagoPDF(Pedido, nombArchRep);
 
 
-//        } catch (Exception ex) {
-//            System.out.println(ex.getMessage());
-//        } catch (Exception e){
-//            System.out.println(e.getMessage());
-//        }
+
             int seleccion = JOptionPane.showConfirmDialog(null, "Documento generado exitosamente,\n¿desea abrirlo?",
                                           "Mensaje",JOptionPane.YES_NO_OPTION);
             if(seleccion == JOptionPane.YES_OPTION)
                 Desktop.getDesktop().open(archDocPago);
 
 
-//        } catch (Exception ex) {
-//            System.out.println(ex.getMessage());
+
         } catch (Exception e){
             //System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
