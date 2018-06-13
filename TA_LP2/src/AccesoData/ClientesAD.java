@@ -15,7 +15,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+import Modelo.EstadoPedido;
+import Modelo.Cliente;
+import java.sql.PreparedStatement;
+import javafx.util.Pair;
 /**
  *
  * @author Kathy Ruiz :)
@@ -198,5 +201,88 @@ public class ClientesAD {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+    }
+    
+     
+    public ArrayList<Pair<Integer, Empresa>> getRankingEmpresa(EstadoPedido estado) {
+        String nombrePedido = estado.toString();
+        ArrayList<Pair<Integer, Empresa>> listaCliente = new ArrayList<>();
+        int idEstado = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+            // Statement sentencia = con.createStatement();
+            PreparedStatement sql = con.prepareStatement("SELECT * FROM inf282g7.EstadoPedido WHERE EstadoPedido.nombre=?");
+            sql.setString(1, nombrePedido.toUpperCase());
+            ResultSet rs = sql.executeQuery();
+            while (rs.next()) {
+                idEstado = rs.getInt("idEstadoPedido");
+            }
+            CallableStatement cs = con.prepareCall("{call LISTA_RANKING(?,?)}");
+            cs.setInt("Estado", idEstado);
+            cs.setString("tipo", "Empresa");
+            rs = cs.executeQuery();
+            Integer Cantidad;
+            while (rs.next()) {
+                Cantidad = rs.getInt("Cantidad");
+
+                Empresa nuevo = new Empresa();
+                nuevo.setCorreo(rs.getString("correo"));
+                nuevo.setCuentaBancaria(rs.getString("CuentaBancaria"));
+                nuevo.setDireccion(rs.getString("direccion"));
+                nuevo.setTelefono(rs.getInt("telefono"));
+
+                nuevo.setRazonSocial(rs.getString("RazonSocial"));
+                nuevo.setRuc(rs.getString("RUC"));
+                listaCliente.add(new Pair<>(Cantidad, nuevo));
+
+            }
+            con.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listaCliente;
+    }
+
+    public ArrayList<Pair<Integer, Natural>> getRankingNatural(EstadoPedido estado) {
+        String nombrePedido = estado.toString();
+        ArrayList<Pair<Integer, Natural>> listaCliente = new ArrayList<>();
+        int idEstado = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+            // Statement sentencia = con.createStatement();
+            PreparedStatement sql = con.prepareStatement("SELECT * FROM inf282g7.EstadoPedido WHERE EstadoPedido.nombre=?");
+            sql.setString(1, nombrePedido.toUpperCase());
+            ResultSet rs = sql.executeQuery();
+            while (rs.next()) {
+                idEstado = rs.getInt("idEstadoPedido");
+            }
+            CallableStatement cs = con.prepareCall("{call LISTA_RANKING(?,?)}");
+            cs.setInt("Estado", idEstado);
+            cs.setString("tipo", "Natural");
+            rs = cs.executeQuery();
+            Integer Cantidad;
+            while (rs.next()) {
+                Cantidad = rs.getInt("Cantidad");
+
+                Natural nuevo = new Natural();
+                nuevo.setCorreo(rs.getString("correo"));
+                nuevo.setCuentaBancaria(rs.getString("CuentaBancaria"));
+                nuevo.setDireccion(rs.getString("direccion"));
+                nuevo.setTelefono(rs.getInt("telefono"));
+                nuevo.setDNI(rs.getString("DNI"));
+                nuevo.setApellidos(rs.getString("Apellido"));
+                nuevo.setNombre(rs.getString("Nombre"));
+                listaCliente.add(new Pair<>(Cantidad, nuevo));
+
+            }
+            con.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return listaCliente;
     }
 }

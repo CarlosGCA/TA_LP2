@@ -7,8 +7,11 @@ package Controlador;
 
 import AccesoData.ClientesAD;
 import Modelo.Empresa;
+import Modelo.EstadoPedido;
 import Modelo.Natural;
 import java.util.ArrayList;
+import javafx.util.Pair;
+import Modelo.Cliente;
 
 /**
  *
@@ -41,4 +44,12 @@ public class ClientesBL {
     public void modificarCliNatural(Natural natural){
          accesoDatos.modificarCliNatural(natural);
      }
+    
+    public ArrayList<Pair<Integer, Empresa>> obtenerRankingEmpresa(EstadoPedido estado ){
+        return accesoDatos.getRankingEmpresa(estado);
+    }
+    
+     public ArrayList<Pair<Integer, Natural>> obtenerRankingNatural(EstadoPedido estado ){
+        return accesoDatos.getRankingNatural(estado);
+    }
 }

@@ -1,0 +1,276 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Vista;
+
+import Modelo.EstadoPedido;
+import java.util.Vector;
+import javax.swing.JComboBox;
+import Controlador.ClientesBL;
+import javafx.util.Pair;
+import Modelo.Natural;
+import javax.swing.table.DefaultTableModel;
+import Modelo.Empresa;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+/**
+ *
+ * @author alfredo
+ */
+public class jRankingPedidos extends javax.swing.JFrame {
+
+    /**
+     * Creates new form jRankingPedidos
+     */
+    private ClientesBL logicaClientesBL;
+
+    private void _llenarTablaNatural(EstadoPedido estado) {
+        for (Pair<Integer, Natural> objPair : logicaClientesBL.obtenerRankingNatural(estado)) {
+            Vector nuevoVector = new Vector();
+            nuevoVector.add(objPair.getKey());
+            Natural nuevoNatural = (Natural) objPair.getValue();
+
+            nuevoVector.add(nuevoNatural.getDNI());
+            nuevoVector.add(nuevoNatural.getNombre());
+            nuevoVector.add(nuevoNatural.getApellidos());
+            nuevoVector.add(nuevoNatural.getTelefono());
+            nuevoVector.add(nuevoNatural.getDireccion());
+            nuevoVector.add(nuevoNatural.getCuentaBancaria());
+            nuevoVector.add(nuevoNatural.getCorreo());
+
+            DefaultTableModel model = (DefaultTableModel) tbNatural.getModel();
+            model.addRow(nuevoVector);
+        }
+    }
+
+    private void _llenarTablaEmpresa(EstadoPedido estado){
+         for (Pair<Integer, Empresa> objPair : logicaClientesBL.obtenerRankingEmpresa(estado)) {
+            Vector nuevoVector = new Vector();
+            nuevoVector.add(objPair.getKey());
+            Empresa nuevoNatural = (Empresa) objPair.getValue();
+            nuevoVector.add(nuevoNatural.getRuc());
+            nuevoVector.add(nuevoNatural.getRazonSocial());
+            nuevoVector.add(nuevoNatural.getTelefono());
+            nuevoVector.add(nuevoNatural.getDireccion());
+            nuevoVector.add(nuevoNatural.getCuentaBancaria());
+            nuevoVector.add(nuevoNatural.getCorreo());
+
+            DefaultTableModel model = (DefaultTableModel) tbEmpresa.getModel();
+            model.addRow(nuevoVector);
+        }
+    }
+    
+    private void llenarRanking(EstadoPedido estado, String tipo) {
+        if (tipo.equals("Empresa")){
+            _llenarTablaEmpresa(estado);
+        } else {
+            _llenarTablaNatural(estado);
+        }
+    }
+    
+    private void agregarActionCambioComboBox(){
+        cbEstado.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event){
+                JComboBox combo = (JComboBox) event.getSource();
+                String seleccionado =  (String) combo.getSelectedItem();
+                int indexTabSeleccionado = tabPanel.getSelectedIndex();
+                if (indexTabSeleccionado == 0){
+                    DefaultTableModel model = (DefaultTableModel) tbNatural.getModel();
+                    model.setRowCount(0);
+                    llenarRanking(EstadoPedido.valueOf(seleccionado), "Natural");
+                
+                } else {
+                    DefaultTableModel model = (DefaultTableModel) tbEmpresa.getModel();
+                    model.setRowCount(0);
+                    llenarRanking(EstadoPedido.valueOf(seleccionado), "Empresa");
+                }
+                
+                
+            }
+        });
+    
+    }
+    
+    private void agregarActionCambioTab(){
+     ChangeListener changeListener = new ChangeListener() {
+                public void stateChanged(ChangeEvent changeEvent) {
+                  JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+                  int index = sourceTabbedPane.getSelectedIndex();
+                  String seleccionado =  (String) cbEstado.getSelectedItem();
+                  if (index == 0){
+                      DefaultTableModel model = (DefaultTableModel) tbNatural.getModel();
+                        model.setRowCount(0);
+                        llenarRanking(EstadoPedido.valueOf(seleccionado), "Natural");
+                  } else {
+                  DefaultTableModel model = (DefaultTableModel) tbEmpresa.getModel();
+                    model.setRowCount(0);
+                    llenarRanking(EstadoPedido.valueOf(seleccionado), "Empresa");
+                  }
+                  
+                }
+            };
+            tabPanel.addChangeListener(changeListener);
+    }
+    public jRankingPedidos() {
+        initComponents();
+        for (EstadoPedido objEstadoPedido : EstadoPedido.values()) {
+            cbEstado.addItem(objEstadoPedido.toString());
+        }
+        logicaClientesBL = new ClientesBL();
+        
+        llenarRanking(EstadoPedido.valueOf(cbEstado.getSelectedItem().toString()), "Natural");
+        
+        agregarActionCambioComboBox();
+        agregarActionCambioTab();
+           
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        tabPanel = new javax.swing.JTabbedPane();
+        panelNatural = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbNatural = new javax.swing.JTable();
+        panelEmpresa = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbEmpresa = new javax.swing.JTable();
+        lblEstado = new javax.swing.JLabel();
+        cbEstado = new javax.swing.JComboBox<>();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        tbNatural.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Cantidad", "DNI", "Nombre", "Apellido", "Telefono", "Direccion", "Cuenta Bancaria", "Correo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tbNatural);
+        if (tbNatural.getColumnModel().getColumnCount() > 0) {
+            tbNatural.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        javax.swing.GroupLayout panelNaturalLayout = new javax.swing.GroupLayout(panelNatural);
+        panelNatural.setLayout(panelNaturalLayout);
+        panelNaturalLayout.setHorizontalGroup(
+            panelNaturalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNaturalLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelNaturalLayout.setVerticalGroup(
+            panelNaturalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNaturalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabPanel.addTab("Natural", panelNatural);
+
+        tbEmpresa.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Cantidad", "RUC", "Razon Social", "Telefono", "Direccion", "Cuenta Bancaria", "Correo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tbEmpresa);
+
+        javax.swing.GroupLayout panelEmpresaLayout = new javax.swing.GroupLayout(panelEmpresa);
+        panelEmpresa.setLayout(panelEmpresaLayout);
+        panelEmpresaLayout.setHorizontalGroup(
+            panelEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEmpresaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE))
+        );
+        panelEmpresaLayout.setVerticalGroup(
+            panelEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEmpresaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabPanel.addTab("Empresa", panelEmpresa);
+
+        lblEstado.setText("Estado");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabPanel)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblEstado)
+                .addGap(32, 32, 32)
+                .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEstado)
+                    .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabPanel))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+  
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbEstado;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblEstado;
+    private javax.swing.JPanel panelEmpresa;
+    private javax.swing.JPanel panelNatural;
+    private javax.swing.JTabbedPane tabPanel;
+    private javax.swing.JTable tbEmpresa;
+    private javax.swing.JTable tbNatural;
+    // End of variables declaration//GEN-END:variables
+}
