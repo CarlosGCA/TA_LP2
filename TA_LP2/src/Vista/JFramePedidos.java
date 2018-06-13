@@ -977,9 +977,7 @@ public class JFramePedidos extends javax.swing.JDialog {
     }//GEN-LAST:event_txtRazonS1ActionPerformed
 
     private void btnGenerarDocumentoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarDocumentoPagoActionPerformed
-        try {
-
-            
+        try {       
 //            int idPedido = Integer.parseInt(strPedido);
             String tipoDoc = (Pedido.getcliente() instanceof Natural)?"Boleta":"Factura";
             String nombArchRep = tipoDoc + " pedido "+txtIDPedido.getText()+".pdf";
@@ -996,15 +994,12 @@ public class JFramePedidos extends javax.swing.JDialog {
             //documentoPagoBL.generarDocumentoPago(Pedido); //IMPLEMENTAR
             documentoPagoBL.exportarDocPagoPDF(Pedido, nombArchRep);
 
-
-
             int seleccion = JOptionPane.showConfirmDialog(null, "Documento generado exitosamente,\n¿desea abrirlo?",
                                           "Mensaje",JOptionPane.YES_NO_OPTION);
             if(seleccion == JOptionPane.YES_OPTION)
                 Desktop.getDesktop().open(archDocPago);
 
-
-
+            estadoCampos(3);
         } catch (Exception e){
             //System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
@@ -1135,6 +1130,7 @@ public class JFramePedidos extends javax.swing.JDialog {
         if(decision==JOptionPane.YES_OPTION){
             logicaNegocio.anularPedido(Pedido.getidPedido());
             jLEstado.setText(EstadoPedido.Cancelado.toString());
+            Pedido.setestadoPedo(EstadoPedido.Cancelado);
             estadoCampos(3);
             JOptionPane.showMessageDialog(null, "Pedido con id " + Pedido.getidPedido() +" anulado correctamente", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
