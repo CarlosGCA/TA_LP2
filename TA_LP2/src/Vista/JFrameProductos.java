@@ -13,6 +13,7 @@ import Modelo.Insumo;
 import Modelo.*;
 import javax.swing.table.DefaultTableModel;
 import Controlador.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,11 +28,15 @@ public class JFrameProductos extends javax.swing.JDialog{
     private DefaultTableModel aux;
     private Producto p = new Producto();
     private ProductoAdmiBL logicaNegocio = new ProductoAdmiBL();
+    public static JFModificarProducto objModificarProducto;
+    public static JFEliminarProducto objEliminarProducto;
+    int idMax;
     
     public JFrameProductos(Dialog f, Boolean b) {
         super(f,b);
         initComponents();
         textID.setText(String.valueOf(logicaNegocio.obtenerID()));
+        idMax=Integer.parseInt(textID.getText());
         aux= (DefaultTableModel) jTable1.getModel(); 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter(){
@@ -80,6 +85,9 @@ public class JFrameProductos extends javax.swing.JDialog{
         textCantidadInsumo = new javax.swing.JTextField();
         btnBuscarInsumo = new javax.swing.JButton();
         btnAgregarInsumo = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -238,6 +246,12 @@ public class JFrameProductos extends javax.swing.JDialog{
             }
         });
 
+        jLabel6.setText("Descripcion");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -251,6 +265,7 @@ public class JFrameProductos extends javax.swing.JDialog{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnEliminarInsumo)
                             .addComponent(btnAgregarInsumo)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1)
@@ -267,13 +282,16 @@ public class JFrameProductos extends javax.swing.JDialog{
                                     .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(textPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(44, 44, 44)
-                        .addComponent(btnRegistarProducto)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRegistarProducto)
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnModificarProducto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEliminarProducto))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(71, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnModificarProducto)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEliminarProducto))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,28 +302,34 @@ public class JFrameProductos extends javax.swing.JDialog{
                     .addComponent(btnRegistarProducto)
                     .addComponent(btnModificarProducto)
                     .addComponent(btnEliminarProducto))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelID)
-                    .addComponent(textID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelNombre))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelPrecio)
-                    .addComponent(textPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(labelID)
+                                    .addComponent(textID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelNombre))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelPrecio)
+                            .addComponent(textPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                        .addGap(28, 28, 28)
                         .addComponent(btnAgregarInsumo)
                         .addGap(18, 18, 18)
                         .addComponent(btnEliminarInsumo)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -319,10 +343,10 @@ public class JFrameProductos extends javax.swing.JDialog{
         bi.setVisible(true);        
         Object [] fila = new Object [4];
         unidadMed um;
-        if(!(bi.getInsumoElegido()==null)){
-            insumoElegido = bi.getInsumoElegido();
+        if(!(bi.getinsumoSeleccionado()==null)){
+            insumoElegido = bi.getinsumoSeleccionado();
             texIDInsumo.setText(Integer.toString(insumoElegido.getidInsumo()));
-            textNombreInsumo.setText(insumoElegido.getdescripcion());
+            textNombreInsumo.setText(insumoElegido.getNombre());
             String aux="";
             um = insumoElegido.getunidMed();
             if(um == unidadMed.kg)  aux= "KILOGRAMOS";
@@ -335,26 +359,50 @@ public class JFrameProductos extends javax.swing.JDialog{
 
     private void btnRegistarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistarProductoActionPerformed
         // TODO add your handling code here:
+        
         int idProducto = Integer.parseInt(textID.getText());
         String nombreProducto = textNombre.getText();
         float precioProducto = Float.parseFloat(textPrecio.getText());
-        logicaNegocio.registrarProducto(idProducto, nombreProducto, precioProducto);
-        for(int i=0;i<p.getReceta().size();i++){
-           int aux =logicaNegocio.registrarIngrediente(p.getReceta().get(i).getcantidad(), idProducto);
-           int aux1= logicaNegocio.registarIngredientexProducto(aux,idProducto);
+        String descripcion = jTextArea1.getText();
+        
+         if(idProducto<idMax){
+            
+            
         }
+        else{
+            int resul=logicaNegocio.registrarProducto(idProducto, nombreProducto, precioProducto,descripcion);
+            for(int i=0;i<p.getReceta().size();i++){
+               int aux =logicaNegocio.registrarIngrediente(p.getReceta().get(i).getcantidad(), p.getReceta().get(i).getinsumo().getidInsumo());
+               int aux1= logicaNegocio.registarIngredientexProducto(p.getReceta().get(i).getinsumo().getidInsumo(),idProducto);
+            }
+            if(resul>0) JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+         
+            
     }//GEN-LAST:event_btnRegistarProductoActionPerformed
 
     private void btnModificarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarProductoActionPerformed
         // TODO add your handling code here:
-        JFBuscarProductoAdmi bp = new JFBuscarProductoAdmi(this,true);
-        bp.setVisible(true);
+        objModificarProducto = new JFModificarProducto(this,true);
+        objModificarProducto.setVisible(true);
+        
+         if(objModificarProducto.getproductoSeleccionado()!= null){
+            Producto productoSeleccionado = objModificarProducto.getproductoSeleccionado();            
+            textID.setText(Integer.toString(productoSeleccionado.getidProducto()));
+            textNombre.setText(productoSeleccionado.getnombProducto());
+            textPrecio.setText(Float.toString(productoSeleccionado.getprecio()));
+            jTextArea1.setText(productoSeleccionado.getDescripcion());
+            
+         }
     }//GEN-LAST:event_btnModificarProductoActionPerformed
 
     private void btnEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProductoActionPerformed
         // TODO add your handling code here:
-        JFBuscarProductoAdmi bp = new JFBuscarProductoAdmi(this,true);
-        bp.setVisible(true);
+        objEliminarProducto = new JFEliminarProducto(this,true);
+        objEliminarProducto.setVisible(true);
+        if(objEliminarProducto.getResultado()>0) JOptionPane.showMessageDialog(null, "Se ha eliminado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+//        JFModificarProducto bp = new JFModificarProducto(this,true);
+//        bp.setVisible(true);
     }//GEN-LAST:event_btnEliminarProductoActionPerformed
 
     private void btnEliminarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarInsumoActionPerformed
@@ -366,7 +414,7 @@ public class JFrameProductos extends javax.swing.JDialog{
         unidadMed um;
         for(int j=0; j<p.getReceta().size(); j++){
             fila[0] = p.getReceta().get(j).getinsumo().getidInsumo();
-            fila[1] = p.getReceta().get(j).getinsumo().getdescripcion();
+            fila[1] = p.getReceta().get(j).getinsumo().getNombre();
             fila[2] = p.getReceta().get(j).getcantidad();
             um = insumoElegido.getunidMed();
             if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
@@ -391,23 +439,24 @@ public class JFrameProductos extends javax.swing.JDialog{
 
     private void btnAgregarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarInsumoActionPerformed
         // TODO add your handling code here:
-        int cantidad = Integer.parseInt(textCantidadInsumo.getText());
-        Ingrediente i = new Ingrediente(cantidad,insumoElegido);
-        p.agregarIngrediente(i);
-        Object[] fila = new Object[5];
-        aux.setRowCount(0);
-        unidadMed um;
-        for(int j=0; j<p.getReceta().size(); j++){
-            fila[0] = p.getReceta().get(j).getinsumo().getidInsumo();
-            fila[1] = p.getReceta().get(j).getinsumo().getdescripcion();
-            fila[2] = p.getReceta().get(j).getcantidad();
-            um = insumoElegido.getunidMed();
-            if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
-            else if(um == unidadMed.cajas) fila[3] = "CAJAS";
-            else if(um == unidadMed.lt) fila[3] = "LITROS";
-            else if(um == unidadMed.unid) fila[3] = "UNIDADES";   
-            aux.addRow(fila);
-        }
+        
+            int cantidad = Integer.parseInt(textCantidadInsumo.getText());
+            Ingrediente i = new Ingrediente(cantidad,insumoElegido);
+            p.agregarIngrediente(i);
+            Object[] fila = new Object[5];
+            aux.setRowCount(0);
+            unidadMed um;
+            for(int j=0; j<p.getReceta().size(); j++){
+                fila[0] = p.getReceta().get(j).getinsumo().getidInsumo();
+                fila[1] = p.getReceta().get(j).getinsumo().getNombre();
+                fila[2] = p.getReceta().get(j).getcantidad();
+                um = insumoElegido.getunidMed();
+                if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
+                else if(um == unidadMed.cajas) fila[3] = "CAJAS";
+                else if(um == unidadMed.lt) fila[3] = "LITROS";
+                else if(um == unidadMed.unid) fila[3] = "UNIDADES";   
+                aux.addRow(fila);
+            }
     }//GEN-LAST:event_btnAgregarInsumoActionPerformed
 
     /**
@@ -457,9 +506,12 @@ public class JFrameProductos extends javax.swing.JDialog{
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel labelID;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JLabel labelPrecio;

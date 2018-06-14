@@ -27,8 +27,8 @@ public class ProductoAdmiBL {
         return accesoDatos.listarProductos();
     }
     
-    public int registrarProducto(int id,String nombre,float precio){
-        return accesoDatos.registarProducto(id, nombre, precio);
+    public int registrarProducto(int id,String nombre,float precio,String descripcion){
+        return accesoDatos.registarProducto(id, nombre, precio, descripcion);
     }
     
     public int registrarIngrediente(int cantidad,int idInsumo){
@@ -37,5 +37,9 @@ public class ProductoAdmiBL {
     
     public int registarIngredientexProducto(int a,int b){
         return accesoDatos.registrarIngredientesxProducto(a, b);
+    }
+    
+    public int eliminarProducto(int id){
+        return accesoDatos.eliminarProducto(id);
     }
 }
