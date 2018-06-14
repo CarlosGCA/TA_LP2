@@ -117,8 +117,15 @@ public class JFBuscarDocumentosPago extends javax.swing.JDialog {
             new String [] {
                 "Num. Doc. Pago", "Tipo Doc. Pago", "ID Pedido", "Fecha Registro", "Fecha Entrega", "Cliente", "Tipo Cliente", "Total"
             }
-        ));
-        tablaDocsPago.setRowSorter(null);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tablaDocsPago);
 
         btnSeleccionar.setText("Seleccionar");
