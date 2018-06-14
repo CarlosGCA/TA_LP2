@@ -36,6 +36,7 @@ public class JFrameCliente extends javax.swing.JDialog {
         this.setBounds(30, 30, 1050, 690);
         //lblNombre2.setVisible(false);
         //txtNombre2.setVisible(false);
+        btnModificar.setEnabled(false);
         lblImagEmpresa.setSize(200, 300);
         lblImagPersona.setSize(200, 300);
         lblImagPersona.setVisible(false);
@@ -199,7 +200,7 @@ public class JFrameCliente extends javax.swing.JDialog {
             }
         });
 
-        btnBuscarCliente.setText("...");
+        btnBuscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/Lupa1.png"))); // NOI18N
         btnBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarClienteActionPerformed(evt);
@@ -236,7 +237,7 @@ public class JFrameCliente extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnBuscarCliente)))
+                                .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(61, 61, 61))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAgregarCliente)
@@ -247,12 +248,11 @@ public class JFrameCliente extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBuscarCliente)))
+                    .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRUC)
@@ -577,6 +577,7 @@ public class JFrameCliente extends javax.swing.JDialog {
                 txtEmail.setText(naturalSeleccionado.getCorreo()); 
             }
         }
+        btnModificar.setEnabled(true);
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     /**
