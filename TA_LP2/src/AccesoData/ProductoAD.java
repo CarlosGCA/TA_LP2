@@ -32,6 +32,7 @@ public class ProductoAD {
                 p.setidProducto(rs.getInt("idProducto"));
                 p.setnombProducto(rs.getString("NombreProducto"));
                 p.setprecio(rs.getFloat("Precio"));
+                p.setDescripcion(rs.getString("Descripcion"));
                 lista.add(p);
             }
             con.close();
