@@ -8,7 +8,9 @@ package Vista;
 import AccesoData.DocumentoPagoAD;
 import Modelo.Boleta;
 import Modelo.DocumentoPago;
+import java.awt.BorderLayout;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JRViewer;
@@ -40,7 +42,7 @@ public class JFrameDocumentosPago extends javax.swing.JDialog {
     private void initComponents() {
 
         btnBuscar = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        panelDocumento = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -51,17 +53,18 @@ public class JFrameDocumentosPago extends javax.swing.JDialog {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelDocumento.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelDocumento.setMinimumSize(new java.awt.Dimension(625, 522));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 543, Short.MAX_VALUE)
+        javax.swing.GroupLayout panelDocumentoLayout = new javax.swing.GroupLayout(panelDocumento);
+        panelDocumento.setLayout(panelDocumentoLayout);
+        panelDocumentoLayout.setHorizontalGroup(
+            panelDocumentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 730, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 334, Short.MAX_VALUE)
+        panelDocumentoLayout.setVerticalGroup(
+            panelDocumentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 645, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -71,9 +74,9 @@ public class JFrameDocumentosPago extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBuscar)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addComponent(panelDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,8 +84,8 @@ public class JFrameDocumentosPago extends javax.swing.JDialog {
                 .addGap(23, 23, 23)
                 .addComponent(btnBuscar)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addComponent(panelDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
@@ -97,10 +100,26 @@ public class JFrameDocumentosPago extends javax.swing.JDialog {
         if( documentoSeleccionado!= null){
             if(documentoSeleccionado instanceof Boleta){
                 JasperPrint jasperprint = documentoPagoAD.exportBoleta(ventanaBuscarDocumentos.getIdPedidoSeleccionado(), "");
-                this.getContentPane().add(new JRViewer(jasperprint));
+
+                JRViewer viewer = new JRViewer(jasperprint);
+                viewer.setPreferredSize(panelDocumento.getPreferredSize());
+                panelDocumento.setLayout(new BorderLayout());
+                panelDocumento.repaint();
+                panelDocumento.add(viewer);
+                panelDocumento.revalidate();
+                
             }else{
                 JasperPrint jasperprint = documentoPagoAD.exportFactura(ventanaBuscarDocumentos.getIdPedidoSeleccionado(), "");
-                this.getContentPane().add(new JRViewer(jasperprint));
+//                this.getContentPane().add(new JRViewer(jasperprint));
+                JRViewer viewer = new JRViewer(jasperprint);
+                viewer.setPreferredSize(panelDocumento.getPreferredSize());
+                panelDocumento.setLayout(new BorderLayout());
+                panelDocumento.repaint();
+                panelDocumento.add(viewer);
+                panelDocumento.revalidate();
+                
+                
+                
             }
         }
         }catch (Exception e){
@@ -157,6 +176,6 @@ public class JFrameDocumentosPago extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel panelDocumento;
     // End of variables declaration//GEN-END:variables
 }
