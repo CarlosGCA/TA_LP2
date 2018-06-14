@@ -5,19 +5,95 @@
  */
 package Vista;
 
+import Controlador.DocumentoPagoBL;
+import Modelo.Boleta;
+import Modelo.Cliente;
+import Modelo.DocumentoPago;
+import Modelo.Factura;
+import Modelo.Natural;
+import java.awt.Dialog;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Victor
  */
 public class JFBuscarDocumentosPago extends javax.swing.JDialog {
 
+    private DocumentoPagoBL documentoPagoBL;
+    private DocumentoPago documentoSeleccionado;
+    private int idPedidoSeleccionado;
+    ArrayList<Object> documentosConExtra;
     /**
      * Creates new form JFBuscarDocumentosPago
      */
-    public JFBuscarDocumentosPago(java.awt.Frame parent, boolean modal) {
+    public JFBuscarDocumentosPago(Dialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        initMyComponents();
     }
+    
+    public void initMyComponents(){
+        documentoPagoBL = new DocumentoPagoBL();
+        cargarTabla();
+    }
+    
+    public void cargarTabla(){
+        try{
+            documentosConExtra = documentoPagoBL.listarDocumentosPagoYExtra();
+            DefaultTableModel modelo = (DefaultTableModel)tablaDocsPago.getModel();
+            Object[] fila = new Object[8]; //columnas: [0]NumDoc [1]TipoDoc [2]ID Pedido [3]FechaR [4]FechaE [5]Cli [6]tipoCli [7]Tot
+            for(Object objTupla : documentosConExtra){
+                //tupla: [0]=DocPago [1]=FechaRegistro [2]=FechaEntrega [3]=EstadoPedido
+                Object[] tupla = (Object[]) objTupla;
+                
+                
+                DocumentoPago documentoPago = (DocumentoPago)tupla[0];
+                Cliente cliente = documentoPago.getcliente();
+                String tipoDocPago;
+                String tipoCliente;
+                String nombreCliente;
+//                int idDocCliente;
+                
+                if(cliente instanceof Natural){
+                    tipoDocPago = "Boleta";
+                    tipoCliente = "Natural";
+                    nombreCliente = ((Boleta)documentoPago).getNombre();
+//                    idDocCliente = ((Boleta)documentoPago).getDni();
+                }else{
+                    tipoDocPago = "Factura";
+                    tipoCliente = "Empresa";
+                    nombreCliente = ((Factura) documentoPago).getRazonSocial();
+//                    idDocCliente = ((Factura) documentoPago).getRuc();
+                    
+                }
+                
+                Date fechaRegistro = (Date)tupla[1];
+                Date fechaEntrega = (Date)tupla[2];
+                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+                
+                fila[0] = documentoPago.getidDoc();
+                fila[1] = tipoDocPago;
+                fila[2] = documentoPago.getidPedido();
+                fila[3] = formatoFecha.format(fechaRegistro);
+                fila[4] = formatoFecha.format(fechaEntrega);
+                fila[5] = nombreCliente;
+                fila[6] = tipoCliente;
+                fila[7] = documentoPago.gettotal();
+                
+                modelo.addRow(fila);
+
+            }
+        }catch (Exception e){
+            //System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,41 +104,21 @@ public class JFBuscarDocumentosPago extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        txtNombreCliente = new javax.swing.JTextField();
-        txtIDPEdido = new javax.swing.JTextField();
-        txtINumDocPago = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaDocsPago = new javax.swing.JTable();
         btnSeleccionar = new javax.swing.JButton();
-        btnFiltrar = new javax.swing.JButton();
-        txtRefrescar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Cliente:");
-
-        jLabel2.setText("ID Pedido:");
-
-        jLabel3.setText("Num. Doc. Pago:");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("Filtros:");
-
         tablaDocsPago.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Num. Doc. Pago", "Tipo Doc. Pago", "ID Pedido", "Fecha Registro", "Fecha Entrega", "Cliente", "Tipo Cliente", "Total"
             }
         ));
+        tablaDocsPago.setRowSorter(null);
         jScrollPane1.setViewportView(tablaDocsPago);
 
         btnSeleccionar.setText("Seleccionar");
@@ -72,71 +128,25 @@ public class JFBuscarDocumentosPago extends javax.swing.JDialog {
             }
         });
 
-        btnFiltrar.setText("Filtrar");
-
-        txtRefrescar.setText("Refrescar");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(217, 217, 217)
-                        .addComponent(btnFiltrar)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtRefrescar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 667, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(41, 41, 41)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtINumDocPago, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtIDPEdido, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(129, 129, 129)
-                                .addComponent(btnSeleccionar)))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnSeleccionar)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 667, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtIDPEdido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(btnSeleccionar)))
+                .addGap(35, 35, 35)
+                .addComponent(btnSeleccionar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtINumDocPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFiltrar)
-                    .addComponent(txtRefrescar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();
@@ -144,6 +154,17 @@ public class JFBuscarDocumentosPago extends javax.swing.JDialog {
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
         // TODO add your handling code here:
+        try{
+            
+            Object[] tupla = (Object[])documentosConExtra.get(tablaDocsPago.getSelectedRow());
+            documentoSeleccionado =  (DocumentoPago)tupla[0];
+            idPedidoSeleccionado = documentoSeleccionado.getidPedido();
+            super.dispose();
+            
+        }catch (Exception e){
+            //System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     /**
@@ -174,32 +195,56 @@ public class JFBuscarDocumentosPago extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JFBuscarDocumentosPago dialog = new JFBuscarDocumentosPago(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
+                try{
+                JFBuscarDocumentosPago dialog = new JFBuscarDocumentosPago(null, true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
                 dialog.setVisible(true);
+                }catch(Exception ex){
+                    System.out.println(ex.getMessage());
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnSeleccionar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaDocsPago;
-    private javax.swing.JTextField txtIDPEdido;
-    private javax.swing.JTextField txtINumDocPago;
-    private javax.swing.JTextField txtNombreCliente;
-    private javax.swing.JButton txtRefrescar;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the documentoSeleccionado
+     */
+    public DocumentoPago getDocumentoSeleccionado() {
+        return documentoSeleccionado;
+    }
+
+    /**
+     * @param documentoSeleccionado the documentoSeleccionado to set
+     */
+    public void setDocumentoSeleccionado(DocumentoPago documentoSeleccionado) {
+        this.documentoSeleccionado = documentoSeleccionado;
+    }
+
+    /**
+     * @return the idPedidoSeleccionado
+     */
+    public int getIdPedidoSeleccionado() {
+        return idPedidoSeleccionado;
+    }
+
+    /**
+     * @param idPedidoSeleccionado the idPedidoSeleccionado to set
+     */
+    public void setIdPedidoSeleccionado(int idPedidoSeleccionado) {
+        this.idPedidoSeleccionado = idPedidoSeleccionado;
+    }
 }
