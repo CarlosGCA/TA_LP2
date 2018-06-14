@@ -4,4 +4,5 @@
  * and open the template in the editor.
  */
 package Modelo;
-public enum EstadoPedido {Aprobado,Pendiente,Listo,Cancelado,EnProceso}
+//El estadonulo es solo para que los indices del enum coincidan exacatamente con los ids de estadosPedido en la Base de datos
+public enum EstadoPedido {estadonulo,Aprobado,Pendiente,Listo,Cancelado,EnProceso,Finalizado}

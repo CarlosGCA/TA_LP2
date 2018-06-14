@@ -19,9 +19,12 @@ import javax.swing.table.DefaultTableModel;
  * @author LENOVO
  */
 public class JBuscarProducto extends javax.swing.JDialog {
+
     private ProductoBL logicaNegocio;
     private ArrayList<Producto> listaProductos;
     private Producto productoElegido;
+    private ArrayList<Producto> listaFiltro;
+
     /**
      * @return the productoElegido
      */
@@ -35,16 +38,16 @@ public class JBuscarProducto extends javax.swing.JDialog {
     public void setProductoElegido(Producto productoElegido) {
         this.productoElegido = productoElegido;
     }
-    
+
     /**
      * Creates new form JBuscarProducto
      */
     public JBuscarProducto(Dialog f, boolean b) {
         super(f, b);
-        
-        initComponents();  
+
+        initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        addWindowListener(new WindowAdapter(){
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 //JFramePedidos.value=0;
@@ -54,7 +57,7 @@ public class JBuscarProducto extends javax.swing.JDialog {
         listaProductos = new ArrayList<Producto>(logicaNegocio.listarProducto());
         DefaultTableModel modelo = (DefaultTableModel) tableProducto.getModel();
         Object[] fila = new Object[3];
-        for(int i=0; i<listaProductos.size(); i++){
+        for (int i = 0; i < listaProductos.size(); i++) {
             fila[0] = listaProductos.get(i).getidProducto();
             fila[1] = listaProductos.get(i).getnombProducto();
             fila[2] = listaProductos.get(i).getprecio();
@@ -76,6 +79,9 @@ public class JBuscarProducto extends javax.swing.JDialog {
         tableProducto = new javax.swing.JTable();
         btnSalir = new javax.swing.JButton();
         btnSeleccionar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtFiltro = new javax.swing.JTextField();
+        btnFiltrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -114,21 +120,37 @@ public class JBuscarProducto extends javax.swing.JDialog {
             }
         });
 
+        jLabel2.setText("Nombre:");
+
+        btnFiltrar.setText("Filtrar");
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSeleccionar)
+                        .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(btnSalir)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                        .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(btnFiltrar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSeleccionar)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnSalir))))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,9 +160,14 @@ public class JBuscarProducto extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(btnSalir)
                     .addComponent(btnSeleccionar))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFiltrar))
+                .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -155,15 +182,43 @@ public class JBuscarProducto extends javax.swing.JDialog {
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
         // TODO add your handling code here:
-        try{
-            setProductoElegido(new Producto());
-            setProductoElegido(listaProductos.get(tableProducto.getSelectedRow()));
-            //JFramePedidos.value=2;
-            super.dispose();
-        }catch(Exception e){
+        try {
+            if (txtFiltro.getText().isEmpty()) {
+                setProductoElegido(new Producto());
+                setProductoElegido(listaProductos.get(tableProducto.getSelectedRow()));
+                //JFramePedidos.value=2;
+                super.dispose();
+            } else {
+                setProductoElegido(new Producto());
+                setProductoElegido(listaFiltro.get(tableProducto.getSelectedRow()));
+                super.dispose();
+            }
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
     }//GEN-LAST:event_btnSeleccionarActionPerformed
+
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        // TODO add your handling code here:
+        String filtro = txtFiltro.getText().toLowerCase();
+        listaFiltro = new ArrayList<Producto>();
+        for (int i = 0; i < listaProductos.size(); i++) {
+            if (listaProductos.get(i).getnombProducto().toLowerCase().contains(filtro)) {
+                listaFiltro.add(listaProductos.get(i));
+            }
+        }
+        DefaultTableModel modelo = (DefaultTableModel) tableProducto.getModel();
+        modelo.setRowCount(0);
+        Object[] fila = new Object[3];
+        for (int i = 0; i < listaFiltro.size(); i++) {
+            //fila[0] = listaEmpleados.get(i).getID();
+            fila[0] = listaFiltro.get(i).getidProducto();
+            fila[1] = listaFiltro.get(i).getnombProducto();
+            fila[2] = listaFiltro.get(i).getprecio();
+            modelo.addRow(fila);
+        }
+
+    }//GEN-LAST:event_btnFiltrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,16 +250,19 @@ public class JBuscarProducto extends javax.swing.JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JBuscarProducto(null,false).setVisible(true);
+                new JBuscarProducto(null, false).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSeleccionar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableProducto;
+    private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 }
