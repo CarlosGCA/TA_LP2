@@ -5,12 +5,15 @@
  */
 package AccesoData;
 
+import Modelo.Boleta;
 import Modelo.Cliente;
+import Modelo.DocumentoPago;
 import Modelo.Empresa;
 import java.util.ArrayList;
 import Modelo.PedidoProducto;
 import Modelo.LineaPedidoProducto;
 import Modelo.EstadoPedido;
+import Modelo.Factura;
 import Modelo.Natural;
 import Modelo.Producto;
 import java.sql.CallableStatement;
@@ -112,6 +115,8 @@ public class PedidoAD {
                 EstadoPedido estPed = EstadoPedido.values()[(rs.getInt(4))];
                 pp.setestadoPedo(estPed);
                 
+                
+                
                 if(TipoCli.equals("Natural")){
                     Natural n = new Natural();
                     n.setId_cliente(rs.getInt(5));
@@ -121,12 +126,22 @@ public class PedidoAD {
                     n.setApellidos(nombreApellido[1]);
                     n.setDNI(rs.getString(8));
                     pp.setcliente(n);
+                    if(pp.getestadoPed()==EstadoPedido.Finalizado){
+                        Boleta bol = new Boleta();
+                        bol.setidDoc(rs.getString(9));
+                        pp.setdocumPago(bol);
+                    }
                 }else{
                     Empresa e = new Empresa();
                     e.setId_cliente(rs.getInt(5));
                     e.setRazonSocial(rs.getString(7));
                     e.setRuc(rs.getString(8));
                     pp.setcliente(e);
+                    if(pp.getestadoPed()==EstadoPedido.Finalizado){
+                        Factura fac = new Factura();
+                        fac.setidDoc(rs.getString(9));
+                        pp.setdocumPago(fac);
+                    }
                 } 
                 lista.add(pp);
             }

@@ -54,5 +54,7 @@ public class DocumentoPagoBL {
         }
     }
     
-    
+    public void exportarOrdenPedidoPDF (int idPedido, String nombArch)throws Exception{
+        documentoPagoAD.exportOrdenPedidoPDF(idPedido, nombArch);
+    }
 }

@@ -80,4 +80,13 @@ public class DocumentoPagoAD {
         closeCon();
     }
     
+    public void exportOrdenPedidoPDF(int idPedido, String nombArch) throws Exception{
+        openCon();
+        JasperReport reporte =  (JasperReport) JRLoader.loadObjectFromFile("src/Reportes/OrdenPedido.jasper");
+        HashMap parametros = new HashMap();
+        parametros.put("_idPedidoProductos",idPedido);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,parametros,connection);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, nombArch);
+        closeCon();
+    }
 }

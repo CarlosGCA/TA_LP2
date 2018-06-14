@@ -20,13 +20,14 @@ public class PedidoProducto{
 		this.documPago=documPago;
 		listaLineasPedido= new ArrayList<LineaPedidoProducto>();
                 this.fechaEntrPed = new Date();	
+                this.TotalPagar = 0;
 	}
         
         public PedidoProducto(){
             this.listaLineasPedido=new ArrayList<LineaPedidoProducto>();
             this.fechaEntrPed = new Date();
-            this.fechaRegPed = new Date();
-            
+            this.fechaRegPed = new Date();  
+            this.TotalPagar = 0;
         }
 	
 	public void setidPedido(int idPedido){
@@ -91,8 +92,7 @@ public class PedidoProducto{
 	}
 	public DocumentoPago getdocumPago(){
 		return this.documPago;		
-	}
-	  
+	}  
 	
 	public void registrarDocPago(){
 	}
