@@ -14,6 +14,7 @@ import Modelo.*;
 import javax.swing.table.DefaultTableModel;
 import Controlador.*;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 /**
  *
@@ -370,12 +371,14 @@ public class JFrameProductos extends javax.swing.JDialog{
             
         }
         else{
-            int resul=logicaNegocio.registrarProducto(idProducto, nombreProducto, precioProducto,descripcion);
+            int resul=logicaNegocio.registrarProducto(idProducto, nombreProducto, precioProducto,descripcion);  
+            int aux=0,aux1=0;
             for(int i=0;i<p.getReceta().size();i++){
-               int aux =logicaNegocio.registrarIngrediente(p.getReceta().get(i).getcantidad(), p.getReceta().get(i).getinsumo().getidInsumo());
-               int aux1= logicaNegocio.registarIngredientexProducto(p.getReceta().get(i).getinsumo().getidInsumo(),idProducto);
+               aux =logicaNegocio.registrarIngrediente(p.getReceta().get(i).getcantidad(), p.getReceta().get(i).getinsumo().getidInsumo());
+               aux1= logicaNegocio.registarIngredientexProducto(aux,idProducto);
             }
-            if(resul>0) JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+          
+            if((resul>0)&&(aux>0)&&(aux1>0)) JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
          
             
@@ -387,11 +390,13 @@ public class JFrameProductos extends javax.swing.JDialog{
         objModificarProducto.setVisible(true);
         
          if(objModificarProducto.getproductoSeleccionado()!= null){
-            Producto productoSeleccionado = objModificarProducto.getproductoSeleccionado();            
+            Producto productoSeleccionado = objModificarProducto.getproductoSeleccionado(); 
+            ArrayList<Ingrediente> ingredientes = objModificarProducto.getIngredientes();
             textID.setText(Integer.toString(productoSeleccionado.getidProducto()));
             textNombre.setText(productoSeleccionado.getnombProducto());
             textPrecio.setText(Float.toString(productoSeleccionado.getprecio()));
             jTextArea1.setText(productoSeleccionado.getDescripcion());
+            
             
          }
     }//GEN-LAST:event_btnModificarProductoActionPerformed

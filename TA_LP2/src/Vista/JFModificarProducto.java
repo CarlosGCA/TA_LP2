@@ -3,7 +3,7 @@ package Vista;
 import javax.swing.JDialog;
 
 import Controlador.ProductoAdmiBL;
-import Modelo.Producto;
+import Modelo.*;
 import java.awt.Dialog;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -15,6 +15,7 @@ public class JFModificarProducto extends javax.swing.JDialog{
     private ArrayList<Producto> listaFiltrada;
     private ProductoAdmiBL logicaNegocio;
     private Producto productoSeleccionado;
+    private ArrayList<Ingrediente> ingredientesSeleccionados;
 
     /**
      * Creates new form NewJFrame
@@ -137,9 +138,11 @@ public class JFModificarProducto extends javax.swing.JDialog{
             productoSeleccionado= new Producto();
             if(textNombre.getText().isEmpty()){
                 productoSeleccionado=listaProducto.get(jTable1.getSelectedRow());
+                ingredientesSeleccionados=logicaNegocio.listarIngredientesxProduct(productoSeleccionado.getidProducto());
             }
             else{
                 productoSeleccionado=listaFiltrada.get(jTable1.getSelectedRow());
+                ingredientesSeleccionados=logicaNegocio.listarIngredientesxProduct(productoSeleccionado.getidProducto());
             }            
             super.dispose();
         }catch(Exception e){
@@ -169,6 +172,10 @@ public class JFModificarProducto extends javax.swing.JDialog{
 
     public Producto getproductoSeleccionado(){
         return productoSeleccionado;
+    }
+    
+    public ArrayList<Ingrediente> getIngredientes(){
+        return ingredientesSeleccionados;
     }
     /**
      * @param args the command line arguments
