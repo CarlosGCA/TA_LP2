@@ -1086,6 +1086,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                     controllerEmail.sendEmail("Nuevo pedido registrado", "Se ha registrado el pedido " + txtIDPedido.getText() + "\n\n\t Para el cliente "+ this.txtRazonS1.getText()  , correoAdmin);
                 } catch(Exception ex){}
                 txtIDPedido.setText(Integer.toString(idped));
+                Pedido.setidPedido(idped);
                 jLEstado.setText(estPed.toString());
                 estadoCampos(3);
                 JOptionPane.showMessageDialog(null, "Pedido registrado correctamente con id " + idped, "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
