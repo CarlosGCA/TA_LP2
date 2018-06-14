@@ -31,6 +31,7 @@ public class JFrameProductos extends javax.swing.JDialog{
     private ProductoAdmiBL logicaNegocio = new ProductoAdmiBL();
     public static JFModificarProducto objModificarProducto;
     public static JFEliminarProducto objEliminarProducto;
+    private ArrayList<Ingrediente> ingredientes; 
     int idMax;
     
     public JFrameProductos(Dialog f, Boolean b) {
@@ -391,7 +392,7 @@ public class JFrameProductos extends javax.swing.JDialog{
         
          if(objModificarProducto.getproductoSeleccionado()!= null){
             Producto productoSeleccionado = objModificarProducto.getproductoSeleccionado(); 
-            ArrayList<Ingrediente> ingredientes = objModificarProducto.getIngredientes();
+            ingredientes = objModificarProducto.getIngredientes();
             textID.setText(Integer.toString(productoSeleccionado.getidProducto()));
             textNombre.setText(productoSeleccionado.getnombProducto());
             textPrecio.setText(Float.toString(productoSeleccionado.getprecio()));
@@ -429,21 +430,41 @@ public class JFrameProductos extends javax.swing.JDialog{
     private void btnEliminarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarInsumoActionPerformed
         // TODO add your handling code here:
         int indx = jTable1.getSelectedRow();
-        p.getReceta().remove(indx);
-        aux.setRowCount(0);
-        Object[] fila = new Object[5];
-        unidadMed um;
-        for(int j=0; j<p.getReceta().size(); j++){
-            fila[0] = p.getReceta().get(j).getinsumo().getidInsumo();
-            fila[1] = p.getReceta().get(j).getinsumo().getNombre();
-            fila[2] = p.getReceta().get(j).getcantidad();
-            um = insumoElegido.getunidMed();
-            if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
-            else if(um == unidadMed.cajas) fila[3] = "CAJAS";
-            else if(um == unidadMed.lt) fila[3] = "LITROS";
-            else if(um == unidadMed.unid) fila[3] = "UNIDADES";   
-            aux.addRow(fila);
+        if(ingredientes!=null){
+            ingredientes.remove(indx);
+            aux.setRowCount(0);
+            Object[] fila = new Object[4];
+            unidadMed um;
+            for(int j=0; j<ingredientes.size(); j++){
+                fila[0] = ingredientes.get(j).getinsumo().getidInsumo();
+                fila[1] = ingredientes.get(j).getinsumo().getNombre();
+                fila[2] = ingredientes.get(j).getcantidad();
+                um = ingredientes.get(j).getinsumo().getunidMed();
+                if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
+                else if(um == unidadMed.cajas) fila[3] = "CAJAS";
+                else if(um == unidadMed.lt) fila[3] = "LITROS";
+                else if(um == unidadMed.unid) fila[3] = "UNIDADES";   
+                aux.addRow(fila);
+            }   
+        }else{           
+            p.getReceta().remove(indx);
+            aux.setRowCount(0);
+            Object[] fila = new Object[5];
+            unidadMed um;
+            for(int j=0; j<p.getReceta().size(); j++){
+                fila[0] = p.getReceta().get(j).getinsumo().getidInsumo();
+                fila[1] = p.getReceta().get(j).getinsumo().getNombre();
+                fila[2] = p.getReceta().get(j).getcantidad();
+                um = insumoElegido.getunidMed();
+                if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
+                else if(um == unidadMed.cajas) fila[3] = "CAJAS";
+                else if(um == unidadMed.lt) fila[3] = "LITROS";
+                else if(um == unidadMed.unid) fila[3] = "UNIDADES";   
+                aux.addRow(fila);
         }
+           
+       }
+        
     }//GEN-LAST:event_btnEliminarInsumoActionPerformed
 
     private void textCantidadInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCantidadInsumoActionPerformed
@@ -465,7 +486,7 @@ public class JFrameProductos extends javax.swing.JDialog{
             Ingrediente i = new Ingrediente(cantidad,insumoElegido);
             p.agregarIngrediente(i);
             Object[] fila = new Object[5];
-            aux.setRowCount(0);
+            //aux.setRowCount(0);
             unidadMed um;
             for(int j=0; j<p.getReceta().size(); j++){
                 fila[0] = p.getReceta().get(j).getinsumo().getidInsumo();
