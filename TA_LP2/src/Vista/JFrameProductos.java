@@ -14,6 +14,7 @@ import Modelo.*;
 import javax.swing.table.DefaultTableModel;
 import Controlador.*;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 /**
  *
@@ -370,12 +371,14 @@ public class JFrameProductos extends javax.swing.JDialog{
             
         }
         else{
-            int resul=logicaNegocio.registrarProducto(idProducto, nombreProducto, precioProducto,descripcion);
+            int resul=logicaNegocio.registrarProducto(idProducto, nombreProducto, precioProducto,descripcion);  
+            int aux=0,aux1=0;
             for(int i=0;i<p.getReceta().size();i++){
-               int aux =logicaNegocio.registrarIngrediente(p.getReceta().get(i).getcantidad(), p.getReceta().get(i).getinsumo().getidInsumo());
-               int aux1= logicaNegocio.registarIngredientexProducto(p.getReceta().get(i).getinsumo().getidInsumo(),idProducto);
+               aux =logicaNegocio.registrarIngrediente(p.getReceta().get(i).getcantidad(), p.getReceta().get(i).getinsumo().getidInsumo());
+               aux1= logicaNegocio.registarIngredientexProducto(aux,idProducto);
             }
-            if(resul>0) JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+          
+            if((resul>0)&&(aux>0)&&(aux1>0)) JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
          
             
@@ -387,11 +390,29 @@ public class JFrameProductos extends javax.swing.JDialog{
         objModificarProducto.setVisible(true);
         
          if(objModificarProducto.getproductoSeleccionado()!= null){
-            Producto productoSeleccionado = objModificarProducto.getproductoSeleccionado();            
+            Producto productoSeleccionado = objModificarProducto.getproductoSeleccionado(); 
+            ArrayList<Ingrediente> ingredientes = objModificarProducto.getIngredientes();
             textID.setText(Integer.toString(productoSeleccionado.getidProducto()));
             textNombre.setText(productoSeleccionado.getnombProducto());
             textPrecio.setText(Float.toString(productoSeleccionado.getprecio()));
             jTextArea1.setText(productoSeleccionado.getDescripcion());
+            
+            DefaultTableModel aux= (DefaultTableModel) jTable1.getModel();
+            aux.setRowCount(0);
+            Object [] fila = new Object [4];
+            unidadMed um;
+            for(int i=0;i<ingredientes.size();i++){
+                fila[0] = ingredientes.get(i).getidIngrediente();
+                fila[1] = ingredientes.get(i).getinsumo().getNombre();
+                fila[2] = ingredientes.get(i).getcantidad();
+                um = ingredientes.get(i).getinsumo().getunidMed();
+                if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
+                else if(um == unidadMed.cajas) fila[3] = "CAJAS";
+                else if(um == unidadMed.lt) fila[3] = "LITROS";
+                else if(um == unidadMed.unid) fila[3] = "UNIDADES";
+                aux.addRow(fila);
+            }
+            
             
          }
     }//GEN-LAST:event_btnModificarProductoActionPerformed

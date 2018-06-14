@@ -42,4 +42,8 @@ public class ProductoAdmiBL {
     public int eliminarProducto(int id){
         return accesoDatos.eliminarProducto(id);
     }
+    
+    public ArrayList<Ingrediente> listarIngredientesxProduct(int id){
+        return accesoDatos.listarIngredientesxProducto(id);
+    }
 }
