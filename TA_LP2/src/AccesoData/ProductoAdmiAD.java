@@ -36,35 +36,37 @@ public class ProductoAdmiAD {
         ArrayList<Producto> lista = new ArrayList<Producto>();
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7","inf282g7","0mvK88");
-        
-            Statement sentencia = con.createStatement();
-            String sql ="Select * from inf282g7.Producto;";
-            ResultSet rs = sentencia.executeQuery(sql);
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+            CallableStatement sentencia = con.prepareCall("{call LISTAR_PRODUCTOS()}");            
+            ResultSet rs = sentencia.executeQuery();           
             while(rs.next()){
-                Producto p = new Producto();
-                p.setidProducto(rs.getInt("idProducto"));
-                p.setnombProducto(rs.getString("NombreProducto"));
-                p.setprecio(rs.getFloat("Precio"));
-                lista.add(p);
+                Producto in;
+                in= new Producto();
+                in.setidProducto(Integer.parseInt(rs.getString("idProducto")));
+                in.setnombProducto(rs.getString("NombreProducto"));
+                in.setprecio(Float.parseFloat(rs.getString("precio")));
+                in.setDescripcion(rs.getString("Descripcion"));
+                
+                lista.add(in);                                
             }
             con.close();
         }catch(Exception e){
-            System.out.println(e.toString());
-        }
+            System.out.println(e.getMessage());
+        }        
         return lista;
     }
     
-    public int registarProducto(int id,String nombre,float precio){
+    public int registarProducto(int id,String nombre,float precio,String descripcion){
         int aux=0;
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
-            CallableStatement sentencia = con.prepareCall("{call REGISTRAR_PRODUCTO(?,?,?,?)}");
+            CallableStatement sentencia = con.prepareCall("{call REGISTRAR_PRODUCTO(?,?,?,?,?)}");
             sentencia.registerOutParameter("idregistrado", java.sql.Types.INTEGER);
             sentencia.setInt("id", id);
             sentencia.setString("nombre", nombre);
             sentencia.setFloat("precio", precio);
+            sentencia.setString("descripcion", descripcion);
             sentencia.execute();
             aux = sentencia.getInt("idregistrado");
             con.close();
@@ -111,5 +113,52 @@ public class ProductoAdmiAD {
         return aux;
     }
     
-     
+    public int eliminarProducto(int _id){
+        int auxID=0;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+            CallableStatement sentencia = con.prepareCall("{call ELIMINAR_PRODUCTO(?,?)}");
+            sentencia.registerOutParameter("idEliminado", java.sql.Types.INTEGER);
+            sentencia.setInt("id", _id);
+            sentencia.execute();
+            auxID = sentencia.getInt("idEliminado");
+            con.close();
+        }catch(Exception e){
+            System.out.println(e.toString());
+        }
+        return auxID;
+    } 
+    
+    public ArrayList<Ingrediente> listarIngredientesxProducto(int id){
+        ArrayList<Ingrediente> lista = new ArrayList<Ingrediente> ();
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+            CallableStatement sentencia = con.prepareCall("{call LISTAR_INGREDIENTES_PRODUCTO_ADMI(?)}");
+            sentencia.setInt("id", id);
+            ResultSet rs = sentencia.executeQuery();           
+            while(rs.next()){
+                Ingrediente ig;
+                Insumo i;
+                ig= new Ingrediente();
+                i = new Insumo();
+                ig.setidIngrediente(rs.getInt("idIngrediente"));
+                i.setNombre(rs.getString("Nombre"));
+                ig.setcantidad(rs.getInt("Cantidad"));
+                String aux = rs.getString("UnidadMedida");                
+                if(aux.equals("UNIDADES")) i.setunidMed(unidadMed.unid);
+                else if(aux.equals("CAJAS")) i.setunidMed(unidadMed.cajas);
+                else if(aux.equals("LITROS")) i.setunidMed(unidadMed.lt);
+                else if(aux.equals("KILOGRAMOS")) i.setunidMed(unidadMed.kg);
+                ig.setinsumo(i);              
+                lista.add(ig);                               
+            }
+            con.close();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        return lista;
+    }
 }

@@ -42,6 +42,9 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import Email.Email;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 /**
  *
  * @author Kathy Ruiz :)
@@ -141,6 +144,19 @@ public class JFramePedidos extends javax.swing.JDialog {
             }
         });
         
+        chbDelivery.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(chbDelivery.isSelected())
+                    Pedido.setDelivery(true);
+                else
+                    Pedido.setDelivery(false);
+                actualizarTabla();
+            }
+        });
+        
+        
+        
         Pedido = new PedidoProducto();
         modelo = (DefaultTableModel) JTablePedidos.getModel();
         documentoPagoBL = new DocumentoPagoBL();
@@ -164,6 +180,8 @@ public class JFramePedidos extends javax.swing.JDialog {
                 btnDescargarDocPago.setEnabled(false);
                 JTablePedidos.setEnabled(false);
                 cboTipoCliente.setEnabled(false);
+                chbDelivery.setEnabled(false);
+                btnDescargarOrden.setEnabled(false);
                 break;
                 
             //nuevo
@@ -180,6 +198,8 @@ public class JFramePedidos extends javax.swing.JDialog {
                 cboTipoCliente.setEnabled(true);
                 btnGenerarDocumentoPago.setEnabled(false);
                 btnDescargarDocPago.setEnabled(false);
+                chbDelivery.setEnabled(true);
+                btnDescargarOrden.setEnabled(false);
                 
                 txtIDPedido.setText("");
                 jLEstado.setText("");
@@ -190,9 +210,11 @@ public class JFramePedidos extends javax.swing.JDialog {
                 txtRuc1.setText("");
                 txtRazonS1.setText("");
                 txtIDCLI.setText("");
+                txtIDDPago.setText("");
                 txtFechaPed.setText(fechaActual());
                 jDateChooser1.setCalendar(null);
                 JTablePedidos.setEnabled(true);
+                chbDelivery.setSelected(false);
                 break;
                 
             //visualizar
@@ -216,6 +238,15 @@ public class JFramePedidos extends javax.swing.JDialog {
                     btnDescargarDocPago.setEnabled(false);
                 JTablePedidos.setEnabled(false);
                 cboTipoCliente.setEnabled(false);
+                chbDelivery.setEnabled(false);
+                if(Pedido.getestadoPed()==EstadoPedido.Cancelado)
+                    btnDescargarOrden.setEnabled(false);
+                else
+                    btnDescargarOrden.setEnabled(true);
+                if(Pedido.getDelivery())
+                    chbDelivery.setSelected(true);
+                else
+                    chbDelivery.setSelected(false);
                 break;
             
             //Modificar
@@ -234,6 +265,8 @@ public class JFramePedidos extends javax.swing.JDialog {
                 btnDescargarDocPago.setEnabled(false);
                 JTablePedidos.setEnabled(true);
                 cboTipoCliente.setEnabled(true);
+                chbDelivery.setEnabled(true);
+                btnDescargarOrden.setEnabled(false);
         }
     }
     
@@ -270,9 +303,9 @@ public class JFramePedidos extends javax.swing.JDialog {
 
         jDialog2 = new javax.swing.JDialog();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnAgrega = new javax.swing.JButton();
-        btnElimina = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTablePedidos = new javax.swing.JTable();
@@ -303,6 +336,8 @@ public class JFramePedidos extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         txtIDProd = new javax.swing.JTextField();
         btnBuscarProducto = new javax.swing.JButton();
+        btnAgrega = new javax.swing.JButton();
+        btnElimina = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         txtFechaPed = new javax.swing.JTextField();
@@ -321,6 +356,12 @@ public class JFramePedidos extends javax.swing.JDialog {
         txtIDPedido = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLEstado = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        btnDescargarOrden = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        chbDelivery = new javax.swing.JCheckBox();
 
         javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
         jDialog2.getContentPane().setLayout(jDialog2Layout);
@@ -333,25 +374,33 @@ public class JFramePedidos extends javax.swing.JDialog {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 11)); // NOI18N
         jLabel1.setText("Pedidos de Productos");
-
-        btnAgrega.setText("Agregar");
-        btnAgrega.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregaActionPerformed(evt);
-            }
-        });
-
-        btnElimina.setText("Eliminar");
-        btnElimina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminaActionPerformed(evt);
-            }
-        });
 
         btnRegresar.setText("Volver");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
@@ -478,7 +527,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRazonS1)
                     .addComponent(txtRazonS1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnGrabar.setText("Grabar");
@@ -529,6 +578,20 @@ public class JFramePedidos extends javax.swing.JDialog {
             }
         });
 
+        btnAgrega.setText("Agregar");
+        btnAgrega.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregaActionPerformed(evt);
+            }
+        });
+
+        btnElimina.setText("Eliminar");
+        btnElimina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -543,13 +606,22 @@ public class JFramePedidos extends javax.swing.JDialog {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtIDProd, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(84, 84, 84)
-                        .addComponent(btnBuscarProducto))
-                    .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAgrega, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnElimina, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtIDProd, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(84, 84, 84)
+                                .addComponent(btnBuscarProducto))
+                            .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -572,15 +644,17 @@ public class JFramePedidos extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
+                .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgrega))
+                .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnElimina))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -733,7 +807,62 @@ public class JFramePedidos extends javax.swing.JDialog {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        btnDescargarOrden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoDescargar.png"))); // NOI18N
+        btnDescargarOrden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescargarOrdenActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Orden de Pedido");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13)
+                .addGap(18, 18, 18)
+                .addComponent(btnDescargarOrden, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnDescargarOrden, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel17.setText("Delivery");
+
+        chbDelivery.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbDeliveryActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chbDelivery)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(chbDelivery, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -758,18 +887,8 @@ public class JFramePedidos extends javax.swing.JDialog {
                                 .addGap(10, 10, 10))
                             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnElimina, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnAgrega, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(25, 25, 25))
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(4, 4, 4))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnGrabar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -777,9 +896,18 @@ public class JFramePedidos extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnAnular)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(4, 4, 4))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -794,22 +922,22 @@ public class JFramePedidos extends javax.swing.JDialog {
                     .addComponent(btnGrabar)
                     .addComponent(btnBuscar))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgrega)
                         .addGap(18, 18, 18)
-                        .addComponent(btnElimina))
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 19, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -942,7 +1070,12 @@ public class JFramePedidos extends javax.swing.JDialog {
 
                 EstadoPedido estPed = EstadoPedido.Pendiente;
                 Pedido.setestadoPedo(estPed);
-
+                
+                if(chbDelivery.isSelected())
+                    Pedido.setDelivery(true);
+                else
+                    Pedido.setDelivery(false);
+                
                 int idped=logicaNegocio.registrarPedido(Pedido, userLogin.getidUsuario());
                 if(idped==0)
                     throw new Exception("Error al registrar pedido");
@@ -953,6 +1086,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                     controllerEmail.sendEmail("Nuevo pedido registrado", "Se ha registrado el pedido " + txtIDPedido.getText() + "\n\n\t Para el cliente "+ this.txtRazonS1.getText()  , correoAdmin);
                 } catch(Exception ex){}
                 txtIDPedido.setText(Integer.toString(idped));
+                Pedido.setidPedido(idped);
                 jLEstado.setText(estPed.toString());
                 estadoCampos(3);
                 JOptionPane.showMessageDialog(null, "Pedido registrado correctamente con id " + idped, "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
@@ -983,6 +1117,12 @@ public class JFramePedidos extends javax.swing.JDialog {
 
                 Pedido.setfechaEntrPed(fechEntrega);
                 
+                if(chbDelivery.isSelected())
+                    Pedido.setDelivery(true);
+                else
+                    Pedido.setDelivery(false);
+                
+                actualizarTabla();
                 logicaNegocio.modificarPedido(Pedido, userLogin.getidUsuario());
 //                try{
 //                    Email controllerEmail = new Email();
@@ -1020,7 +1160,7 @@ public class JFramePedidos extends javax.swing.JDialog {
             txtIDDPago.setText(Integer.toString(idBoleta));
             //documentoPagoBL.generarDocumentoPago(Pedido); //IMPLEMENTAR
             
-            JOptionPane.showConfirmDialog(null, "Documento generado exitosamente con id " + idBoleta,
+            JOptionPane.showMessageDialog(null, "Documento generado exitosamente con id " + idBoleta,
                                           "Mensaje",JOptionPane.INFORMATION_MESSAGE);
             estadoCampos(3);
         } catch (Exception e){
@@ -1033,8 +1173,9 @@ public class JFramePedidos extends javax.swing.JDialog {
         // TODO add your handling code here:
         JFBuscarPedidos objet= new JFBuscarPedidos(this,true);
         objet.setVisible(true);
-        if(objet.getPedidoElegido()!=null){
+        if(objet.getPedidoElegido()!=null){ 
             PedidoProducto ped = objet.getPedidoElegido();
+            Pedido = ped;
             txtIDPedido.setText(Integer.toString(ped.getidPedido()));
             jLEstado.setText(ped.getestadoPed().toString());
             if(ped.getcliente() instanceof Natural){
@@ -1055,13 +1196,16 @@ public class JFramePedidos extends javax.swing.JDialog {
             String fechEnt = df.format(ped.getfechaEntrPed());
             txtFechaPed.setText(fechReg);
             jDateChooser1.setDate(ped.getfechaEntrPed());
-            Pedido = ped;
             estadoCampos(3);
             actualizarTabla();
             txtProducto.setText("");
             txtCantidad.setText("");
             txtPrecio.setText("");
             txtIDProd.setText("");
+            if(Pedido.getestadoPed()==EstadoPedido.Finalizado)
+                txtIDDPago.setText(Pedido.getdocumPago().getidDoc());
+            else
+                txtIDDPago.setText("");
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -1104,6 +1248,49 @@ public class JFramePedidos extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }   
     }//GEN-LAST:event_btnAnularActionPerformed
+
+    private void btnDescargarDocPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarDocPagoActionPerformed
+        // TODO add your handling code here:
+        try{
+            String tipoDoc = (Pedido.getcliente() instanceof Natural)?"Boleta":"Factura";
+            String nombArchRep = tipoDoc + " pedido "+txtIDPedido.getText()+".pdf";
+            
+            File archDocPago = new File(nombArchRep);
+            if(archDocPago.isFile()) //borramos por defecto
+                archDocPago.delete();
+            
+            documentoPagoBL.exportarDocPagoPDF(Pedido, nombArchRep);
+            
+            int seleccion = JOptionPane.showConfirmDialog(null, "Documento descargado exitosamente,\n¿desea abrirlo?",
+                                          "Mensaje",JOptionPane.YES_NO_OPTION);
+            if(seleccion == JOptionPane.YES_OPTION)
+                Desktop.getDesktop().open(archDocPago);
+            estadoCampos(3);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }   
+    }//GEN-LAST:event_btnDescargarDocPagoActionPerformed
+
+    private void btnDescargarOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarOrdenActionPerformed
+        // TODO add your handling code here:
+        try{
+            String nombArchRep = "Orden del pedido "+txtIDPedido.getText()+".pdf";
+            
+            File archDocPago = new File(nombArchRep);
+            if(archDocPago.isFile()) //borramos por defecto
+                archDocPago.delete();
+            
+            documentoPagoBL.exportarOrdenPedidoPDF(Pedido.getidPedido(), nombArchRep);
+            
+            int seleccion = JOptionPane.showConfirmDialog(null, "Documento descargado exitosamente,\n¿desea abrirlo?",
+                                          "Mensaje",JOptionPane.YES_NO_OPTION);
+            if(seleccion == JOptionPane.YES_OPTION)
+                Desktop.getDesktop().open(archDocPago);
+            estadoCampos(3);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        } 
+    }//GEN-LAST:event_btnDescargarOrdenActionPerformed
 
     private void btnAgregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregaActionPerformed
         // TODO add your handling code here:
@@ -1168,27 +1355,9 @@ public class JFramePedidos extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnEliminaActionPerformed
 
-    private void btnDescargarDocPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarDocPagoActionPerformed
+    private void chbDeliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbDeliveryActionPerformed
         // TODO add your handling code here:
-        try{
-            String tipoDoc = (Pedido.getcliente() instanceof Natural)?"Boleta":"Factura";
-            String nombArchRep = tipoDoc + " pedido "+txtIDPedido.getText()+".pdf";
-            
-            File archDocPago = new File(nombArchRep);
-            if(archDocPago.isFile()) //borramos por defecto
-                archDocPago.delete();
-            
-            documentoPagoBL.exportarDocPagoPDF(Pedido, nombArchRep);
-            
-            int seleccion = JOptionPane.showConfirmDialog(null, "Documento descargado exitosamente,\n¿desea abrirlo?",
-                                          "Mensaje",JOptionPane.YES_NO_OPTION);
-            if(seleccion == JOptionPane.YES_OPTION)
-                Desktop.getDesktop().open(archDocPago);
-            estadoCampos(3);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-        }   
-    }//GEN-LAST:event_btnDescargarDocPagoActionPerformed
+    }//GEN-LAST:event_chbDeliveryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1239,6 +1408,7 @@ public class JFramePedidos extends javax.swing.JDialog {
     private javax.swing.JButton btnBuscarDNI;
     private javax.swing.JButton btnBuscarProducto;
     private javax.swing.JButton btnDescargarDocPago;
+    private javax.swing.JButton btnDescargarOrden;
     private javax.swing.JButton btnElimina;
     private javax.swing.JButton btnGenerarDocumentoPago;
     private javax.swing.JButton btnGrabar;
@@ -1246,6 +1416,7 @@ public class JFramePedidos extends javax.swing.JDialog {
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cboTipoCliente;
+    private javax.swing.JCheckBox chbDelivery;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLEstado;
@@ -1253,9 +1424,11 @@ public class JFramePedidos extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1268,6 +1441,10 @@ public class JFramePedidos extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblProducto;

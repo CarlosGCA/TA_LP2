@@ -185,7 +185,10 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         String nomUs = txtUsuario.getText();
         String auxCorr = txtCorreo.getText();
         System.out.println("lendni: " + auxdni.length());
-        if (!nom1.matches("^[A-Za-z ]*$")) {
+        
+        if(nom1.equals("") || ap.equals("") || auxdni.equals("") || nomUs.equals("") || auxCorr.equals("")){
+            JOptionPane.showMessageDialog(null, "Campos incompletos", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }else if (!nom1.matches("^[A-Za-z ]*$")) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del nombre", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
             Scanner sc = new Scanner(System.in);
@@ -297,7 +300,11 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             logicaNeg.registrarProfesor(emp);
 
             txtID.setText(Integer.toString(emp.getID()));
-            JOptionPane.showMessageDialog(null, "El usuario: " + emp.getID() + " ha sido agregado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
+            
+            if(emp.getID()==0)
+                JOptionPane.showMessageDialog(null, "Error al registrar usuario", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
+            else
+                JOptionPane.showMessageDialog(null, "El usuario: " + emp.getID() + " ha sido agregado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
 
         } else {
             this.enableInputMethods(true);

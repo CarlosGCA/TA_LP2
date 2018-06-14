@@ -33,7 +33,7 @@ public abstract class DocumentoPago{
 		return this.total;		
 	}
 	public void setidPedido(int idPedido){
-		//this.idPedido=idPedido;
+		this.idPedido=idPedido;
 	}
 	public int getidPedido(){
 		return this.idPedido;		

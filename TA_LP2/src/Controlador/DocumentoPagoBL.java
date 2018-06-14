@@ -9,6 +9,8 @@ import AccesoData.DocumentoPagoAD;
 import Modelo.Natural;
 import Modelo.PedidoProducto;
 import com.mysql.jdbc.NotImplemented;
+import java.util.ArrayList;
+import net.sf.jasperreports.engine.JasperPrint;
 
 /**
  *
@@ -54,5 +56,19 @@ public class DocumentoPagoBL {
         }
     }
     
+    public void exportarOrdenPedidoPDF (int idPedido, String nombArch)throws Exception{
+        documentoPagoAD.exportOrdenPedidoPDF(idPedido, nombArch);
+    }
+    public JasperPrint exportarBoleta (int idPedido, String nombArch)throws Exception{
+        return documentoPagoAD.exportBoleta(idPedido, nombArch);
+    }
+    public JasperPrint exportarFactura (int idPedido, String nombArch)throws Exception{
+        return documentoPagoAD.exportFactura(idPedido, nombArch);
+    }
+    
+    
+    public ArrayList<Object> listarDocumentosPagoYExtra() throws Exception{
+        return documentoPagoAD.listarDocumentosPagoYExtra();
+    }
     
 }
