@@ -41,6 +41,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import Imagenes.ImagenesAD;
 
 /**
  *
@@ -51,6 +52,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
     public File imgFile;
     public static int value;
     public static int num;
+    private ImagenesAD imagenesAD;
 
     public class estadoFormulario extends Thread {
 
@@ -129,6 +131,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         btnModificar.setEnabled(false);
         btnEliminar.setEnabled(false);
         logicaNeg = new UsuarioBL();
+        imagenesAD = new ImagenesAD();
         inicializarDatos();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -790,7 +793,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                 } else {
                     fileContent = null;
                 }
-                System.out.println(fileContent);
+                System.out.println(fileContent);    
                 emp.setImageFile(fileContent);
 
                 logicaNeg.modificarEmp(emp);
@@ -925,6 +928,14 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                     + chooser.getCurrentDirectory());
             System.out.println("getSelectedFile() : "
                     + chooser.getSelectedFile());
+            
+            try{
+                int idEmpleado = Integer.parseInt(txtID.getText());
+                imagenesAD.uploadFile(chooser.getSelectedFile(), idEmpleado);
+                
+            } catch(Exception ex){
+                System.err.println(ex.getMessage());
+            }
         } else {
             System.out.println("No Selection ");
         }
