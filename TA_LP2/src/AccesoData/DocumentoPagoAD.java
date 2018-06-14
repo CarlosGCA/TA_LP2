@@ -5,9 +5,18 @@
  */
 package AccesoData;
 
+import Modelo.Boleta;
+import Modelo.DocumentoPago;
+import Modelo.Cliente;
+import Modelo.Empresa;
+import Modelo.Factura;
+import Modelo.Natural;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -88,5 +97,100 @@ public class DocumentoPagoAD {
         JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,parametros,connection);
         JasperExportManager.exportReportToPdfFile(jasperPrint, nombArch);
         closeCon();
+    }
+    
+    public JasperPrint exportBoleta(int idPedido, String nombArch) throws Exception{
+        openCon();
+        JasperReport reporte =  (JasperReport) JRLoader.loadObjectFromFile("src/Reportes/Boleta.jasper");
+        HashMap parametros = new HashMap();
+        parametros.put("_idPedidoProductos",idPedido);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,parametros,connection);
+        //JasperExportManager.exportReportToPdfFile(jasperPrint, nombArch);
+        closeCon();
+        return jasperPrint;
+    }
+    public JasperPrint exportFactura(int idPedido, String nombArch) throws Exception{
+        openCon();
+        JasperReport reporte =  (JasperReport) JRLoader.loadObjectFromFile("src/Reportes/Factura.jasper");
+        HashMap parametros = new HashMap();
+        parametros.put("_idPedidoProductos",idPedido);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,parametros,connection);
+        //JasperExportManager.exportReportToPdfFile(jasperPrint, nombArch);
+        closeCon();
+        return jasperPrint;
+    }
+    
+    public JasperPrint exportOrdenPedido(int idPedido, String nombArch) throws Exception{
+        openCon();
+        JasperReport reporte =  (JasperReport) JRLoader.loadObjectFromFile("src/Reportes/OrdenPedido.jasper");
+        HashMap parametros = new HashMap();
+        parametros.put("_idPedidoProductos",idPedido);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,parametros,connection);
+//        JasperExportManager.exportReportToPdfFile(jasperPrint, nombArch);
+        closeCon();
+        return jasperPrint;
+    }
+    
+    public ArrayList<Object> listarDocumentosPagoYExtra() throws Exception{
+        //Devuelve una tupla: [0]=DocPago [1]=FechaRegistro [2]=FechaEntrega [3]=EstadoPedido
+        
+        openCon();
+        ArrayList<Object> documentosConExtra = new ArrayList<>();
+        CallableStatement cs = connection.prepareCall("{call LISTAR_DOCUMENTOS_PAGO()}");
+        ResultSet rs = cs.executeQuery();
+        while(rs.next()){
+            String tipoCliente = rs.getString("tipo");
+            DocumentoPago documento;
+//            Cliente cliente;
+            if(tipoCliente.equals("Natural")){
+                Boleta boleta = new Boleta();
+                
+//                cliente = new Natural();
+                boleta.setDni(rs.getInt("DOC_ID"));
+                boleta.setIgv_Boleta(rs.getInt("IGV"));
+                boleta.setNombre(rs.getString("Cliente"));
+                
+                Natural cliente = new Natural();
+                cliente.setId_cliente(rs.getInt("Cliente_idCliente"));
+                boleta.setcliente(cliente);
+                
+                documento = boleta;
+            }else{
+                Factura factura = new Factura();
+//                cliente = new Empresa();
+                factura.setRuc(rs.getInt("DOC_ID"));
+                factura.setIgv_Factura(rs.getInt("IGV"));
+                factura.setRazonSocial(rs.getString("Cliente"));
+                
+                Empresa cliente = new Empresa();
+                cliente.setId_cliente(rs.getInt("Cliente_idCliente"));
+                factura.setcliente(cliente);
+                documento = factura;
+            }
+            
+            
+            documento.setidDoc(Integer.toString(rs.getInt("idDocumentoPago")));
+            documento.settotal(rs.getFloat("Total"));
+            documento.setidPedido(rs.getInt("idPedidoProductos"));
+            
+            documento.setregistrada(rs.getInt("Registrada")!=0);
+//            documento.setregistrada(rs.getInt("Registrada")); //incompatible types
+            
+            
+            Date fechaRegistro = rs.getDate("FechaRegistro");
+            Date fechaEntrega = rs.getDate("FechaEntrega");
+            int estadoPedido = rs.getInt("EstadoPedido_idEstadoPedido");
+            
+            Object[] tuple = new Object[4];
+            tuple[0] = documento;
+            tuple[1] = fechaRegistro;
+            tuple[2] = fechaEntrega;
+            tuple[3] = estadoPedido;
+            
+            documentosConExtra.add(tuple);
+        }
+        
+        closeCon();
+        return documentosConExtra;
     }
 }
