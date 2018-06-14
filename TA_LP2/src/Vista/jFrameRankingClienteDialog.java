@@ -5,29 +5,30 @@
  */
 package Vista;
 
-import Modelo.EstadoPedido;
-import java.util.Vector;
-import javax.swing.JComboBox;
 import Controlador.ClientesBL;
-import javafx.util.Pair;
-import Modelo.Natural;
-import javax.swing.table.DefaultTableModel;
 import Modelo.Empresa;
+import Modelo.EstadoPedido;
+import Modelo.Natural;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
+import javafx.util.Pair;
+import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author alfredo
  */
-public class jRankingPedidos extends javax.swing.JFrame {
+public class jFrameRankingClienteDialog extends javax.swing.JDialog {
 
     /**
-     * Creates new form jRankingPedidos
+     * Creates new form jFrameRankingClienteDialog
      */
+    
     private ClientesBL logicaClientesBL;
 
     private void _llenarTablaNatural(EstadoPedido estado) {
@@ -118,9 +119,13 @@ public class jRankingPedidos extends javax.swing.JFrame {
             };
             tabPanel.addChangeListener(changeListener);
     }
-    public jRankingPedidos() {
+    
+    
+    public jFrameRankingClienteDialog(java.awt.Dialog parent, boolean modal) {
+        super(parent, modal);
         initComponents();
-        for (EstadoPedido objEstadoPedido : EstadoPedido.values()) {
+        
+         for (EstadoPedido objEstadoPedido : EstadoPedido.values()) {
             cbEstado.addItem(objEstadoPedido.toString());
         }
         logicaClientesBL = new ClientesBL();
@@ -129,7 +134,6 @@ public class jRankingPedidos extends javax.swing.JFrame {
         
         agregarActionCambioComboBox();
         agregarActionCambioTab();
-           
     }
 
     /**
@@ -151,7 +155,7 @@ public class jRankingPedidos extends javax.swing.JFrame {
         lblEstado = new javax.swing.JLabel();
         cbEstado = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tbNatural.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -170,9 +174,6 @@ public class jRankingPedidos extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tbNatural);
-        if (tbNatural.getColumnModel().getColumnCount() > 0) {
-            tbNatural.getColumnModel().getColumn(1).setResizable(false);
-        }
 
         javax.swing.GroupLayout panelNaturalLayout = new javax.swing.GroupLayout(panelNatural);
         panelNatural.setLayout(panelNaturalLayout);
@@ -180,14 +181,14 @@ public class jRankingPedidos extends javax.swing.JFrame {
             panelNaturalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelNaturalLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelNaturalLayout.setVerticalGroup(
             panelNaturalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelNaturalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -217,13 +218,13 @@ public class jRankingPedidos extends javax.swing.JFrame {
             panelEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEmpresaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE))
         );
         panelEmpresaLayout.setVerticalGroup(
             panelEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEmpresaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -235,16 +236,13 @@ public class jRankingPedidos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tabPanel)
-                .addContainerGap())
+            .addComponent(tabPanel, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblEstado)
-                .addGap(32, 32, 32)
-                .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addGap(18, 18, 18)
+                .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,7 +258,8 @@ public class jRankingPedidos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-  
+   
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbEstado;

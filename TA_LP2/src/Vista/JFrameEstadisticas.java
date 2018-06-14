@@ -72,14 +72,20 @@ public class JFrameEstadisticas extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btClienteActionPerformed
-        jRankingPedidos rankingPedidos = new jRankingPedidos();
+        //jRankingPedidos rankingPedidos = new jRankingPedidos();
+        //
+        //rankingPedidos.setVisible(true);
+        jFrameRankingClienteDialog rankingClienteDialog = new jFrameRankingClienteDialog(this, true);
+        rankingClienteDialog.setVisible(true);
         
-        rankingPedidos.setVisible(true);
+        
     }//GEN-LAST:event_btClienteActionPerformed
 
     private void btProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btProductosActionPerformed
-      JFrameRankingProductos rankingProductos = new JFrameRankingProductos();
-      rankingProductos.setVisible(true);
+//      JFrameRankingProductos rankingProductos = new JFrameRankingProductos();
+//      rankingProductos.setVisible(true);
+jFrameRankingProductosDialog productosDialog = new jFrameRankingProductosDialog(this, true);
+productosDialog.setVisible(true);
     }//GEN-LAST:event_btProductosActionPerformed
 
     /**
