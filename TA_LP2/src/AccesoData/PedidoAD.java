@@ -109,7 +109,7 @@ public class PedidoAD {
                 
                 String TipoCli = rs.getString(6);
                 
-                EstadoPedido estPed = EstadoPedido.values()[(rs.getInt(4)-1)];
+                EstadoPedido estPed = EstadoPedido.values()[(rs.getInt(4))];
                 pp.setestadoPedo(estPed);
                 
                 if(TipoCli.equals("Natural")){
@@ -217,14 +217,14 @@ public class PedidoAD {
          }
     }
     
-    public void anularPedido(int idped){
+    public void cambiarEstadoPedido(int idped, int idest){
         try {
             //Registrar el Driver
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
 
             Statement sentencia = con.createStatement();
-            String sql = "UPDATE PedidoProductos SET EstadoPedido_idEstadoPedido = 4 WHERE idPedidoProductos = " +idped+";";
+            String sql = "UPDATE PedidoProductos SET EstadoPedido_idEstadoPedido = "+ idest +" WHERE idPedidoProductos = " +idped+";";
             sentencia.executeUpdate(sql);
             System.out.println("Pedido Anulado Correctamente");
             con.close();
