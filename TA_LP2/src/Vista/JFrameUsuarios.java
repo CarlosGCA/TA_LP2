@@ -42,6 +42,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import Imagenes.ImagenesAD;
+import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 
 /**
  *
@@ -303,9 +305,17 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             
             if(emp.getID()==0)
                 JOptionPane.showMessageDialog(null, "Error al registrar usuario", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
-            else
+            else{
+                try{
+                int idEmpleado = Integer.parseInt(txtID.getText());
+                imagenesAD.uploadFile(this.pathUploadFile ,idEmpleado);
+                
+            } catch(Exception ex){
+                System.err.println(ex.getMessage());
+            }
                 JOptionPane.showMessageDialog(null, "El usuario: " + emp.getID() + " ha sido agregado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
-
+            
+            }
         } else {
             this.enableInputMethods(true);
         }
@@ -905,13 +915,19 @@ public class JFrameUsuarios extends javax.swing.JDialog {
 //                }
 //            }
         System.out.println("SALIDA GG");
+        //jLabel12.setIcon(null);
                    try{
+                       
                        File file  = imagenesAD.getFile(empleadoSeleccionado.getID());
-                         System.err.println(file.getPath());
+                         
         ImageIcon image = new ImageIcon(file.getPath());
+        image.getImage().flush();
 
+        
         jLabel12.setIcon(image);
                    }catch(Exception ex ){
+                       System.err.println("AQUi se cae");;
+                       System.err.println(ex.getMessage());
                    }
         }
         btnModificar.setEnabled(true);
@@ -930,7 +946,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         // TODO add your handling code here:
         registrarUsuario();
     }//GEN-LAST:event_btnRegistrar1ActionPerformed
-
+    private  File pathUploadFile ;
     private void btnSubirImagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirImagActionPerformed
         //funcion subir imagen
         JFileChooser chooser;
@@ -946,14 +962,9 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                     + chooser.getCurrentDirectory());
             System.out.println("getSelectedFile() : "
                     + chooser.getSelectedFile());
+            this.pathUploadFile = chooser.getSelectedFile();
             
-            try{
-                int idEmpleado = Integer.parseInt(txtID.getText());
-                imagenesAD.uploadFile(chooser.getSelectedFile(), idEmpleado);
-                
-            } catch(Exception ex){
-                System.err.println(ex.getMessage());
-            }
+            
         } else {
             System.out.println("No Selection ");
         }
