@@ -135,7 +135,7 @@ public class ProductoAdmiAD {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
-            CallableStatement sentencia = con.prepareCall("{call `LISTAR_INGREDIENTES_PRODUCTO_ADMI(?)}");
+            CallableStatement sentencia = con.prepareCall("{call LISTAR_INGREDIENTES_PRODUCTO_ADMI(?)}");
             sentencia.setInt("id", id);
             ResultSet rs = sentencia.executeQuery();           
             while(rs.next()){
@@ -146,7 +146,7 @@ public class ProductoAdmiAD {
                 ig.setidIngrediente(rs.getInt("idIngrediente"));
                 i.setNombre(rs.getString("Nombre"));
                 ig.setcantidad(rs.getInt("Cantidad"));
-                String aux = rs.getString("Medida");                
+                String aux = rs.getString("UnidadMedida");                
                 if(aux.equals("UNIDADES")) i.setunidMed(unidadMed.unid);
                 else if(aux.equals("CAJAS")) i.setunidMed(unidadMed.cajas);
                 else if(aux.equals("LITROS")) i.setunidMed(unidadMed.lt);
