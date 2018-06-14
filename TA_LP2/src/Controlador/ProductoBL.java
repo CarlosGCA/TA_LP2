@@ -7,6 +7,7 @@ package Controlador;
 import AccesoData.ProductoAD;
 import Modelo.Producto;
 import java.util.ArrayList;
+import javafx.util.Pair;
 /**
  *
  * @author LENOVO
@@ -20,5 +21,9 @@ public class ProductoBL {
     
     public ArrayList<Producto> listarProducto(){
         return accesoDatos.listarProductos();
+    }
+    
+    public ArrayList<Pair<String,Pair<Integer,Integer>>> listarRankingProductos(){
+        return accesoDatos.obtenerRankingProductos();
     }
 }

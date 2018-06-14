@@ -8,9 +8,11 @@ package AccesoData;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import Modelo.Producto;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javafx.util.Pair;
 /**
  *
  * @author LENOVO
@@ -34,8 +36,29 @@ public class ProductoAD {
             }
             con.close();
         }catch(Exception e){
-            System.out.println(e.toString());
+            System.err.println(e.toString());
         }
         return lista;
+    }
+    
+    public ArrayList<Pair<String,Pair<Integer,Integer>>> obtenerRankingProductos(){
+        ArrayList<Pair<String,Pair<Integer,Integer>>> listaProductos = new ArrayList<>();
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7","inf282g7","0mvK88");
+            CallableStatement cs = con.prepareCall("{call LISTA_RANKING_PRODUCTOS()}");
+            ResultSet rs = cs.executeQuery();
+            while(rs.next()){
+                Integer cantidad = rs.getInt("Veces");
+                Integer totalComprado = rs.getInt("Total");
+                String nombre = rs.getString("Nombre");
+                listaProductos.add(new Pair<>(nombre , new Pair<>(cantidad, totalComprado)));            }
+            con.close();
+        } catch(Exception e ) {
+            System.err.println(e.getMessage());
+            
+        }
+        return listaProductos;
     }
 }
