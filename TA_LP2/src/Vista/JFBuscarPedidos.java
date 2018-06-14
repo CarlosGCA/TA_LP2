@@ -6,6 +6,7 @@
 package Vista;
 
 import Controlador.PedidoBL;
+import Modelo.Cliente;
 import Modelo.Empresa;
 import Modelo.Natural;
 import Modelo.PedidoProducto;
@@ -25,7 +26,11 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
     private PedidoBL logicaNegocio;
     private ArrayList<PedidoProducto> listaPedidos;
     private PedidoProducto pedidoElegido;
-    
+    private ArrayList<PedidoProducto> listaFiltroPedidos;//
+//    private ArrayList<Empresa> listaFiltrEmpresa;
+//    private ArrayList<Natural> listaNatural; 
+//    private ArrayList<Empresa> listaEmpresa; 
+
     /**
      * @return the pedidoElegido
      */
@@ -39,38 +44,38 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
     public void setPedidoElegido(PedidoProducto pedidoElegido) {
         this.pedidoElegido = pedidoElegido;
     }
-    
+
     /**
      * Creates new form JModificar
      */
     public JFBuscarPedidos(JDialog d, Boolean b) {
-        super(d,b);
+        super(d, b);
         initComponents();
-        logicaNegocio=new PedidoBL();
+        logicaNegocio = new PedidoBL();
         listaPedidos = new ArrayList<PedidoProducto>(logicaNegocio.listarPedidos());
         DefaultTableModel modelo = (DefaultTableModel) tablePedidos.getModel();
         Object[] fila = new Object[6];
-        for(int i=0; i<listaPedidos.size(); i++){
-            fila[0]=listaPedidos.get(i).getidPedido();
-            
-            Date fechaReg=listaPedidos.get(i).getfechaRegPed();
-            SimpleDateFormat formatoFechaReg= new SimpleDateFormat("dd/MM/yyyy");
-            fila[1]=formatoFechaReg.format(fechaReg);
-            
-            Date fechaEnt=listaPedidos.get(i).getfechaEntrPed();
-            SimpleDateFormat formatoFechaEnt= new SimpleDateFormat("dd/MM/yyyy");
-            fila[2]=formatoFechaEnt.format(fechaEnt);
-            
-            fila[3]=listaPedidos.get(i).getestadoPed();
-            
-            if(listaPedidos.get(i).getcliente() instanceof Natural){
+        for (int i = 0; i < listaPedidos.size(); i++) {
+            fila[0] = listaPedidos.get(i).getidPedido();
+
+            Date fechaReg = listaPedidos.get(i).getfechaRegPed();
+            SimpleDateFormat formatoFechaReg = new SimpleDateFormat("dd/MM/yyyy");
+            fila[1] = formatoFechaReg.format(fechaReg);
+
+            Date fechaEnt = listaPedidos.get(i).getfechaEntrPed();
+            SimpleDateFormat formatoFechaEnt = new SimpleDateFormat("dd/MM/yyyy");
+            fila[2] = formatoFechaEnt.format(fechaEnt);
+
+            fila[3] = listaPedidos.get(i).getestadoPed();
+
+            if (listaPedidos.get(i).getcliente() instanceof Natural) {
                 Natural nat = (Natural) listaPedidos.get(i).getcliente();
-                fila[4]=nat.getNombre()+" " +nat.getApellidos();
-                fila[5]="Natural";
-            }else{
+                fila[4] = nat.getNombre() + " " + nat.getApellidos();
+                fila[5] = "Natural";
+            } else {
                 Empresa emp = (Empresa) listaPedidos.get(i).getcliente();
-                fila[4]=emp.getRazonSocial();
-                fila[5]="Empresa";
+                fila[4] = emp.getRazonSocial();
+                fila[5] = "Empresa";
             }
 
             modelo.addRow(fila);
@@ -91,6 +96,9 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
         btnSalir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnSelect = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtFiltro = new javax.swing.JTextField();
+        btnFiltrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -128,21 +136,45 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
             }
         });
 
+        jLabel2.setText("Nombre:");
+
+        txtFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFiltroActionPerformed(evt);
+            }
+        });
+
+        btnFiltrar.setText("Filtrar");
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
                         .addComponent(jLabel1)
-                        .addGap(359, 359, 359)
+                        .addGap(350, 350, 350)
                         .addComponent(btnSelect)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalir))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel2)
+                        .addGap(32, 32, 32)
+                        .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnFiltrar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,11 +182,17 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
-                    .addComponent(jLabel1)
-                    .addComponent(btnSelect))
-                .addGap(18, 18, 18)
+                    .addComponent(btnSelect)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnFiltrar)))
+                .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addGap(48, 48, 48))
         );
 
         pack();
@@ -168,15 +206,74 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
 
     private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
         // TODO add your handling code here:
-        try{
-            setPedidoElegido(new PedidoProducto());
-            setPedidoElegido(listaPedidos.get(tablePedidos.getSelectedRow()));
-            pedidoElegido.setListaLineasPedido(logicaNegocio.listarLineasPedido(pedidoElegido.getidPedido()));
-            super.dispose();
-        }catch(Exception e){
+        try {
+            if (txtFiltro.getText().isEmpty()) {
+                setPedidoElegido(new PedidoProducto());
+                setPedidoElegido(listaPedidos.get(tablePedidos.getSelectedRow()));
+                pedidoElegido.setListaLineasPedido(logicaNegocio.listarLineasPedido(pedidoElegido.getidPedido()));
+                super.dispose();
+            } else {
+                setPedidoElegido(new PedidoProducto());
+                setPedidoElegido(listaFiltroPedidos.get(tablePedidos.getSelectedRow()));
+                pedidoElegido.setListaLineasPedido(logicaNegocio.listarLineasPedido(pedidoElegido.getidPedido()));
+                super.dispose();
+            }
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
     }//GEN-LAST:event_btnSelectActionPerformed
+
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        // TODO add your handling code here:
+        String filtro = txtFiltro.getText().toLowerCase();
+        listaFiltroPedidos = new ArrayList<PedidoProducto>();
+        //listaFiltrEmpresa = new ArrayList<Empresa>();
+        for (int i = 0; i < listaPedidos.size(); i++) {
+            if (listaPedidos.get(i).getcliente() instanceof Natural) {
+                Natural nat = (Natural) listaPedidos.get(i).getcliente();
+                if (nat.getNombre().toLowerCase().contains(filtro) || nat.getApellidos().toLowerCase().contains(filtro)) {
+                    listaFiltroPedidos.add(listaPedidos.get(i));
+                }
+            } else {
+                Empresa emp = (Empresa) listaPedidos.get(i).getcliente();
+                if (emp.getRazonSocial().toLowerCase().contains(filtro)) {
+                    listaFiltroPedidos.add(listaPedidos.get(i));
+                }
+            }
+        }
+        DefaultTableModel modelo = (DefaultTableModel) tablePedidos.getModel();
+        modelo.setRowCount(0);
+        Object[] fila = new Object[6];
+        for (int i = 0; i < listaFiltroPedidos.size(); i++) {
+            //fila[0] = listaEmpleados.get(i).getID();
+            fila[0] = listaFiltroPedidos.get(i).getidPedido();
+
+            Date fechaReg = listaFiltroPedidos.get(i).getfechaRegPed();
+            SimpleDateFormat formatoFechaReg = new SimpleDateFormat("dd/MM/yyyy");
+            fila[1] = formatoFechaReg.format(fechaReg);
+
+            Date fechaEnt = listaFiltroPedidos.get(i).getfechaEntrPed();
+            SimpleDateFormat formatoFechaEnt = new SimpleDateFormat("dd/MM/yyyy");
+            fila[2] = formatoFechaEnt.format(fechaEnt);
+
+            fila[3] = listaFiltroPedidos.get(i).getestadoPed();
+            if (listaFiltroPedidos.get(i).getcliente() instanceof Natural) {
+                Natural nat = (Natural) listaFiltroPedidos.get(i).getcliente();
+                fila[4] = nat.getNombre() + " " + nat.getApellidos();
+                fila[5] = "Natural";
+            } else {
+                Empresa emp = (Empresa) listaFiltroPedidos.get(i).getcliente();
+                fila[4] = emp.getRazonSocial();
+                fila[5] = "Empresa";
+            }
+
+            modelo.addRow(fila);
+        }
+    }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFiltroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,9 +306,9 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try{
-                    new JFBuscarPedidos(null,false).setVisible(true);
-                }catch(Exception ex){
+                try {
+                    new JFBuscarPedidos(null, false).setVisible(true);
+                } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
                 //new JModificar().setVisible(true);
@@ -220,10 +317,13 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSelect;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablePedidos;
+    private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 }
