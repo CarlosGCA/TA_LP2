@@ -21,6 +21,9 @@ public class JFrameInsumos extends javax.swing.JDialog {
     private ArrayList<String> unidadesMedida;
     private ArrayList<Insumo> listaInsumo;
     private InsumoBL logicaNegocio;
+    public static JModificarInsumo objJModificarInsumo;
+    public static JEliminarInsumo objEliminarInsumo;
+    int idMax;
     
     public JFrameInsumos(Dialog f, Boolean b) {
         super(f,b);
@@ -40,20 +43,23 @@ public class JFrameInsumos extends javax.swing.JDialog {
             jComboBox2.setModel(modelo);
         }
         
-        listaInsumo = logicaNegocio.listarInsumo();
-        DefaultTableModel aux= (DefaultTableModel) jTable1.getModel();
-        Object [] fila = new Object [3];
-        unidadMed um;
-         for(int i=0;i<listaInsumo.size();i++){
-            fila[0] = listaInsumo.get(i).getidInsumo();
-            fila[1] = listaInsumo.get(i).getdescripcion();
-            um = listaInsumo.get(i).getunidMed();
-            if(um == unidadMed.kg) fila[2] = "KILOGRAMOS";
-            else if(um == unidadMed.cajas) fila[2] = "CAJAS";
-            else if(um == unidadMed.lt) fila[2] = "LITROS";
-            else if(um == unidadMed.unid) fila[2] = "UNIDADES";            
-            aux.addRow(fila);
-        }
+        //obtengo el id con el que compara a ver si es un insumo agregado
+        idMax=Integer.parseInt(textID.getText());
+        
+//        listaInsumo = logicaNegocio.listarInsumo();
+//        DefaultTableModel aux= (DefaultTableModel) jTable1.getModel();
+//        Object [] fila = new Object [3];
+//        unidadMed um;
+//         for(int i=0;i<listaInsumo.size();i++){
+//            fila[0] = listaInsumo.get(i).getidInsumo();
+//            fila[1] = listaInsumo.get(i).getdescripcion();
+//            um = listaInsumo.get(i).getunidMed();
+//            if(um == unidadMed.kg) fila[2] = "KILOGRAMOS";
+//            else if(um == unidadMed.cajas) fila[2] = "CAJAS";
+//            else if(um == unidadMed.lt) fila[2] = "LITROS";
+//            else if(um == unidadMed.unid) fila[2] = "UNIDADES";            
+//            aux.addRow(fila);
+//        }
         
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -77,12 +83,14 @@ public class JFrameInsumos extends javax.swing.JDialog {
         labelNombre = new javax.swing.JLabel();
         textNombre = new javax.swing.JTextField();
         labelMedida = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         btnEliminar = new javax.swing.JToggleButton();
         jComboBox2 = new javax.swing.JComboBox<>();
         btnRegistrar = new javax.swing.JButton();
         textID = new javax.swing.JTextField();
+        btnModificar = new javax.swing.JButton();
+        labelDescripcion = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textDescripcion = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -93,16 +101,6 @@ public class JFrameInsumos extends javax.swing.JDialog {
         labelNombre.setText("Nombre");
 
         labelMedida.setText("Unidad de Medida");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nombre", "Unidad de Medida"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -120,31 +118,47 @@ public class JFrameInsumos extends javax.swing.JDialog {
 
         textID.setEditable(false);
 
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
+        labelDescripcion.setText("Descripcion");
+
+        textDescripcion.setColumns(20);
+        textDescripcion.setRows(5);
+        jScrollPane2.setViewportView(textDescripcion);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(192, 192, 192)
                         .addComponent(btnRegistrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelID)
                             .addComponent(labelNombre)
-                            .addComponent(labelMedida))
+                            .addComponent(labelMedida)
+                            .addComponent(labelDescripcion))
                         .addGap(91, 91, 91)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                            .addComponent(textNombre)
                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textID)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                            .addComponent(textID)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +167,8 @@ public class JFrameInsumos extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(btnEliminar)
-                    .addComponent(btnRegistrar))
+                    .addComponent(btnRegistrar)
+                    .addComponent(btnModificar))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelID)
@@ -166,9 +181,11 @@ public class JFrameInsumos extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelMedida)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelDescripcion)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -183,13 +200,9 @@ public class JFrameInsumos extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-        int indx = jTable1.getSelectedRow();
-        int auxID = Integer.parseInt(jTable1.getModel().getValueAt(indx, 0).toString());
-        String auxNombreInsumo = jTable1.getModel().getValueAt(indx, 1).toString();
-        String auxUnidadMedida = jTable1.getModel().getValueAt(indx, 2).toString();
-        logicaNegocio.eliminarInsumo(auxID);
-        ((DefaultTableModel)jTable1.getModel()).removeRow(indx);
+        objEliminarInsumo = new JEliminarInsumo(this, true);
+        objEliminarInsumo.setVisible(true);
+        if(objEliminarInsumo.getResultado()>0)JOptionPane.showMessageDialog(null, "Se ha eliminado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -197,6 +210,7 @@ public class JFrameInsumos extends javax.swing.JDialog {
         int idInsumo = Integer.parseInt(textID.getText());
         String nombre = textNombre.getText();
         String auxMedida = (String)jComboBox2.getSelectedItem();
+        String descripcion = textDescripcion.getText();
         int medida=1;
         for(int i=0;i<unidadesMedida.size();i++){
             String aux = unidadesMedida.get(i);
@@ -204,27 +218,42 @@ public class JFrameInsumos extends javax.swing.JDialog {
                 medida +=i;
                 break;
             };
-        }        
-        int resul=logicaNegocio.registrarInsumo(idInsumo, nombre,medida );
-        if(resul >0){
-            listaInsumo = logicaNegocio.listarInsumo();
-            DefaultTableModel aux= (DefaultTableModel) jTable1.getModel();
-            Object [] fila = new Object [3];
-            unidadMed um;
-            for(int i=0;i<listaInsumo.size();i++){
-                fila[0] = listaInsumo.get(i).getidInsumo();
-                fila[1] = listaInsumo.get(i).getdescripcion();
-                um = listaInsumo.get(i).getunidMed();
-                if(um == unidadMed.kg) fila[2] = "KILOGRAMOS";
-                else if(um == unidadMed.cajas) fila[2] = "CAJAS";
-                else if(um == unidadMed.lt) fila[2] = "LITROS";
-                else if(um == unidadMed.unid) fila[2] = "UNIDADES";            
-                aux.addRow(fila);            
-            }
-            JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-        } 
+        }
+        if(idInsumo<idMax){
+            int resul=logicaNegocio.modificarInsumo(idInsumo, nombre,medida,descripcion );
+            if(resul>0) JOptionPane.showMessageDialog(null, "Se ha actualizado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            int resul=logicaNegocio.registrarInsumo(idInsumo, nombre,medida,descripcion );
+            if(resul>0) JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        
             
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        objJModificarInsumo = new JModificarInsumo(this, true);
+        objJModificarInsumo.setVisible(true);
+        
+        if(objJModificarInsumo.getinsumoSeleccionado()!= null){
+            Insumo insumoSeleccionado = objJModificarInsumo.getinsumoSeleccionado();
+            textID.setText(Integer.toString(insumoSeleccionado.getidInsumo()));
+            textNombre.setText(insumoSeleccionado.getNombre());
+            unidadMed um = insumoSeleccionado.getunidMed();
+            String aux=null;
+            if(um == unidadMed.kg)  aux= "KILOGRAMOS";
+            else if(um == unidadMed.cajas) aux = "CAJAS";
+            else if(um == unidadMed.lt) aux = "LITROS";
+            else if(um == unidadMed.unid) aux = "UNIDADES";
+            jComboBox2.setSelectedItem(aux.toUpperCase());
+            textDescripcion.setText(insumoSeleccionado.getdescripcion());
+            
+            
+        }
+        
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -263,14 +292,16 @@ public class JFrameInsumos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnEliminar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel labelDescripcion;
     private javax.swing.JLabel labelID;
     private javax.swing.JLabel labelMedida;
     private javax.swing.JLabel labelNombre;
+    private javax.swing.JTextArea textDescripcion;
     private javax.swing.JTextField textID;
     private javax.swing.JTextField textNombre;
     // End of variables declaration//GEN-END:variables

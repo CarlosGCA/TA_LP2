@@ -28,11 +28,15 @@ public class InsumoBL {
         return accesoDatos.listarInsumos();
     }
     
-    public int registrarInsumo(int id,String nombre,int medida){
-        return accesoDatos.registarInsumo(id, nombre, medida);
+    public int registrarInsumo(int id,String nombre,int medida,String descripcion){
+        return accesoDatos.registarInsumo(id, nombre, medida,descripcion);
     }
     
     public int eliminarInsumo(int id){
         return accesoDatos.eliminarInsumo(id);
+    }
+    
+    public int modificarInsumo(int id,String nombre,int medida,String descripcion){
+        return accesoDatos.modificarInsumo(id, nombre, medida, descripcion);
     }
 }
