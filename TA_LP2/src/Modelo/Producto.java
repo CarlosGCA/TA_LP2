@@ -5,6 +5,7 @@ public class Producto{
 	private String nombProducto;
 	private ArrayList<Ingrediente> Receta;
 	private float precio;
+        private String descripcion;
 	
 	public Producto(){
 		Receta=new ArrayList<Ingrediente>();
@@ -16,6 +17,13 @@ public class Producto{
 		Receta=new ArrayList<Ingrediente>();
 	}
 	
+        public void setDescripcion(String d){
+            this.descripcion=d;
+        }
+        
+        public String getDescripcion(){
+            return this.descripcion;
+        }
 	public void setidProducto(int idProducto){
 		this.idProducto=idProducto;
 	}

@@ -126,7 +126,8 @@ public class jFrameRankingClienteDialog extends javax.swing.JDialog {
         initComponents();
         
          for (EstadoPedido objEstadoPedido : EstadoPedido.values()) {
-            cbEstado.addItem(objEstadoPedido.toString());
+            if(objEstadoPedido!=EstadoPedido.estadonulo)
+                cbEstado.addItem(objEstadoPedido.toString());
         }
         logicaClientesBL = new ClientesBL();
         
@@ -232,6 +233,12 @@ public class jFrameRankingClienteDialog extends javax.swing.JDialog {
 
         lblEstado.setText("Estado");
 
+        cbEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbEstadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -257,6 +264,10 @@ public class jFrameRankingClienteDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbEstadoActionPerformed
 
    
     
