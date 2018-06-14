@@ -48,6 +48,7 @@ public class ImagenesAD {
                 statement.setInt(2, idEmpleado);
                 statement.executeUpdate();
             } catch (Exception e) {
+                System.err.println(e.getMessage());
             }
 
         }

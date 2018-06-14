@@ -767,35 +767,37 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                 } else if (nomT.equals("NOCHE")) {
                     emp.setTurno(Turno.Noche);
                 }
+                
+                 
                 //emp.setTurno(Turno.Tarde);
                 //emp.setPuesto(puesto);
-                byte[] fileContent = null;
-
-                StringBuffer fileContentStr = new StringBuffer("");
-                BufferedReader reader = null;
-                if (imgFile != null) {
-                    try {
-                        reader = new BufferedReader(new FileReader(imgFile.getPath()));
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    String line = null;
-                    try {
-                        while ((line = reader.readLine()) != null) {
-                            fileContentStr.append(line).append("\n");
-                        }
-                    } catch (IOException ex) {
-                        System.out.println("no hay imagen");
-                    }
-
-                    fileContent = fileContentStr.toString().trim().getBytes();
-                } else {
-                    fileContent = null;
-                }
-                System.out.println(fileContent);    
-                emp.setImageFile(fileContent);
-
+//                byte[] fileContent = null;
+//
+//                StringBuffer fileContentStr = new StringBuffer("");
+//                BufferedReader reader = null;
+//                if (imgFile != null) {
+//                    try {
+//                        reader = new BufferedReader(new FileReader(imgFile.getPath()));
+//                    } catch (FileNotFoundException ex) {
+//                        Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//
+//                    String line = null;
+//                    try {
+//                        while ((line = reader.readLine()) != null) {
+//                            fileContentStr.append(line).append("\n");
+//                        }
+//                    } catch (IOException ex) {
+//                        System.out.println("no hay imagen");
+//                    }
+//
+//                    fileContent = fileContentStr.toString().trim().getBytes();
+//                } else {
+//                    fileContent = null;
+//                }
+//                System.out.println(fileContent);    
+//                emp.setImageFile(fileContent);
+               
                 logicaNeg.modificarEmp(emp);
                 JOptionPane.showMessageDialog(null, "El usuario: " + Integer.toString(emp.getID()) + " ha sido modificado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
@@ -869,32 +871,41 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             txtUsuario.setEnabled(false);
             txtContrasena.setEnabled(false);
             txtCorreo.setEnabled(false);
-            byte[] fileC = null;
-            if (empleadoSeleccionado.getImageFile() == null) {
-                cbUpImag.setSelected(true);
-            } else {
-                System.out.println("a");
-                File file = new File("C:\\Users\\kathe\\Pictures\\Monigote.png");
-                try {
-                    fileC = empleadoSeleccionado.getImageFile();
-                    System.out.println(fileC);
+//            byte[] fileC = null;
+//            if (empleadoSeleccionado.getImageFile() == null) {
+//                cbUpImag.setSelected(true);
+//            } else {
+//                System.out.println("a");
+//                File file = new File("C:\\Users\\kathe\\Pictures\\Monigote.png");
+//                try {
+//                    fileC = empleadoSeleccionado.getImageFile();
+//                    System.out.println(fileC);
+//
+//                    Blob blob = new SerialBlob(empleadoSeleccionado.getImageFile());
+//                    System.out.println("BLOB ES:" + blob.toString());
+//                    int lon = (int) blob.length();
+//                    byte[] vf = blob.getBytes(1L, lon);
+//
+//                    System.out.println(vf);
+//
+//                    ImageIcon imageIcon = new ImageIcon(vf);
+//                    System.out.println(imageIcon);
+//
+//                    jLabel12.setLocation(100, 100);
+//                    jLabel12.setIcon(imageIcon);
+//                } catch (Exception ex) {
+//                    System.out.println("no va");
+//                }
+//            }
+        System.out.println("SALIDA GG");
+                   try{
+                       File file  = imagenesAD.getFile(empleadoSeleccionado.getID());
+                         System.err.println(file.getPath());
+        ImageIcon image = new ImageIcon(file.getPath());
 
-                    Blob blob = new SerialBlob(empleadoSeleccionado.getImageFile());
-                    System.out.println("BLOB ES:" + blob.toString());
-                    int lon = (int) blob.length();
-                    byte[] vf = blob.getBytes(1L, lon);
-
-                    System.out.println(vf);
-
-                    ImageIcon imageIcon = new ImageIcon(vf);
-                    System.out.println(imageIcon);
-
-                    jLabel12.setLocation(100, 100);
-                    jLabel12.setIcon(imageIcon);
-                } catch (Exception ex) {
-                    System.out.println("no va");
-                }
-            }
+        jLabel12.setIcon(image);
+                   }catch(Exception ex ){
+                   }
         }
         btnModificar.setEnabled(true);
         btnEliminar.setEnabled(true);
