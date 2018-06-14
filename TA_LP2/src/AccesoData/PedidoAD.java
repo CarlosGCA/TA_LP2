@@ -43,7 +43,7 @@ public class PedidoAD {
 
             CallableStatement cs
                     = con.prepareCall("{call "
-                            + "REGISTRAR_PEDIDO_PRODUCTO(?,?,?,?,?)}"
+                            + "REGISTRAR_PEDIDO_PRODUCTO(?,?,?,?,?,?)}"
                     );
             
             cs.registerOutParameter(1, java.sql.Types.INTEGER);
@@ -55,6 +55,7 @@ public class PedidoAD {
             cs.setInt(3, iduser);
             cs.setInt(4, 2);
             cs.setInt(5, ped.getcliente().getId_cliente());
+            cs.setBoolean(6, ped.getDelivery());
             
             cs.execute();
             idreg=cs.getInt(1);
@@ -115,7 +116,7 @@ public class PedidoAD {
                 EstadoPedido estPed = EstadoPedido.values()[(rs.getInt(4))];
                 pp.setestadoPedo(estPed);
                 
-                
+                pp.setDelivery(rs.getBoolean(10));
                 
                 if(TipoCli.equals("Natural")){
                     Natural n = new Natural();
@@ -189,7 +190,7 @@ public class PedidoAD {
 
             CallableStatement cs
                     = con.prepareCall("{call "
-                            + "MODIFICAR_PEDIDO_PRODUCTOS(?,?,?,?)}"
+                            + "MODIFICAR_PEDIDO_PRODUCTOS(?,?,?,?,?)}"
                     );
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String fechEntrega = dateFormat.format(ped.getfechaEntrPed());
@@ -198,7 +199,7 @@ public class PedidoAD {
             cs.setString(2, fechEntrega);
             cs.setInt(3, iduser);
             cs.setInt(4, ped.getcliente().getId_cliente());
-            
+            cs.setBoolean(5, ped.getDelivery());
             cs.execute();
             con.close();
             System.out.println("Pedido Modificado correctamente");

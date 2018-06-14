@@ -42,6 +42,9 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import Email.Email;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 /**
  *
  * @author Kathy Ruiz :)
@@ -141,6 +144,19 @@ public class JFramePedidos extends javax.swing.JDialog {
             }
         });
         
+        chbDelivery.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(chbDelivery.isSelected())
+                    Pedido.setDelivery(true);
+                else
+                    Pedido.setDelivery(false);
+                actualizarTabla();
+            }
+        });
+        
+        
+        
         Pedido = new PedidoProducto();
         modelo = (DefaultTableModel) JTablePedidos.getModel();
         documentoPagoBL = new DocumentoPagoBL();
@@ -198,6 +214,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                 txtFechaPed.setText(fechaActual());
                 jDateChooser1.setCalendar(null);
                 JTablePedidos.setEnabled(true);
+                chbDelivery.setSelected(false);
                 break;
                 
             //visualizar
@@ -226,6 +243,10 @@ public class JFramePedidos extends javax.swing.JDialog {
                     btnDescargarOrden.setEnabled(false);
                 else
                     btnDescargarOrden.setEnabled(true);
+                if(Pedido.getDelivery())
+                    chbDelivery.setSelected(true);
+                else
+                    chbDelivery.setSelected(false);
                 break;
             
             //Modificar
@@ -1049,7 +1070,12 @@ public class JFramePedidos extends javax.swing.JDialog {
 
                 EstadoPedido estPed = EstadoPedido.Pendiente;
                 Pedido.setestadoPedo(estPed);
-
+                
+                if(chbDelivery.isSelected())
+                    Pedido.setDelivery(true);
+                else
+                    Pedido.setDelivery(false);
+                
                 int idped=logicaNegocio.registrarPedido(Pedido, userLogin.getidUsuario());
                 if(idped==0)
                     throw new Exception("Error al registrar pedido");
@@ -1090,6 +1116,12 @@ public class JFramePedidos extends javax.swing.JDialog {
 
                 Pedido.setfechaEntrPed(fechEntrega);
                 
+                if(chbDelivery.isSelected())
+                    Pedido.setDelivery(true);
+                else
+                    Pedido.setDelivery(false);
+                
+                actualizarTabla();
                 logicaNegocio.modificarPedido(Pedido, userLogin.getidUsuario());
 //                try{
 //                    Email controllerEmail = new Email();

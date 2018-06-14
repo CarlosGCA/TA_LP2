@@ -14,7 +14,8 @@ public class PedidoProducto{
 	private ArrayList<LineaPedidoProducto> listaLineasPedido;
 	private DocumentoPago documPago;
         private float TotalPagar;
-	
+        private Boolean delivery;	
+    
 	public PedidoProducto(Cliente cliente,DocumentoPago documPago){
 		this.cliente=cliente;
 		this.documPago=documPago;
@@ -28,8 +29,23 @@ public class PedidoProducto{
             this.fechaEntrPed = new Date();
             this.fechaRegPed = new Date();  
             this.TotalPagar = 0;
+            this.delivery=false;
         }
 	
+        /**
+         * @return the delivery
+         */
+        public Boolean getDelivery() {
+            return delivery;
+        }
+
+        /**
+         * @param delivery the delivery to set
+         */
+        public void setDelivery(Boolean delivery) {
+            this.delivery = delivery;
+        }
+        
 	public void setidPedido(int idPedido){
 		this.idPedido=idPedido;
 	}
@@ -77,6 +93,8 @@ public class PedidoProducto{
                 if(lpp.getHabilitado())
                     total+= lpp.getCantidad()*lpp.getProducto().getprecio();
             }
+            if(delivery)
+                total=total+15;
             return total;
         }
 
