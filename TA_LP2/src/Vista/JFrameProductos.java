@@ -397,6 +397,22 @@ public class JFrameProductos extends javax.swing.JDialog{
             textPrecio.setText(Float.toString(productoSeleccionado.getprecio()));
             jTextArea1.setText(productoSeleccionado.getDescripcion());
             
+            DefaultTableModel aux= (DefaultTableModel) jTable1.getModel();
+            aux.setRowCount(0);
+            Object [] fila = new Object [4];
+            unidadMed um;
+            for(int i=0;i<ingredientes.size();i++){
+                fila[0] = ingredientes.get(i).getidIngrediente();
+                fila[1] = ingredientes.get(i).getinsumo().getNombre();
+                fila[2] = ingredientes.get(i).getcantidad();
+                um = ingredientes.get(i).getinsumo().getunidMed();
+                if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
+                else if(um == unidadMed.cajas) fila[3] = "CAJAS";
+                else if(um == unidadMed.lt) fila[3] = "LITROS";
+                else if(um == unidadMed.unid) fila[3] = "UNIDADES";
+                aux.addRow(fila);
+            }
+            
             
          }
     }//GEN-LAST:event_btnModificarProductoActionPerformed
