@@ -161,6 +161,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                 btnElimina.setEnabled(false);
                 jDateChooser1.setEnabled(false);
                 btnGenerarDocumentoPago.setEnabled(false);
+                btnDescargarDocPago.setEnabled(false);
                 JTablePedidos.setEnabled(false);
                 cboTipoCliente.setEnabled(false);
                 break;
@@ -178,6 +179,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                 jDateChooser1.setEnabled(true);
                 cboTipoCliente.setEnabled(true);
                 btnGenerarDocumentoPago.setEnabled(false);
+                btnDescargarDocPago.setEnabled(false);
                 
                 txtIDPedido.setText("");
                 jLEstado.setText("");
@@ -197,14 +199,21 @@ public class JFramePedidos extends javax.swing.JDialog {
             case 3:
                 btnGrabar.setEnabled(false);
                 btnModificar.setEnabled(true);
-                btnAnular.setEnabled(false);
+                btnAnular.setEnabled(true);
                 btnBuscarDNI.setEnabled(false);
                 btnBuscarProducto.setEnabled(false);
                 txtCantidad.setEnabled(false);
                 btnAgrega.setEnabled(false);
                 btnElimina.setEnabled(false);
                 jDateChooser1.setEnabled(false);
-                btnGenerarDocumentoPago.setEnabled(false);
+                if(Pedido.getestadoPed()==EstadoPedido.Listo)
+                    btnGenerarDocumentoPago.setEnabled(true);
+                else
+                    btnGenerarDocumentoPago.setEnabled(false);
+                if(Pedido.getestadoPed()==EstadoPedido.Finalizado)
+                    btnDescargarDocPago.setEnabled(true);
+                else
+                    btnDescargarDocPago.setEnabled(false);
                 JTablePedidos.setEnabled(false);
                 cboTipoCliente.setEnabled(false);
                 break;
@@ -214,14 +223,15 @@ public class JFramePedidos extends javax.swing.JDialog {
                 btnGrabar.setEnabled(true);
                 btnBuscarDNI.setEnabled(true);
                 btnModificar.setEnabled(false);
-                btnAnular.setEnabled(true);
+                btnAnular.setEnabled(false);
                 btnBuscarProducto.setEnabled(true);
                 txtCantidad.setEnabled(true);
                 btnAgrega.setEnabled(true);
                 btnElimina.setEnabled(true);
                 jDateChooser1.setEnabled(true);
                 cboTipoCliente.setEnabled(true);
-                btnGenerarDocumentoPago.setEnabled(true);
+                btnGenerarDocumentoPago.setEnabled(false);
+                btnDescargarDocPago.setEnabled(false);
                 JTablePedidos.setEnabled(true);
                 cboTipoCliente.setEnabled(true);
         }
@@ -303,6 +313,7 @@ public class JFramePedidos extends javax.swing.JDialog {
         btnGenerarDocumentoPago = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         txtIDDPago = new javax.swing.JTextField();
+        btnDescargarDocPago = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -628,6 +639,13 @@ public class JFramePedidos extends javax.swing.JDialog {
 
         txtIDDPago.setEnabled(false);
 
+        btnDescargarDocPago.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/iconoDescargar.png"))); // NOI18N
+        btnDescargarDocPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescargarDocPagoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -639,7 +657,10 @@ public class JFramePedidos extends javax.swing.JDialog {
                     .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtIDDPago, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(txtIDDPago, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDescargarDocPago, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnGenerarDocumentoPago))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -648,12 +669,15 @@ public class JFramePedidos extends javax.swing.JDialog {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnGenerarDocumentoPago)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtIDDPago)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtIDDPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel14))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnGenerarDocumentoPago)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDescargarDocPago, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -739,7 +763,9 @@ public class JFramePedidos extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnElimina, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAgrega, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnAgrega, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(25, 25, 25))
                                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -882,6 +908,10 @@ public class JFramePedidos extends javax.swing.JDialog {
                 throw new Exception("No se puede modificar un pedido En Proceso");
             if(Pedido.getestadoPed()==EstadoPedido.Cancelado)
                 throw new Exception("No se puede modificar un pedido Cancelado");
+            if(Pedido.getestadoPed()==EstadoPedido.Listo)
+                throw new Exception("No se puede modificar un pedido Listo");
+            if(Pedido.getestadoPed()==EstadoPedido.Finalizado)
+                throw new Exception("No se puede modificar un pedido Finalizado");
             setAccion(operacion.Modificar);
             estadoCampos(4);
         }catch(Exception e){
@@ -979,26 +1009,19 @@ public class JFramePedidos extends javax.swing.JDialog {
     private void btnGenerarDocumentoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarDocumentoPagoActionPerformed
         try {       
 //            int idPedido = Integer.parseInt(strPedido);
-            String tipoDoc = (Pedido.getcliente() instanceof Natural)?"Boleta":"Factura";
-            String nombArchRep = tipoDoc + " pedido "+txtIDPedido.getText()+".pdf";
-            
-            File archDocPago = new File(nombArchRep);
-            if(archDocPago.isFile()) //borramos por defecto
-                archDocPago.delete();
             
 //            float total = Float.parseFloat(txtTotal.getText());
             
 //            int idBoleta = documentoPagoBL.generarBoleta(total, idPedido, 18);
             int idBoleta = documentoPagoBL.generarDocPago(Pedido);
+            logicaNegocio.cambiarEstadoPedido(Pedido.getidPedido(), EstadoPedido.Finalizado.ordinal());
+            Pedido.setestadoPedo(EstadoPedido.Finalizado);
+            jLEstado.setText(Pedido.getestadoPed().toString());
             txtIDDPago.setText(Integer.toString(idBoleta));
             //documentoPagoBL.generarDocumentoPago(Pedido); //IMPLEMENTAR
-            documentoPagoBL.exportarDocPagoPDF(Pedido, nombArchRep);
-
-            int seleccion = JOptionPane.showConfirmDialog(null, "Documento generado exitosamente,\n¿desea abrirlo?",
-                                          "Mensaje",JOptionPane.YES_NO_OPTION);
-            if(seleccion == JOptionPane.YES_OPTION)
-                Desktop.getDesktop().open(archDocPago);
-
+            
+            JOptionPane.showConfirmDialog(null, "Documento generado exitosamente con id " + idBoleta,
+                                          "Mensaje",JOptionPane.INFORMATION_MESSAGE);
             estadoCampos(3);
         } catch (Exception e){
             //System.out.println(e.getMessage());
@@ -1011,7 +1034,6 @@ public class JFramePedidos extends javax.swing.JDialog {
         JFBuscarPedidos objet= new JFBuscarPedidos(this,true);
         objet.setVisible(true);
         if(objet.getPedidoElegido()!=null){
-            estadoCampos(3);
             PedidoProducto ped = objet.getPedidoElegido();
             txtIDPedido.setText(Integer.toString(ped.getidPedido()));
             jLEstado.setText(ped.getestadoPed().toString());
@@ -1033,9 +1055,8 @@ public class JFramePedidos extends javax.swing.JDialog {
             String fechEnt = df.format(ped.getfechaEntrPed());
             txtFechaPed.setText(fechReg);
             jDateChooser1.setDate(ped.getfechaEntrPed());
-            
             Pedido = ped;
-            
+            estadoCampos(3);
             actualizarTabla();
             txtProducto.setText("");
             txtCantidad.setText("");
@@ -1059,6 +1080,30 @@ public class JFramePedidos extends javax.swing.JDialog {
     private void txtIDPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDPedidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIDPedidoActionPerformed
+
+    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
+        // TODO add your handling code here:
+        try{
+            if(Pedido.getestadoPed()==EstadoPedido.EnProceso)
+                throw new Exception("No se puede anular un pedido En Proceso");
+            if(Pedido.getestadoPed()==EstadoPedido.Cancelado)
+                throw new Exception("El pedido ya fue Cancelado");
+            if(Pedido.getestadoPed()==EstadoPedido.Listo)
+                throw new Exception("No se puede anular un pedido Listo");
+            if(Pedido.getestadoPed()==EstadoPedido.Finalizado)
+                throw new Exception("No se puede anular un pedido Finalizado");
+            int decision = JOptionPane.showConfirmDialog(null, "¿Esta seguro de anular el pedido?", "MENSAJE", JOptionPane.YES_NO_OPTION);
+            if(decision==JOptionPane.YES_OPTION){
+                logicaNegocio.cambiarEstadoPedido(Pedido.getidPedido(),EstadoPedido.Cancelado.ordinal());
+                jLEstado.setText(EstadoPedido.Cancelado.toString());
+                Pedido.setestadoPedo(EstadoPedido.Cancelado);
+                estadoCampos(3);
+                JOptionPane.showMessageDialog(null, "Pedido con id " + Pedido.getidPedido() +" anulado correctamente", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }   
+    }//GEN-LAST:event_btnAnularActionPerformed
 
     private void btnAgregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregaActionPerformed
         // TODO add your handling code here:
@@ -1095,7 +1140,6 @@ public class JFramePedidos extends javax.swing.JDialog {
             else
             JOptionPane.showMessageDialog(null, "¡Indique una cantidad correcta!", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
-
     }//GEN-LAST:event_btnAgregaActionPerformed
 
     private void btnEliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminaActionPerformed
@@ -1103,7 +1147,7 @@ public class JFramePedidos extends javax.swing.JDialog {
         try{
             int indx = JTablePedidos.getSelectedRow();
             int idPro = (int) JTablePedidos.getModel().getValueAt(indx, 0);
-            
+
             int indxP=0;
             for (LineaPedidoProducto lb: Pedido.getListaLineasPedido()){
                 if(lb.getProducto().getidProducto()==idPro){
@@ -1111,7 +1155,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                 }
                 indxP++;
             }
-            
+
             Pedido.getListaLineasPedido().get(indxP).setHabilitado(false);
             Pedido.setTotalPagar(Pedido.getTotalPagar());
             txtTotal.setText(Float.toString(Pedido.getTotalPagar()));
@@ -1124,17 +1168,27 @@ public class JFramePedidos extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnEliminaActionPerformed
 
-    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
+    private void btnDescargarDocPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarDocPagoActionPerformed
         // TODO add your handling code here:
-        int decision = JOptionPane.showConfirmDialog(null, "¿Esta seguro de anular el pedido?", "MENSAJE", JOptionPane.YES_NO_OPTION);
-        if(decision==JOptionPane.YES_OPTION){
-            logicaNegocio.anularPedido(Pedido.getidPedido());
-            jLEstado.setText(EstadoPedido.Cancelado.toString());
-            Pedido.setestadoPedo(EstadoPedido.Cancelado);
+        try{
+            String tipoDoc = (Pedido.getcliente() instanceof Natural)?"Boleta":"Factura";
+            String nombArchRep = tipoDoc + " pedido "+txtIDPedido.getText()+".pdf";
+            
+            File archDocPago = new File(nombArchRep);
+            if(archDocPago.isFile()) //borramos por defecto
+                archDocPago.delete();
+            
+            documentoPagoBL.exportarDocPagoPDF(Pedido, nombArchRep);
+            
+            int seleccion = JOptionPane.showConfirmDialog(null, "Documento descargado exitosamente,\n¿desea abrirlo?",
+                                          "Mensaje",JOptionPane.YES_NO_OPTION);
+            if(seleccion == JOptionPane.YES_OPTION)
+                Desktop.getDesktop().open(archDocPago);
             estadoCampos(3);
-            JOptionPane.showMessageDialog(null, "Pedido con id " + Pedido.getidPedido() +" anulado correctamente", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_btnAnularActionPerformed
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }   
+    }//GEN-LAST:event_btnDescargarDocPagoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1184,6 +1238,7 @@ public class JFramePedidos extends javax.swing.JDialog {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscarDNI;
     private javax.swing.JButton btnBuscarProducto;
+    private javax.swing.JButton btnDescargarDocPago;
     private javax.swing.JButton btnElimina;
     private javax.swing.JButton btnGenerarDocumentoPago;
     private javax.swing.JButton btnGrabar;

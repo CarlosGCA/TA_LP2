@@ -369,7 +369,8 @@ public class JFPrincipalAdmi extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEstadisticasActionPerformed
 
     private void btnGestDocPago1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestDocPago1ActionPerformed
-        // TODO add your handling code here:
+ JFrameDocumentosPago documentosPago = new JFrameDocumentosPago(this, true);
+        documentosPago.setVisible(true);
     }//GEN-LAST:event_btnGestDocPago1ActionPerformed
 
     /**
