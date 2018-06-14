@@ -17,6 +17,7 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import org.apache.commons.io.IOUtils;
 
@@ -54,7 +55,13 @@ public class ImagenesAD {
         }
     }
     
-    
+    public void deleteFile(int idEmpleado) throws SQLException{
+        if (con != null){
+            PreparedStatement sql =  con.prepareStatement("DELETE from Foto where idEmpleado = ?");
+            sql.setInt(1, idEmpleado);
+            sql.executeUpdate();
+        }
+    }
     
     public File getFile(int idEmpleado){
         

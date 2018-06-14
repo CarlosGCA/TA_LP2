@@ -940,6 +940,11 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         Empleado empSelec = new Empleado();
         empSelec = objeBuscarEmp.getEmpleadoSeleccionado();
         logicaNeg.elimEmpl(empSelec);
+        
+        try 
+        {imagenesAD.deleteFile(empSelec.getID());
+        
+        } catch (Exception ex){};
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar1ActionPerformed
