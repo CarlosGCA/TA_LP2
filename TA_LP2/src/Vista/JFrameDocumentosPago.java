@@ -9,8 +9,10 @@ import AccesoData.DocumentoPagoAD;
 import Modelo.Boleta;
 import Modelo.DocumentoPago;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dialog;
 import java.awt.Dimension;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JRViewer;
@@ -24,12 +26,17 @@ public class JFrameDocumentosPago extends javax.swing.JDialog {
     /**
      * Creates new form JFrameDocumentosPago
      */
-    DocumentoPagoAD documentoPagoAD;
-    
+    private DocumentoPagoAD documentoPagoAD;
+    private JRViewer vistaReporteActual;
+    //el tamano del panel automaticamente se cambia al agregar un segundo reporte, la causa aun esta por verse
     public JFrameDocumentosPago(Dialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
         documentoPagoAD = new DocumentoPagoAD();
+        
+        vistaReporteActual = null;
+        
+        
     }
 
     /**
@@ -43,49 +50,84 @@ public class JFrameDocumentosPago extends javax.swing.JDialog {
 
         btnBuscar = new javax.swing.JButton();
         panelDocumento = new javax.swing.JPanel();
+        descripcionPanelDocumento = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestionar Documentos de Pago");
 
-        btnBuscar.setText("Buscar Documento Pago");
+        btnBuscar.setText("Buscar Documento de Pago");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
             }
         });
 
+        panelDocumento.setBackground(new java.awt.Color(204, 204, 204));
         panelDocumento.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        panelDocumento.setMinimumSize(new java.awt.Dimension(625, 522));
+        panelDocumento.setToolTipText("Documento de Pago Panel");
+        panelDocumento.setMinimumSize(new java.awt.Dimension(50, 50));
+        panelDocumento.setName(""); // NOI18N
+
+        descripcionPanelDocumento.setText("[Se mostrará aquí el Documento de Pago Seleccionado]");
 
         javax.swing.GroupLayout panelDocumentoLayout = new javax.swing.GroupLayout(panelDocumento);
         panelDocumento.setLayout(panelDocumentoLayout);
         panelDocumentoLayout.setHorizontalGroup(
             panelDocumentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 730, Short.MAX_VALUE)
+            .addGroup(panelDocumentoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(descripcionPanelDocumento)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelDocumentoLayout.setVerticalGroup(
             panelDocumentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 645, Short.MAX_VALUE)
+            .addGroup(panelDocumentoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(descripcionPanelDocumento)
+                .addContainerGap(612, Short.MAX_VALUE))
         );
+
+        jLabel1.setText("Seleccione un documento de pago  dando click en la opción \"Buscar Documento de Pago\"");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("Gestión de Documentos de Pago");
+
+        jLabel3.setText("Solo se pueden visualizar los documentos de pago desde esta ventana. Para crear uno, dirígase a la opción \"Gestión de Pedidos\" de la ventana anterior.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
-                .addContainerGap(47, Short.MAX_VALUE))
+                    .addComponent(panelDocumento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(btnBuscar))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBuscar)
-                .addGap(18, 18, 18)
-                .addComponent(panelDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelDocumento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(49, 49, 49))
         );
 
         pack();
@@ -99,27 +141,29 @@ public class JFrameDocumentosPago extends javax.swing.JDialog {
         DocumentoPago documentoSeleccionado = ventanaBuscarDocumentos.getDocumentoSeleccionado();
         if( documentoSeleccionado!= null){
             if(documentoSeleccionado instanceof Boleta){
+                if(vistaReporteActual != null)//esto permite actualizar el reporte actual
+                    panelDocumento.remove(vistaReporteActual);
                 JasperPrint jasperprint = documentoPagoAD.exportBoleta(ventanaBuscarDocumentos.getIdPedidoSeleccionado(), "");
-
-                JRViewer viewer = new JRViewer(jasperprint);
-                viewer.setPreferredSize(panelDocumento.getPreferredSize());
+                JRViewer vistaReporte = new JRViewer(jasperprint);
+                vistaReporte.setPreferredSize(panelDocumento.getPreferredSize());
                 panelDocumento.setLayout(new BorderLayout());
                 panelDocumento.repaint();
-                panelDocumento.add(viewer);
+                panelDocumento.add(vistaReporte);
                 panelDocumento.revalidate();
-                
+                descripcionPanelDocumento.setVisible(false);
+                vistaReporteActual = vistaReporte;//esto permite actualizar el reporte actual
             }else{
+                if(vistaReporteActual != null)   //esto permite actualizar el reporte actual
+                    panelDocumento.remove(vistaReporteActual);
                 JasperPrint jasperprint = documentoPagoAD.exportFactura(ventanaBuscarDocumentos.getIdPedidoSeleccionado(), "");
-//                this.getContentPane().add(new JRViewer(jasperprint));
-                JRViewer viewer = new JRViewer(jasperprint);
-                viewer.setPreferredSize(panelDocumento.getPreferredSize());
+                JRViewer vistaReporte = new JRViewer(jasperprint);
+                vistaReporte.setPreferredSize(panelDocumento.getPreferredSize());
                 panelDocumento.setLayout(new BorderLayout());
                 panelDocumento.repaint();
-                panelDocumento.add(viewer);
+                panelDocumento.add(vistaReporte);
                 panelDocumento.revalidate();
-                
-                
-                
+                descripcionPanelDocumento.setVisible(false);
+                vistaReporteActual = vistaReporte; //esto permite actualizar el reporte actual
             }
         }
         }catch (Exception e){
@@ -176,6 +220,10 @@ public class JFrameDocumentosPago extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    public javax.swing.JLabel descripcionPanelDocumento;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel panelDocumento;
     // End of variables declaration//GEN-END:variables
 }
