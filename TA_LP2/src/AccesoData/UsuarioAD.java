@@ -144,7 +144,7 @@ public class UsuarioAD {
                     = con.prepareCall("{call "
                             + "LISTAR_EMPLEADO()}"
                     );
-    
+
             ResultSet rs = cs.executeQuery();
             while (rs.next()) {
                 Empleado emp = new Empleado();
@@ -159,12 +159,12 @@ public class UsuarioAD {
 //                Byte im = b.emp.setImageFile();
                 Turno tur;
                 String nomTur = rs.getString(11);
-                System.out.println("ttt"+nomTur);
+                System.out.println("ttt" + nomTur);
                 if (nomTur.equals("MAÑANA")) {
                     emp.setTurno(Turno.Mañana);
                 } else if (nomTur.equals("TARDE")) {
                     emp.setTurno(Turno.Tarde);
-                } else if (nomTur.equals("NOCHE")){
+                } else if (nomTur.equals("NOCHE")) {
                     emp.setTurno(Turno.Noche);
                 }
                 Puesto p = new Puesto();
@@ -231,7 +231,7 @@ public class UsuarioAD {
 
             CallableStatement cs
                     = con.prepareCall("{call "
-                            + "MODIFICAREMP(?,?,?,?,?,?,?,?)}"
+                            + "MODIFICAREMP(?,?,?,?,?,?,?,?,?)}"
                     );
             cs.setString(1, Integer.toString(emp.getID()));
             cs.setString(2, Integer.toString(emp.getDNI()));
@@ -239,11 +239,18 @@ public class UsuarioAD {
             cs.setString(4, emp.getApellido());
             cs.setString(5, emp.getFechaNac());
             cs.setString(6, String.valueOf(emp.getSexo()));
-            System.out.println("ss"+emp.getPuesto().getNombPuesto().toUpperCase());
-            System.out.println("sf"+emp.getTurno().toString().toUpperCase());
-            cs.setString(7,emp.getPuesto().getNombPuesto().toUpperCase());
+            System.out.println("ss" + emp.getPuesto().getNombPuesto().toUpperCase());
+            System.out.println("sf" + emp.getTurno().toString().toUpperCase());
+            cs.setString(7, emp.getPuesto().getNombPuesto().toUpperCase());
             cs.setString(8, emp.getTurno().toString().toUpperCase());
-
+            if (emp.getImageFile() != null) {
+                Blob blob = new SerialBlob(emp.getImageFile());
+                System.out.println("BLOB ES:" + blob.toString());
+                cs.setBlob(9, blob);
+            } else {
+                Blob b = null;
+                cs.setBlob(9, b);
+            }
             cs.executeUpdate();
 
             System.out.println("El Usuario: " + Integer.toString(emp.getID()) + " ha sido modificado");

@@ -168,11 +168,6 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         } else if (!auxdni.matches("^[0-9]*$") || (auxdni.length() != 8)) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del DNI", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (!nomUs.matches("^[A-Za-z0-9 ]*$") || (nomUs.isEmpty())) {
-            contador++;
-            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del usuario", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (contras.isEmpty()) {
-            System.out.println("si se muestra la contrasena asd");
         }
         return contador;
     }
@@ -836,38 +831,50 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                     emp.setTurno(Turno.Noche);
                 }
 
-                //emp.setTurno(Turno.Tarde);
-                //emp.setPuesto(puesto);
-//                byte[] fileContent = null;
-//
-//                StringBuffer fileContentStr = new StringBuffer("");
-//                BufferedReader reader = null;
-//                if (imgFile != null) {
-//                    try {
-//                        reader = new BufferedReader(new FileReader(imgFile.getPath()));
-//                    } catch (FileNotFoundException ex) {
-//                        Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//
-//                    String line = null;
-//                    try {
-//                        while ((line = reader.readLine()) != null) {
-//                            fileContentStr.append(line).append("\n");
-//                        }
-//                    } catch (IOException ex) {
-//                        System.out.println("no hay imagen");
-//                    }
-//
-//                    fileContent = fileContentStr.toString().trim().getBytes();
-//                } else {
-//                    fileContent = null;
-//                }
-//                System.out.println(fileContent);    
-//                emp.setImageFile(fileContent);
+                byte[] fileContent = null;
+                // initialize string buffer to hold contents of file
+                StringBuffer fileContentStr = new StringBuffer("");
+                BufferedReader reader = null;
+                if (imgFile != null) {
+                    try {
+                        // initialize buffered reader
+                        reader = new BufferedReader(new FileReader(imgFile.getPath()));
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    String line = null;
+                    try {
+                        // read lines of file
+                        while ((line = reader.readLine()) != null) {
+                            //append line to string buffer
+                            fileContentStr.append(line).append("\n");
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    fileContent = fileContentStr.toString().trim().getBytes();
+
+                } else {
+                    fileContent = null;
+                }
+                // convert string to byte array
+                emp.setImageFile(fileContent);
+
                 logicaNeg.modificarEmp(emp);
+                txtID.setText(Integer.toString(emp.getID()));
+
+                try {
+                    int idEmpleado = Integer.parseInt(txtID.getText());
+                    imagenesAD.uploadFile(this.pathUploadFile, idEmpleado);
+
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                }
                 JOptionPane.showMessageDialog(null, "El usuario: " + Integer.toString(emp.getID()) + " ha sido modificado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
+                //limpiarDatos();
+
             } catch (Exception ex) {
-                System.out.println(emp.getSexo());
+               
             }
         } else {
             this.enableInputMethods(true);
@@ -883,13 +890,12 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         txtUsuario.setText("");
         cbFem.setSelected(false);
         cbMas.setSelected(false);
-        Date da= null;
+        Date da = null;
         fechaNacimientoChooser.setDate(da);
 //        Date dateChooser = fechaNacimientoChooser.getDate();
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 //        String fechaString = dateFormat.format(dateChooser);
 
-        
     }
     private void btnBuscarEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarEmpActionPerformed
         // TODO add your handling code here:
@@ -944,32 +950,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             txtUsuario.setEnabled(false);
             txtContrasena.setEnabled(false);
             txtCorreo.setEnabled(false);
-//            byte[] fileC = null;
-//            if (empleadoSeleccionado.getImageFile() == null) {
-//                cbUpImag.setSelected(true);
-//            } else {
-//                System.out.println("a");
-//                File file = new File("C:\\Users\\kathe\\Pictures\\Monigote.png");
-//                try {
-//                    fileC = empleadoSeleccionado.getImageFile();
-//                    System.out.println(fileC);
-//
-//                    Blob blob = new SerialBlob(empleadoSeleccionado.getImageFile());
-//                    System.out.println("BLOB ES:" + blob.toString());
-//                    int lon = (int) blob.length();
-//                    byte[] vf = blob.getBytes(1L, lon);
-//
-//                    System.out.println(vf);
-//
-//                    ImageIcon imageIcon = new ImageIcon(vf);
-//                    System.out.println(imageIcon);
-//
-//                    jLabel12.setLocation(100, 100);
-//                    jLabel12.setIcon(imageIcon);
-//                } catch (Exception ex) {
-//                    System.out.println("no va");
-//                }
-//            }
+
             System.out.println("SALIDA GG");
             //jLabel12.setIcon(null);
             try {
