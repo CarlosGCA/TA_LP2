@@ -27,6 +27,8 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
     private ArrayList<PedidoProducto> listaPedidos;
     private PedidoProducto pedidoElegido;
     private ArrayList<PedidoProducto> listaFiltroPedidos;//
+    private ArrayList<PedidoProducto> listaFiltroPedidosEst;
+    private Boolean filtrado;
 //    private ArrayList<Empresa> listaFiltrEmpresa;
 //    private ArrayList<Natural> listaNatural; 
 //    private ArrayList<Empresa> listaEmpresa; 
@@ -79,6 +81,8 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
             }
 
             modelo.addRow(fila);
+            setTitle("Busqueda de Pedidos");
+            filtrado=false;
         }
     }
 
@@ -99,6 +103,8 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         txtFiltro = new javax.swing.JTextField();
         btnFiltrar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        cbbEstado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -136,7 +142,7 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
             }
         });
 
-        jLabel2.setText("Nombre:");
+        jLabel2.setText("Cliente:");
 
         txtFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,48 +157,68 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
             }
         });
 
+        jLabel3.setText("Estado");
+
+        cbbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Pendiente", "EnProceso", "Listo", "Finalizado", "Cancelado" }));
+        cbbEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbEstadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jLabel1)
-                        .addGap(350, 350, 350)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSelect)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSalir))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jLabel2)
-                        .addGap(32, 32, 32)
-                        .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(btnFiltrar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(34, 34, 34)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                                    .addComponent(cbbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(48, 48, 48)
+                                .addComponent(btnFiltrar)))))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalir)
-                    .addComponent(btnSelect)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSalir)
+                            .addComponent(btnSelect)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)))
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnFiltrar)))
-                .addGap(40, 40, 40)
+                    .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFiltrar))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(cbbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48))
+                .addGap(36, 36, 36))
         );
 
         pack();
@@ -207,7 +233,7 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
     private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
         // TODO add your handling code here:
         try {
-            if (txtFiltro.getText().isEmpty()) {
+            if (!filtrado) {
                 setPedidoElegido(new PedidoProducto());
                 setPedidoElegido(listaPedidos.get(tablePedidos.getSelectedRow()));
                 pedidoElegido.setListaLineasPedido(logicaNegocio.listarLineasPedido(pedidoElegido.getidPedido()));
@@ -227,17 +253,28 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
         // TODO add your handling code here:
         String filtro = txtFiltro.getText().toLowerCase();
         listaFiltroPedidos = new ArrayList<PedidoProducto>();
-        //listaFiltrEmpresa = new ArrayList<Empresa>();
-        for (int i = 0; i < listaPedidos.size(); i++) {
-            if (listaPedidos.get(i).getcliente() instanceof Natural) {
-                Natural nat = (Natural) listaPedidos.get(i).getcliente();
+        
+        if(cbbEstado.getSelectedItem().toString()!=""){
+            listaFiltroPedidosEst=new ArrayList<PedidoProducto>();
+            for(PedidoProducto pp : listaPedidos){
+                if(pp.getestadoPed().toString()==cbbEstado.getSelectedItem().toString()){
+                    listaFiltroPedidosEst.add(pp);
+                }
+            }
+        }else{
+            listaFiltroPedidosEst=new ArrayList<PedidoProducto>(listaPedidos);
+        }
+        
+        for (int i = 0; i < listaFiltroPedidosEst.size(); i++) {
+            if (listaFiltroPedidosEst.get(i).getcliente() instanceof Natural) {
+                Natural nat = (Natural) listaFiltroPedidosEst.get(i).getcliente();
                 if (nat.getNombre().toLowerCase().contains(filtro) || nat.getApellidos().toLowerCase().contains(filtro)) {
-                    listaFiltroPedidos.add(listaPedidos.get(i));
+                    listaFiltroPedidos.add(listaFiltroPedidosEst.get(i));
                 }
             } else {
-                Empresa emp = (Empresa) listaPedidos.get(i).getcliente();
+                Empresa emp = (Empresa) listaFiltroPedidosEst.get(i).getcliente();
                 if (emp.getRazonSocial().toLowerCase().contains(filtro)) {
-                    listaFiltroPedidos.add(listaPedidos.get(i));
+                    listaFiltroPedidos.add(listaFiltroPedidosEst.get(i));
                 }
             }
         }
@@ -268,12 +305,21 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
             }
 
             modelo.addRow(fila);
+            
+            if(filtro!="" || cbbEstado.getSelectedItem().toString()!="")
+                filtrado=true;
+            else
+                filtrado=false;
         }
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFiltroActionPerformed
+
+    private void cbbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbEstadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,8 +366,10 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
     private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSelect;
+    private javax.swing.JComboBox<String> cbbEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablePedidos;
     private javax.swing.JTextField txtFiltro;

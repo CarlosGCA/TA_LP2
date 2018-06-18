@@ -58,6 +58,7 @@ public class JFPrincipalVendedor extends javax.swing.JDialog {
         ImageIcon img2 = new ImageIcon(newIm);
         btnPedidos.setIcon(img2);
         
+        setTitle("Interfaz de Vendedor");
     }
 
     /**

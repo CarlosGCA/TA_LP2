@@ -104,6 +104,8 @@ public class JFBuscarCliente extends javax.swing.JDialog {
                 //JFramePedidos.value=0;
             }
         });
+        
+        setTitle("Busqueda de Clientes");
     }
 
     /**

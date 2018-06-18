@@ -43,7 +43,8 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         LogicaNegocio = new UsuarioBL();
         usuarios = new ArrayList<CuentaUsuario>();
         intentosUsuario = new HashMap();
-
+        lblTitulo.setOpaque(true);
+        setTitle("Logueo");
     }
 
     /**
@@ -64,6 +65,7 @@ public class JFPrincipal1 extends javax.swing.JFrame {
         jPassword = new javax.swing.JPasswordField();
         helperLabel = new javax.swing.JLabel();
         labelOlvideContra = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -99,12 +101,12 @@ public class JFPrincipal1 extends javax.swing.JFrame {
                 jPasswordActionPerformed(evt);
             }
         });
-		jPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+        jPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordKeyPressed(evt);
             }
         });
-		
+
         helperLabel.setText("Para recuperar su contraseña");
 
         labelOlvideContra.setFont(new java.awt.Font("Lucida Grande", 2, 13)); // NOI18N
@@ -116,54 +118,59 @@ public class JFPrincipal1 extends javax.swing.JFrame {
             }
         });
 
+        lblTitulo.setBackground(new java.awt.Color(0, 153, 51));
+        lblTitulo.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitulo.setText("          ROVEGNO");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblContrasena)
-                                        .addComponent(lblUsuario))
-                                    .addGap(31, 31, 31)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                                        .addComponent(txtUsuario)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnIngresar)
-                                    .addGap(77, 77, 77)
-                                    .addComponent(btnCancelar)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
                         .addComponent(helperLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelOlvideContra)))
-                .addContainerGap(103, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(labelOlvideContra))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnIngresar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCancelar))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblContrasena)
+                                .addComponent(lblUsuario))
+                            .addGap(31, 31, 31)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                .addComponent(txtUsuario)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addComponent(lblTitulo)
+                .addGap(29, 29, 29)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUsuario)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblContrasena)
                     .addComponent(jPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(63, 63, 63)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIngresar)
                     .addComponent(btnCancelar))
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(helperLabel)
                     .addComponent(labelOlvideContra))
@@ -335,6 +342,7 @@ public class JFPrincipal1 extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPassword;
     private javax.swing.JLabel labelOlvideContra;
     private javax.swing.JLabel lblContrasena;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables

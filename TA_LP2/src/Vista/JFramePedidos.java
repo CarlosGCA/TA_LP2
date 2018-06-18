@@ -123,7 +123,7 @@ public class JFramePedidos extends javax.swing.JDialog {
         
         setLocationRelativeTo(null);
         setResizable(false);
-        setTitle("Ventana Principal");
+        setTitle("Gestion de Pedidos");
         
         txtFechaPed.setEnabled(false);
         txtProducto.setEnabled(false);
@@ -1295,9 +1295,16 @@ public class JFramePedidos extends javax.swing.JDialog {
     private void btnAgregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregaActionPerformed
         // TODO add your handling code here:
         try{
+            if(productoSeleccionado==null)
+                throw new Exception("Seleccione un producto");
+            
             float cant = Float.parseFloat(txtCantidad.getText());
             float subt = cant*Float.parseFloat(txtPrecio.getText());
-
+            
+            if(cant<=0)
+                throw new Exception("Se ha ingresado una cantidad incorrecta");
+            
+            
             int indx=0;
             int encontrado=0;
             for (LineaPedidoProducto lb: Pedido.getListaLineasPedido()){
@@ -1321,11 +1328,10 @@ public class JFramePedidos extends javax.swing.JDialog {
             }
             Pedido.setTotalPagar(Pedido.getTotalPagar());
             actualizarTabla();
-        }catch(Exception e){
-            if(txtPrecio.getText().isEmpty())
-            JOptionPane.showMessageDialog(null, "¡Seleccione un producto!", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-            else
-            JOptionPane.showMessageDialog(null, "¡Indique una cantidad correcta!", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }catch(NumberFormatException ne){
+            JOptionPane.showMessageDialog(null, "Se ha ingresado una cantidad incorrecta", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }catch(Exception e){ 
+            JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregaActionPerformed
 

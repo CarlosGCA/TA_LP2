@@ -63,6 +63,7 @@ public class JBuscarProducto extends javax.swing.JDialog {
             fila[2] = listaProductos.get(i).getprecio();
             modelo.addRow(fila);
         }
+        setTitle("Busqueda de productos");
     }
 
     /**
