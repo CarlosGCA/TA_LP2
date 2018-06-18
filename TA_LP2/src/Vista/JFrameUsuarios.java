@@ -155,7 +155,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         String ap = txtApellido.getText();//emp.getApellido();//
         String auxdni = txtDNI.getText();//teger.toString(emp.getDNI());//
         String nomUs = txtUsuario.getText();//emp.getUsuario().getnombreUsuario();//
-
+        String contras = new String(txtContrasena.getPassword());
         if (!nom1.matches("^[A-Za-z ]*$")) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del nombre", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
@@ -168,9 +168,6 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         } else if (!auxdni.matches("^[0-9]*$") || (auxdni.length() != 8)) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del DNI", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (!nomUs.matches("^[A-Za-z0-9 ]*$")) {
-            contador++;
-            JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del usuario", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
         }
         return contador;
     }
@@ -181,32 +178,81 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         emp = new Empleado();
         int contador = 0;// validar();
 
-        String nom1 = txtNombres.getText();
-        String ap = txtApellido.getText();
+        String nom1;
+        String ap;
         String auxdni = txtDNI.getText();
         String nomUs = txtUsuario.getText();
         String auxCorr = txtCorreo.getText();
+        String cc = new String(txtContrasena.getPassword());
+        try {
+            Date dd = fechaNacimientoChooser.getDate();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaString = dateFormat.format(dd);
+            System.out.println(dd);
+        } catch (Exception ex) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "FALTA COLOCAR LA FECHA", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (txtNombres.getText().isEmpty()) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "FALTA COLOCAR EL NOMBRE DEL USUARIO", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (txtApellido.getText().isEmpty()) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "FALTA COLOCAR EL APELLIDO DEL USUARIO", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (txtUsuario.getText().isEmpty()) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "FALTA COLOCAR EL NOMBRE DEL USUARIO DEL USUARIO", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (txtCorreo.getText().isEmpty()) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "FALTA COLOCAR EL CORREO DEL USUARIO", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (txtDNI.getText().isEmpty()) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "FALTA COLOCAR EL DNI DEL USUARIO", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (cc.isEmpty()) {
+            contador++;
+            JOptionPane.showMessageDialog(null, "FALTA COLOCAR LA CONTRASEÑA DEL USUARIO", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        if ((cbFem.isSelected()) || (cbMas.isSelected())) {
+            System.out.println("SI SE SELECCIONO EL SEXO");
+        } else {
+            contador++;
+            JOptionPane.showMessageDialog(null, "FALTA SELECCIONAR EL SEXO DEL USUARIO", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        }
+
         System.out.println("lendni: " + auxdni.length());
-        
-        if(nom1.equals("") || ap.equals("") || auxdni.equals("") || nomUs.equals("") || auxCorr.equals("")){
-            JOptionPane.showMessageDialog(null, "Campos incompletos", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        }else if (!nom1.matches("^[A-Za-z ]*$")) {
+//        if(dd.equals("")){
+//            System.out.println("no se muestra la fecha");
+//        }'dfsfs
+        //if (nom1.isEmpty() || ap.isEmpty() || auxdni.equals("") || nomUs.isEmpty() || auxCorr.isEmpty() || cc.isEmpty()) {
+        //  JOptionPane.showMessageDialog(null, "Campos incompletos", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
+        //   contador++;
+        //} else 
+        if (!txtNombres.getText().matches("^[A-Za-z ]*$")) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del nombre", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
             Scanner sc = new Scanner(System.in);
             sc.equals(txtNombres.getText());
             System.out.println("fd");
-        } else if (!ap.matches("^[A-Za-z ]*$")) {
+        } else if (!txtApellido.getText().matches("^[A-Za-z ]*$")) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del apellido", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (!auxdni.matches("^[0-9]*$") || (auxdni.length() != 8)) {
+        } else if (!auxdni.matches(
+                "^[0-9]*$") || (auxdni.length() != 8)) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del DNI", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
-        } else if (!nomUs.matches("^[A-Za-z0-9 ]*$")) {
+        } else if (!nomUs.matches(
+                "^[A-Za-z0-9 ]*$")) {
             contador++;
             JOptionPane.showMessageDialog(null, "Ocurre error en la entrada del usuario", "Ventana Usuarios", JOptionPane.INFORMATION_MESSAGE);
         }
-        if (contador == 0) {
+        if (contador
+                == 0) {
 
             emp.setNombre(txtNombres.getText());
 
@@ -302,19 +348,19 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             logicaNeg.registrarProfesor(emp);
 
             txtID.setText(Integer.toString(emp.getID()));
-            
-            if(emp.getID()==0)
+
+            if (emp.getID() == 0) {
                 JOptionPane.showMessageDialog(null, "Error al registrar usuario", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
-            else{
-                try{
-                int idEmpleado = Integer.parseInt(txtID.getText());
-                imagenesAD.uploadFile(this.pathUploadFile ,idEmpleado);
-                
-            } catch(Exception ex){
-                System.err.println(ex.getMessage());
-            }
+            } else {
+                try {
+                    int idEmpleado = Integer.parseInt(txtID.getText());
+                    imagenesAD.uploadFile(this.pathUploadFile, idEmpleado);
+
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                }
                 JOptionPane.showMessageDialog(null, "El usuario: " + emp.getID() + " ha sido agregado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
-            
+                limpiarDatos();
             }
         } else {
             this.enableInputMethods(true);
@@ -784,41 +830,51 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                 } else if (nomT.equals("NOCHE")) {
                     emp.setTurno(Turno.Noche);
                 }
-                
-                 
-                //emp.setTurno(Turno.Tarde);
-                //emp.setPuesto(puesto);
-//                byte[] fileContent = null;
-//
-//                StringBuffer fileContentStr = new StringBuffer("");
-//                BufferedReader reader = null;
-//                if (imgFile != null) {
-//                    try {
-//                        reader = new BufferedReader(new FileReader(imgFile.getPath()));
-//                    } catch (FileNotFoundException ex) {
-//                        Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//
-//                    String line = null;
-//                    try {
-//                        while ((line = reader.readLine()) != null) {
-//                            fileContentStr.append(line).append("\n");
-//                        }
-//                    } catch (IOException ex) {
-//                        System.out.println("no hay imagen");
-//                    }
-//
-//                    fileContent = fileContentStr.toString().trim().getBytes();
-//                } else {
-//                    fileContent = null;
-//                }
-//                System.out.println(fileContent);    
-//                emp.setImageFile(fileContent);
-               
+
+                byte[] fileContent = null;
+                // initialize string buffer to hold contents of file
+                StringBuffer fileContentStr = new StringBuffer("");
+                BufferedReader reader = null;
+                if (imgFile != null) {
+                    try {
+                        // initialize buffered reader
+                        reader = new BufferedReader(new FileReader(imgFile.getPath()));
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    String line = null;
+                    try {
+                        // read lines of file
+                        while ((line = reader.readLine()) != null) {
+                            //append line to string buffer
+                            fileContentStr.append(line).append("\n");
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(JFrameUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    fileContent = fileContentStr.toString().trim().getBytes();
+
+                } else {
+                    fileContent = null;
+                }
+                // convert string to byte array
+                emp.setImageFile(fileContent);
+
                 logicaNeg.modificarEmp(emp);
+                txtID.setText(Integer.toString(emp.getID()));
+
+                try {
+                    int idEmpleado = Integer.parseInt(txtID.getText());
+                    imagenesAD.uploadFile(this.pathUploadFile, idEmpleado);
+
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                }
                 JOptionPane.showMessageDialog(null, "El usuario: " + Integer.toString(emp.getID()) + " ha sido modificado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
+                //limpiarDatos();
+
             } catch (Exception ex) {
-                System.out.println(emp.getSexo());
+               
             }
         } else {
             this.enableInputMethods(true);
@@ -834,6 +890,12 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         txtUsuario.setText("");
         cbFem.setSelected(false);
         cbMas.setSelected(false);
+        Date da = null;
+        fechaNacimientoChooser.setDate(da);
+//        Date dateChooser = fechaNacimientoChooser.getDate();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        String fechaString = dateFormat.format(dateChooser);
+
     }
     private void btnBuscarEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarEmpActionPerformed
         // TODO add your handling code here:
@@ -888,47 +950,21 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             txtUsuario.setEnabled(false);
             txtContrasena.setEnabled(false);
             txtCorreo.setEnabled(false);
-//            byte[] fileC = null;
-//            if (empleadoSeleccionado.getImageFile() == null) {
-//                cbUpImag.setSelected(true);
-//            } else {
-//                System.out.println("a");
-//                File file = new File("C:\\Users\\kathe\\Pictures\\Monigote.png");
-//                try {
-//                    fileC = empleadoSeleccionado.getImageFile();
-//                    System.out.println(fileC);
-//
-//                    Blob blob = new SerialBlob(empleadoSeleccionado.getImageFile());
-//                    System.out.println("BLOB ES:" + blob.toString());
-//                    int lon = (int) blob.length();
-//                    byte[] vf = blob.getBytes(1L, lon);
-//
-//                    System.out.println(vf);
-//
-//                    ImageIcon imageIcon = new ImageIcon(vf);
-//                    System.out.println(imageIcon);
-//
-//                    jLabel12.setLocation(100, 100);
-//                    jLabel12.setIcon(imageIcon);
-//                } catch (Exception ex) {
-//                    System.out.println("no va");
-//                }
-//            }
-        System.out.println("SALIDA GG");
-        //jLabel12.setIcon(null);
-                   try{
-                       
-                       File file  = imagenesAD.getFile(empleadoSeleccionado.getID());
-                         
-        ImageIcon image = new ImageIcon(file.getPath());
-        image.getImage().flush();
 
-        
-        jLabel12.setIcon(image);
-                   }catch(Exception ex ){
-                       System.err.println("AQUi se cae");;
-                       System.err.println(ex.getMessage());
-                   }
+            System.out.println("SALIDA GG");
+            //jLabel12.setIcon(null);
+            try {
+
+                File file = imagenesAD.getFile(empleadoSeleccionado.getID());
+
+                ImageIcon image = new ImageIcon(file.getPath());
+                image.getImage().flush();
+
+                jLabel12.setIcon(image);
+            } catch (Exception ex) {
+                System.err.println("AQUi se cae");;
+                System.err.println(ex.getMessage());
+            }
         }
         btnModificar.setEnabled(true);
         btnEliminar.setEnabled(true);
@@ -940,18 +976,22 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         Empleado empSelec = new Empleado();
         empSelec = objeBuscarEmp.getEmpleadoSeleccionado();
         logicaNeg.elimEmpl(empSelec);
-        
-        try 
-        {imagenesAD.deleteFile(empSelec.getID());
-        
-        } catch (Exception ex){};
+        JOptionPane.showMessageDialog(null, "El usuario: " + Integer.toString(empSelec.getID()) + " ha sido eliminado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            imagenesAD.deleteFile(empSelec.getID());
+
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        };
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar1ActionPerformed
         // TODO add your handling code here:
         registrarUsuario();
+
     }//GEN-LAST:event_btnRegistrar1ActionPerformed
-    private  File pathUploadFile ;
+    private File pathUploadFile;
     private void btnSubirImagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirImagActionPerformed
         //funcion subir imagen
         JFileChooser chooser;
@@ -968,8 +1008,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
             System.out.println("getSelectedFile() : "
                     + chooser.getSelectedFile());
             this.pathUploadFile = chooser.getSelectedFile();
-            
-            
+
         } else {
             System.out.println("No Selection ");
         }
