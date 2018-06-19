@@ -85,12 +85,12 @@ public class jFrameRankingClienteDialog extends javax.swing.JDialog {
                 if (indexTabSeleccionado == 0){
                     DefaultTableModel model = (DefaultTableModel) tbNatural.getModel();
                     model.setRowCount(0);
-                    llenarRanking(EstadoPedido.valueOf(seleccionado), "Natural");
+                    llenarRanking(EstadoPedido.getValue(seleccionado), "Natural");
                 
                 } else {
                     DefaultTableModel model = (DefaultTableModel) tbEmpresa.getModel();
                     model.setRowCount(0);
-                    llenarRanking(EstadoPedido.valueOf(seleccionado), "Empresa");
+                    llenarRanking(EstadoPedido.getValue(seleccionado), "Empresa");
                 }
                 
                 
@@ -108,11 +108,11 @@ public class jFrameRankingClienteDialog extends javax.swing.JDialog {
                   if (index == 0){
                       DefaultTableModel model = (DefaultTableModel) tbNatural.getModel();
                         model.setRowCount(0);
-                        llenarRanking(EstadoPedido.valueOf(seleccionado), "Natural");
+                        llenarRanking(EstadoPedido.getValue(seleccionado), "Natural");
                   } else {
                   DefaultTableModel model = (DefaultTableModel) tbEmpresa.getModel();
                     model.setRowCount(0);
-                    llenarRanking(EstadoPedido.valueOf(seleccionado), "Empresa");
+                    llenarRanking(EstadoPedido.getValue(seleccionado), "Empresa");
                   }
                   
                 }
