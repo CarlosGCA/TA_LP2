@@ -38,6 +38,23 @@ public class ImagenesAD {
         }
     }
     
+    public void updateFile(File file , int idEmpleado){
+        if (con != null){
+            try{
+                InputStream inputStream = new FileInputStream(file);
+                
+                String sql = "UPDATE Foto SET Foto=? WHERE idEmpleado = ?";
+                PreparedStatement statement = con.prepareStatement(sql);
+                statement.setBlob(1, inputStream);
+                statement.setInt(2, idEmpleado);
+                statement.executeUpdate();                       
+                
+            } catch (Exception e ){
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+    
     public void uploadFile(File file , int idEmpleado){
         if (con != null){
             try {

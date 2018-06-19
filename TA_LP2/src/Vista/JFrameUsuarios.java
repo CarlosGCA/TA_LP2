@@ -488,28 +488,28 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 106, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addGap(105, 105, 105))
+                        .addComponent(cbUpImag)
+                        .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnSubirImag)
-                        .addGap(131, 131, 131))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cbUpImag)
-                .addGap(29, 29, 29))
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(132, 132, 132)
+                .addComponent(btnSubirImag)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jLabel12)
-                .addGap(46, 46, 46)
-                .addComponent(btnSubirImag)
+                .addContainerGap()
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(btnSubirImag)
+                .addGap(11, 11, 11)
                 .addComponent(cbUpImag)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -870,7 +870,19 @@ public class JFrameUsuarios extends javax.swing.JDialog {
                 }
                 JOptionPane.showMessageDialog(null, "El usuario: " + Integer.toString(emp.getID()) + " ha sido modificado correctamente", "Ventana Clientes", JOptionPane.INFORMATION_MESSAGE);
                 //limpiarDatos();
+                try {
+                    int idEmpleado = Integer.parseInt(txtID.getText());
+                    imagenesAD.updateFile(this.pathUploadFile, idEmpleado);
+                    
+                   
 
+                   ImageIcon image = new ImageIcon(this.pathUploadFile.getPath());
+                    image.getImage().flush();
+
+                    jLabel12.setIcon(image);
+                } catch (Exception ex){
+                    System.err.println(ex.getMessage());
+                }
             } catch (Exception ex) {
                
             }
