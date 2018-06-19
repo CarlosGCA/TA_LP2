@@ -231,7 +231,7 @@ public class jFrameRankingClienteDialog extends javax.swing.JDialog {
 
         tabPanel.addTab("Empresa", panelEmpresa);
 
-        lblEstado.setText("Estado");
+        lblEstado.setText("Estado Pedido");
 
         cbEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -263,6 +263,7 @@ public class jFrameRankingClienteDialog extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEstadoActionPerformed

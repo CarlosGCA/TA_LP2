@@ -173,8 +173,8 @@ public class JFramePedidos extends javax.swing.JDialog {
                 btnBuscarDNI.setEnabled(false);
                 btnBuscarProducto.setEnabled(false);
                 txtCantidad.setEnabled(false);
-                btnAgrega.setEnabled(false);
-                btnElimina.setEnabled(false);
+                btnAgregar.setEnabled(false);
+                btnEliminar.setEnabled(false);
                 jDateChooser1.setEnabled(false);
                 btnGenerarDocumentoPago.setEnabled(false);
                 btnDescargarDocPago.setEnabled(false);
@@ -192,8 +192,8 @@ public class JFramePedidos extends javax.swing.JDialog {
                 btnAnular.setEnabled(false);
                 btnBuscarProducto.setEnabled(true);
                 txtCantidad.setEnabled(true);
-                btnAgrega.setEnabled(true);
-                btnElimina.setEnabled(true);
+                btnAgregar.setEnabled(true);
+                btnEliminar.setEnabled(true);
                 jDateChooser1.setEnabled(true);
                 cboTipoCliente.setEnabled(true);
                 btnGenerarDocumentoPago.setEnabled(false);
@@ -225,8 +225,8 @@ public class JFramePedidos extends javax.swing.JDialog {
                 btnBuscarDNI.setEnabled(false);
                 btnBuscarProducto.setEnabled(false);
                 txtCantidad.setEnabled(false);
-                btnAgrega.setEnabled(false);
-                btnElimina.setEnabled(false);
+                btnAgregar.setEnabled(false);
+                btnEliminar.setEnabled(false);
                 jDateChooser1.setEnabled(false);
                 if(Pedido.getestadoPed()==EstadoPedido.Listo)
                     btnGenerarDocumentoPago.setEnabled(true);
@@ -257,8 +257,8 @@ public class JFramePedidos extends javax.swing.JDialog {
                 btnAnular.setEnabled(false);
                 btnBuscarProducto.setEnabled(true);
                 txtCantidad.setEnabled(true);
-                btnAgrega.setEnabled(true);
-                btnElimina.setEnabled(true);
+                btnAgregar.setEnabled(true);
+                btnEliminar.setEnabled(true);
                 jDateChooser1.setEnabled(true);
                 cboTipoCliente.setEnabled(true);
                 btnGenerarDocumentoPago.setEnabled(false);
@@ -336,8 +336,8 @@ public class JFramePedidos extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         txtIDProd = new javax.swing.JTextField();
         btnBuscarProducto = new javax.swing.JButton();
-        btnAgrega = new javax.swing.JButton();
-        btnElimina = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         txtFechaPed = new javax.swing.JTextField();
@@ -578,17 +578,17 @@ public class JFramePedidos extends javax.swing.JDialog {
             }
         });
 
-        btnAgrega.setText("Agregar");
-        btnAgrega.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregaActionPerformed(evt);
+                btnAgregarActionPerformed(evt);
             }
         });
 
-        btnElimina.setText("Eliminar");
-        btnElimina.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminaActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
             }
         });
 
@@ -609,11 +609,11 @@ public class JFramePedidos extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgrega, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnElimina, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -648,12 +648,12 @@ public class JFramePedidos extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgrega))
+                    .addComponent(btnAgregar))
                 .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnElimina))
+                    .addComponent(btnEliminar))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -828,7 +828,7 @@ public class JFramePedidos extends javax.swing.JDialog {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel13)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDescargarOrden, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -840,7 +840,7 @@ public class JFramePedidos extends javax.swing.JDialog {
 
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel17.setText("Delivery");
+        jLabel17.setText("Delivery (+ S/.15)");
 
         chbDelivery.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -929,15 +929,15 @@ public class JFramePedidos extends javax.swing.JDialog {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(13, 13, 13)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1292,19 +1292,22 @@ public class JFramePedidos extends javax.swing.JDialog {
         } 
     }//GEN-LAST:event_btnDescargarOrdenActionPerformed
 
-    private void btnAgregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregaActionPerformed
+    private void chbDeliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbDeliveryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chbDeliveryActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
         try{
             if(productoSeleccionado==null)
-                throw new Exception("Seleccione un producto");
-            
+            throw new Exception("Seleccione un producto");
+
             float cant = Float.parseFloat(txtCantidad.getText());
             float subt = cant*Float.parseFloat(txtPrecio.getText());
-            
+
             if(cant<=0)
-                throw new Exception("Se ha ingresado una cantidad incorrecta");
-            
-            
+            throw new Exception("Se ha ingresado una cantidad incorrecta");
+
             int indx=0;
             int encontrado=0;
             for (LineaPedidoProducto lb: Pedido.getListaLineasPedido()){
@@ -1330,12 +1333,12 @@ public class JFramePedidos extends javax.swing.JDialog {
             actualizarTabla();
         }catch(NumberFormatException ne){
             JOptionPane.showMessageDialog(null, "Se ha ingresado una cantidad incorrecta", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-        }catch(Exception e){ 
+        }catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_btnAgregaActionPerformed
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void btnEliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminaActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         try{
             int indx = JTablePedidos.getSelectedRow();
@@ -1359,11 +1362,7 @@ public class JFramePedidos extends javax.swing.JDialog {
             else
             JOptionPane.showMessageDialog(null, "Seleccione una linea del pedido", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_btnEliminaActionPerformed
-
-    private void chbDeliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbDeliveryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chbDeliveryActionPerformed
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1408,14 +1407,14 @@ public class JFramePedidos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTablePedidos;
-    private javax.swing.JButton btnAgrega;
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAnular;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscarDNI;
     private javax.swing.JButton btnBuscarProducto;
     private javax.swing.JButton btnDescargarDocPago;
     private javax.swing.JButton btnDescargarOrden;
-    private javax.swing.JButton btnElimina;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGenerarDocumentoPago;
     private javax.swing.JButton btnGrabar;
     private javax.swing.JButton btnModificar;
