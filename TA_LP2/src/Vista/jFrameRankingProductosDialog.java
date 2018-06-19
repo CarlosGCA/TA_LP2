@@ -23,6 +23,7 @@ public class jFrameRankingProductosDialog extends javax.swing.JDialog {
     public jFrameRankingProductosDialog(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Ranking de Productos");
         controladorProducto = new ProductoBL();
          DefaultTableModel modelo = (DefaultTableModel) tbProductos.getModel();
         for (Pair<String, Pair<Integer,Integer>> elem : controladorProducto.listarRankingProductos()){
