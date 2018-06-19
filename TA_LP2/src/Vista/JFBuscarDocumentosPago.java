@@ -12,6 +12,7 @@ import Modelo.DocumentoPago;
 import Modelo.Factura;
 import Modelo.Natural;
 import java.awt.Dialog;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -146,12 +147,19 @@ public class JFBuscarDocumentosPago extends javax.swing.JDialog {
         String strIdPedido = txtIdPedido.getText().trim();
         String filtroCliente = txtCliente.getText().trim();
         //El filtro es sencillo: se aplica todos los filtros no vacios a la lista original. No es acumulativo
-        
-        if(filtroDocPago.equals("") && strIdPedido.equals("") && filtroCliente.equals(""))
-            return;
-        
-        
         documentosConExtraFiltrados = new ArrayList<>();
+        
+        if(filtroDocPago.equals("") && strIdPedido.equals("") && filtroCliente.equals("")){
+            DefaultTableModel modelo = (DefaultTableModel)tablaDocsPago.getModel();
+            modelo.setRowCount(0);
+            for(Object objTupla : documentosConExtra){
+                modelo.addRow(obtenerFilaDocumento(objTupla));
+            }
+            return;
+        }
+        
+        
+        
 
         ArrayList<String> filtros = new ArrayList<>();
         filtros.add(filtroDocPago);
@@ -203,6 +211,11 @@ public class JFBuscarDocumentosPago extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar Documento de Pago");
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         tablaDocsPago.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -253,9 +266,27 @@ public class JFBuscarDocumentosPago extends javax.swing.JDialog {
 
         jLabel4.setText("Num. Doc. Pago");
 
+        txtNumDocPago.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNumDocPagoKeyPressed(evt);
+            }
+        });
+
         jLabel5.setText("ID Pedido");
 
+        txtIdPedido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtIdPedidoKeyPressed(evt);
+            }
+        });
+
         jLabel6.setText("Cliente");
+
+        txtCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtClienteKeyPressed(evt);
+            }
+        });
 
         btnFiltrar.setText("Filtrar");
         btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
@@ -387,6 +418,50 @@ public class JFBuscarDocumentosPago extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private void txtNumDocPagoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumDocPagoKeyPressed
+        // TODO add your handling code here:
+        try{
+            if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+                aplicarFiltro();
+        }catch(Exception e){
+            //System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_txtNumDocPagoKeyPressed
+
+    private void txtIdPedidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdPedidoKeyPressed
+        // TODO add your handling code here:
+        try{
+            if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+                aplicarFiltro();
+        }catch(Exception e){
+            //System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_txtIdPedidoKeyPressed
+
+    private void txtClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClienteKeyPressed
+        // TODO add your handling code here:
+        try{
+            if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+                aplicarFiltro();
+        }catch(Exception e){
+            //System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_txtClienteKeyPressed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        // TODO add your handling code here:
+        try{
+            if(evt.getKeyCode() == KeyEvent.VK_ESCAPE)
+                super.dispose();
+        }catch(Exception e){
+            //System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments
