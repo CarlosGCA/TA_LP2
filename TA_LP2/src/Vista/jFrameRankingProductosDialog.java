@@ -6,8 +6,12 @@
 package Vista;
 
 import Controlador.ProductoBL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
 import java.util.Vector;
 import javafx.util.Pair;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,25 +20,60 @@ import javax.swing.table.DefaultTableModel;
  */
 public class jFrameRankingProductosDialog extends javax.swing.JDialog {
 
-    /**
-     * Creates new form jFrameRankingProductosDialog
-     */
+    private void inicializarFrame(){
+        initComponents();
+        this.dateChooserMinimo.setDateFormatString("yyyy-MM-dd");
+        this.dataChooserMaximo.setDateFormatString("yyyy-MM-dd");
+        this.dataChooserMaximo.setMaxSelectableDate(new Date());
+        this.dateChooserMinimo.setMaxSelectableDate(new Date());
+        this.dataChooserMaximo.setEnabled(false);
+        this.dateChooserMinimo.setEnabled(false);
+    }
+    
+    private Date fechaMaximo = null;
+    private Date fechaMinimo = null ;
     private ProductoBL controladorProducto;
+    
+    private void llenarTabla(){
+        
+        if (this.fechaMaximo == null || this.fechaMinimo == null ){
+            DefaultTableModel modelo = (DefaultTableModel) tbProductos.getModel();
+       
+         
+            for (Pair<String, Pair<Integer,Integer>> elem : controladorProducto.listarRankingProductos()){
+ Vector row = new Vector();
+                row.add(elem.getKey());
+                Pair<Integer,Integer> pair = elem.getValue();
+                row.add(pair.getKey());
+                row.add(pair.getValue());
+                
+                modelo.addRow(row);
+            }
+        } else {
+           
+            DefaultTableModel modelo = (DefaultTableModel) tbProductos.getModel();
+            
+            for (Pair<String, Pair<Integer,Integer>> elem : controladorProducto.listarRankingProductosFechas(fechaMinimo , fechaMaximo)){
+            Vector row = new Vector();
+                row.add(elem.getKey());
+                Pair<Integer,Integer> pair = elem.getValue();
+                row.add(pair.getKey());
+                row.add(pair.getValue());
+
+                modelo.addRow(row);
+            }
+        }
+    
+    } 
+    
+    
+    
     public jFrameRankingProductosDialog(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
-        initComponents();
+        inicializarFrame();
         this.setTitle("Ranking de Productos");
         controladorProducto = new ProductoBL();
-         DefaultTableModel modelo = (DefaultTableModel) tbProductos.getModel();
-        for (Pair<String, Pair<Integer,Integer>> elem : controladorProducto.listarRankingProductos()){
-            Vector row = new Vector();
-            row.add(elem.getKey());
-            Pair<Integer,Integer> pair = elem.getValue();
-            row.add(pair.getKey());
-            row.add(pair.getValue());
-           
-            modelo.addRow(row);
-        }
+        llenarTabla();
     }
 
     /**
@@ -49,6 +88,12 @@ public class jFrameRankingProductosDialog extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProductos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        dateChooserMinimo = new com.toedter.calendar.JDateChooser();
+        dataChooserMaximo = new com.toedter.calendar.JDateChooser();
+        lbFechaMinima = new javax.swing.JLabel();
+        lbFechaMaxima = new javax.swing.JLabel();
+        checkBoxFechas = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -73,6 +118,32 @@ public class jFrameRankingProductosDialog extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
         jLabel1.setText("Ranking Productos");
 
+        dateChooserMinimo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateChooserMinimoPropertyChange(evt);
+            }
+        });
+
+        dataChooserMaximo.setMaxSelectableDate(new java.util.Date(253370786506000L));
+        dataChooserMaximo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dataChooserMaximoPropertyChange(evt);
+            }
+        });
+
+        lbFechaMinima.setText("Fecha Minima");
+
+        lbFechaMaxima.setText("Fecha Maxima");
+
+        checkBoxFechas.setText("Filtro por fechas ");
+        checkBoxFechas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkBoxFechasActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Fecha Maxima");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,28 +151,138 @@ public class jFrameRankingProductosDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dateChooserMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(lbFechaMinima))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(lbFechaMaxima)
+                                .addGap(53, 79, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(checkBoxFechas, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(dataChooserMaximo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)))))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(checkBoxFechas)))
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbFechaMinima)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dateChooserMinimo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataChooserMaximo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbFechaMaxima, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private Date getStringDate (java.beans.PropertyChangeEvent evt){
+        Date fecha = null;
+        if("date".equals(evt.getPropertyName())){           
+            fecha = (Date)evt.getNewValue();           
+       }
+        return fecha;
+    }
+    
+     private boolean validarFecha(){
+         if (fechaMaximo == null || fechaMinimo == null){
+             return false ;
+         }
+        
+                if (fechaMinimo.after(fechaMaximo)){
+                    JOptionPane.showMessageDialog(this, "La fecha maxima no puede ser menor");
+                    return false;
+                } else if (fechaMaximo.before(fechaMinimo)){
+                    JOptionPane.showMessageDialog(this,"La fecha minima no puede der despues que la fecha maximo");
+                    return false;
+                }
+             
+        return true;
+    }
+    
+    
+    
+    private void dateChooserMinimoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateChooserMinimoPropertyChange
+         fechaMinimo = getStringDate(evt);
+         boolean valido;
+         try{
+         valido = validarFecha();
+         if (valido){
+             llenarTabla();
+         } else {
+           DefaultTableModel model = (DefaultTableModel) tbProductos.getModel();
+            model.setRowCount(0);
+         }
+         } catch (Exception ex ){}
+        ///System.err.println(fechaMinimo);
+    }//GEN-LAST:event_dateChooserMinimoPropertyChange
+   
+    private void dataChooserMaximoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataChooserMaximoPropertyChange
+         fechaMaximo = getStringDate(evt);
+         boolean valido ;
+          try{
+         valido = validarFecha();
+         if (valido){
+             llenarTabla();
+         }  else {
+             DefaultTableModel model = (DefaultTableModel) tbProductos.getModel();
+            model.setRowCount(0);
+         }
+         } catch (Exception ex ){}
+       // System.err.println(fechaMaximo);
+    }//GEN-LAST:event_dataChooserMaximoPropertyChange
+
+    private void checkBoxFechasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxFechasActionPerformed
+        if (this.checkBoxFechas.isSelected()){
+            dateChooserMinimo.setEnabled(true);
+            dataChooserMaximo.setEnabled(true);
+            
+        } else {
+          dateChooserMinimo.setEnabled(false);
+           dataChooserMaximo.setEnabled(false);
+           this.fechaMaximo = null;
+           this.fechaMinimo = null ;
+           llenarTabla();
+        }
+    }//GEN-LAST:event_checkBoxFechasActionPerformed
+
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox checkBoxFechas;
+    private com.toedter.calendar.JDateChooser dataChooserMaximo;
+    private com.toedter.calendar.JDateChooser dateChooserMinimo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbFechaMaxima;
+    private javax.swing.JLabel lbFechaMinima;
     private javax.swing.JTable tbProductos;
     // End of variables declaration//GEN-END:variables
 }

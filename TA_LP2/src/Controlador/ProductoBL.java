@@ -7,6 +7,7 @@ package Controlador;
 import AccesoData.ProductoAD;
 import Modelo.Producto;
 import java.util.ArrayList;
+import java.util.Date;
 import javafx.util.Pair;
 /**
  *
@@ -25,5 +26,9 @@ public class ProductoBL {
     
     public ArrayList<Pair<String,Pair<Integer,Integer>>> listarRankingProductos(){
         return accesoDatos.obtenerRankingProductos();
+    }
+    
+    public ArrayList<Pair<String,Pair<Integer,Integer>>> listarRankingProductosFechas(Date fechaMinimo,Date fechaMaximo){
+        return accesoDatos.obtenerRankingProductosFechas(fechaMinimo , fechaMaximo);
     }
 }
