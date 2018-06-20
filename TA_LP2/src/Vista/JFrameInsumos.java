@@ -92,6 +92,8 @@ public class JFrameInsumos extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         textDescripcion = new javax.swing.JTextArea();
         btnLimpiar = new javax.swing.JButton();
+        labelCantidad = new javax.swing.JLabel();
+        textCantidad = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -139,6 +141,8 @@ public class JFrameInsumos extends javax.swing.JDialog {
             }
         });
 
+        labelCantidad.setText("Cantidad Minima");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,13 +163,15 @@ public class JFrameInsumos extends javax.swing.JDialog {
                             .addComponent(labelID)
                             .addComponent(labelNombre)
                             .addComponent(labelMedida)
-                            .addComponent(labelDescripcion))
+                            .addComponent(labelDescripcion)
+                            .addComponent(labelCantidad))
                         .addGap(91, 91, 91)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(textNombre)
                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textID)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                            .addComponent(textCantidad))
                         .addGap(18, 18, 18)
                         .addComponent(btnLimpiar)))
                 .addContainerGap(28, Short.MAX_VALUE))
@@ -191,12 +197,16 @@ public class JFrameInsumos extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelMedida)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelCantidad)
+                    .addComponent(textCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelDescripcion)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelDescripcion)
                     .addComponent(btnLimpiar))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,16 +233,25 @@ public class JFrameInsumos extends javax.swing.JDialog {
             String nombre = textNombre.getText();
             String auxMedida = (String)jComboBox2.getSelectedItem();
             String descripcion = textDescripcion.getText();
+            String auxCant = textCantidad.getText();
+            Integer cant= Integer.parseInt(textCantidad.getText());
             
             if(nombre.equals(""))
                 throw new Exception("Ingrese un nombre valido");
             
-            if(!nombre.matches("^[A-Za-z ]*$") || !nombre.matches("^[0-9]*$"))
+            if(!nombre.matches("^[A-Za-z ]*$"))
+                throw new Exception("Nombre ingresado invalido, solo letras y numeros");
+            if(!!nombre.matches("^[0-9]*$"))
                 throw new Exception("Nombre ingresado invalido, solo letras y numeros");
             if(nombre.length()>60) 
                 throw new Exception("Ingrese un nombre mas corto");
             if(descripcion.equals(""))
                 throw new Exception ("Ingreso una descripcion valida");
+            if(!auxCant.matches("^[0-9]*$"))
+                throw new Exception ("La cantidad debe ser un numero entero");
+            if(auxCant.equals(""))
+                throw new Exception ("Ingrese una cantidad valida");
+            
             
             int medida=1;
             for(int i=0;i<unidadesMedida.size();i++){
@@ -243,11 +262,11 @@ public class JFrameInsumos extends javax.swing.JDialog {
                 };
             }
             if(idInsumo<idMax){
-                int resul=logicaNegocio.modificarInsumo(idInsumo, nombre,medida,descripcion );
+                int resul=logicaNegocio.modificarInsumo(idInsumo, nombre,medida,descripcion,cant );
                 if(resul>0) JOptionPane.showMessageDialog(null, "Se ha actualizado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
             }
             else{
-                int resul=logicaNegocio.registrarInsumo(idInsumo, nombre,medida,descripcion );
+                int resul=logicaNegocio.registrarInsumo(idInsumo, nombre,medida,descripcion,cant );
                 if(resul>0) JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
             }
             
@@ -267,6 +286,7 @@ public class JFrameInsumos extends javax.swing.JDialog {
             Insumo insumoSeleccionado = objJModificarInsumo.getinsumoSeleccionado();
             textID.setText(Integer.toString(insumoSeleccionado.getidInsumo()));
             textNombre.setText(insumoSeleccionado.getNombre());
+            textCantidad.setText(Integer.toString(insumoSeleccionado.getCantidaMinima()));
             unidadMed um = insumoSeleccionado.getunidMed();
             String aux=null;
             if(um == unidadMed.kg)  aux= "KILOGRAMOS";
@@ -332,10 +352,12 @@ public class JFrameInsumos extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel labelCantidad;
     private javax.swing.JLabel labelDescripcion;
     private javax.swing.JLabel labelID;
     private javax.swing.JLabel labelMedida;
     private javax.swing.JLabel labelNombre;
+    private javax.swing.JTextField textCantidad;
     private javax.swing.JTextArea textDescripcion;
     private javax.swing.JTextField textID;
     private javax.swing.JTextField textNombre;
