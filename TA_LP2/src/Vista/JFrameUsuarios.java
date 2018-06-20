@@ -445,6 +445,17 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         jLabel11.setText("Turno:");
 
         txtID.setEnabled(false);
+        txtID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIDActionPerformed(evt);
+            }
+        });
+
+        txtDNI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDNIActionPerformed(evt);
+            }
+        });
 
         cbFem.setText("F");
         cbFem.addActionListener(new java.awt.event.ActionListener() {
@@ -1042,6 +1053,14 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         // TODO add your handling code here:
         imgFile = null;
     }//GEN-LAST:event_cbUpImagActionPerformed
+
+    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIDActionPerformed
+
+    private void txtDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDNIActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDNIActionPerformed
 
     /**
      * @param args the command line arguments

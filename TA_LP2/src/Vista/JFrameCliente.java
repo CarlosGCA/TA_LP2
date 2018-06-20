@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Atxy2k.CustomTextField.RestrictedTextField;
 import Controlador.ClientesBL;
 import Modelo.Empresa;
 import Modelo.Natural;
@@ -24,7 +25,8 @@ public class JFrameCliente extends javax.swing.JDialog {
     private Natural cliNat;
     private Empresa cliEmp;
     private ClientesBL logicaNeg;
-
+    private RestrictedTextField restricted;
+    
     public static JFBuscarCliente objeBuscarCli;
 
     /**
@@ -57,6 +59,8 @@ public class JFrameCliente extends javax.swing.JDialog {
 //            }
 //        });
         setTitle("Gestion de Clientes");
+        restricted = new RestrictedTextField(txtRuc);
+        restricted.setLimit(11);
     }
 
     private int validar() {
@@ -373,6 +377,10 @@ public class JFrameCliente extends javax.swing.JDialog {
             lblCuentaBan.setText("Correo");
             lblCorreo.setVisible(false);
             txtEmail.setVisible(false);
+            txtRuc.setText("");
+            txtNombre1.setText("");
+            txtNombre2.setText("");
+            restricted.setLimit(11);  
         } else {
             lblRUC.setText("DNI:");
             lblNombre1.setText("Nombre:");
@@ -389,7 +397,11 @@ public class JFrameCliente extends javax.swing.JDialog {
             lblImagEmpresa.setVisible(false);
             lblImagPersona.setSize(200, 300);
             lblImagPersona.setVisible(true);
-            this.setBounds(30, 30, 1000, 690);
+            txtRuc.setText("");
+            txtNombre1.setText("");
+            txtNombre2.setText("");
+            restricted.setLimit(8);
+            this.setBounds(30, 30, 1000, 690);       
         }
 
     }//GEN-LAST:event_cboTipoActionPerformed
