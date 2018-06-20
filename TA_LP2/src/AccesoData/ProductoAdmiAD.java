@@ -144,6 +144,7 @@ public class ProductoAdmiAD {
                 ig= new Ingrediente();
                 i = new Insumo();
                 ig.setidIngrediente(rs.getInt("idIngrediente"));
+                i.setidInsumo(rs.getInt("Insumo_idInsumo"));
                 i.setNombre(rs.getString("Nombre"));
                 ig.setcantidad(rs.getInt("Cantidad"));
                 String aux = rs.getString("UnidadMedida");                
