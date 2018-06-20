@@ -235,6 +235,8 @@ public class jFrameRankingProductosDialog extends javax.swing.JDialog {
          try{
          valido = validarFecha();
          if (valido){
+              DefaultTableModel model = (DefaultTableModel) tbProductos.getModel();
+            model.setRowCount(0);
              llenarTabla();
          } else {
            DefaultTableModel model = (DefaultTableModel) tbProductos.getModel();
@@ -250,6 +252,8 @@ public class jFrameRankingProductosDialog extends javax.swing.JDialog {
           try{
          valido = validarFecha();
          if (valido){
+              DefaultTableModel model = (DefaultTableModel) tbProductos.getModel();
+            model.setRowCount(0);
              llenarTabla();
          }  else {
              DefaultTableModel model = (DefaultTableModel) tbProductos.getModel();

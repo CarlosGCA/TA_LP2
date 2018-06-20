@@ -3,7 +3,8 @@ public class Ingrediente{
         private int idIngrediente;
 	private int cantidad;
 	private Insumo insumo;
-	
+	private boolean habilitado = true;
+        
         public Ingrediente(){
             
         }
@@ -12,6 +13,20 @@ public class Ingrediente{
 		this.cantidad=cantidad;
 		this.insumo=insumo;
 	}
+        
+            /**
+         * @return the habilitado
+         */
+        public boolean getHabilitado() {
+            return habilitado;
+        }
+
+        /**
+         * @param habilitado the habilitado to set
+         */
+        public void setHabilitado(boolean habilitado) {
+            this.habilitado = habilitado;
+        }
         
         public void setidIngrediente(int id){
             this.idIngrediente=id;

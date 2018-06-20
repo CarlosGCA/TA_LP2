@@ -207,27 +207,40 @@ public class JFrameInsumos extends javax.swing.JDialog {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        int idInsumo = Integer.parseInt(textID.getText());
-        String nombre = textNombre.getText();
-        String auxMedida = (String)jComboBox2.getSelectedItem();
-        String descripcion = textDescripcion.getText();
-        int medida=1;
-        for(int i=0;i<unidadesMedida.size();i++){
-            String aux = unidadesMedida.get(i);
-            if(auxMedida.equals(aux)){
-                medida +=i;
-                break;
-            };
-        }
-        if(idInsumo<idMax){
-            int resul=logicaNegocio.modificarInsumo(idInsumo, nombre,medida,descripcion );
-            if(resul>0) JOptionPane.showMessageDialog(null, "Se ha actualizado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{
-            int resul=logicaNegocio.registrarInsumo(idInsumo, nombre,medida,descripcion );
-            if(resul>0) JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
-        }
+       try{
+            int idInsumo = Integer.parseInt(textID.getText());
+            String nombre = textNombre.getText();
+            String auxMedida = (String)jComboBox2.getSelectedItem();
+            String descripcion = textDescripcion.getText();
+            
+            if(nombre.equals(""))
+                throw new Exception("Ingrese un nombre valido");
         
+            if(nombre.length()>40) 
+                throw new Exception("Ingrese un nombre mas corto");
+            if(descripcion.equals(""))
+                throw new Exception ("Ingreso una descripcion valida");
+            
+            int medida=1;
+            for(int i=0;i<unidadesMedida.size();i++){
+                String aux = unidadesMedida.get(i);
+                if(auxMedida.equals(aux)){
+                    medida +=i;
+                    break;
+                };
+            }
+            if(idInsumo<idMax){
+                int resul=logicaNegocio.modificarInsumo(idInsumo, nombre,medida,descripcion );
+                if(resul>0) JOptionPane.showMessageDialog(null, "Se ha actualizado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                int resul=logicaNegocio.registrarInsumo(idInsumo, nombre,medida,descripcion );
+                if(resul>0) JOptionPane.showMessageDialog(null, "Se ha agregado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
+        }
         
             
     }//GEN-LAST:event_btnRegistrarActionPerformed
