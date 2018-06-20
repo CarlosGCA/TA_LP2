@@ -91,6 +91,7 @@ public class JFrameInsumos extends javax.swing.JDialog {
         labelDescripcion = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         textDescripcion = new javax.swing.JTextArea();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -131,6 +132,13 @@ public class JFrameInsumos extends javax.swing.JDialog {
         textDescripcion.setRows(5);
         jScrollPane2.setViewportView(textDescripcion);
 
+        btnLimpiar.setText("Limpiar Datos");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -157,8 +165,10 @@ public class JFrameInsumos extends javax.swing.JDialog {
                             .addComponent(textNombre)
                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textID)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLimpiar)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,7 +194,8 @@ public class JFrameInsumos extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelDescripcion)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
@@ -215,8 +226,10 @@ public class JFrameInsumos extends javax.swing.JDialog {
             
             if(nombre.equals(""))
                 throw new Exception("Ingrese un nombre valido");
-        
-            if(nombre.length()>40) 
+            
+            if(!nombre.matches("^[A-Za-z ]*$") || !nombre.matches("^[0-9]*$"))
+                throw new Exception("Nombre ingresado invalido, solo letras y numeros");
+            if(nombre.length()>60) 
                 throw new Exception("Ingrese un nombre mas corto");
             if(descripcion.equals(""))
                 throw new Exception ("Ingreso una descripcion valida");
@@ -268,6 +281,14 @@ public class JFrameInsumos extends javax.swing.JDialog {
         
     }//GEN-LAST:event_btnModificarActionPerformed
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        //muestra id correlativo
+        textID.setText(String.valueOf(logicaNegocio.obtenerID()));
+        textNombre.setText("");
+        textDescripcion.setText("");
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -305,6 +326,7 @@ public class JFrameInsumos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnEliminar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> jComboBox2;

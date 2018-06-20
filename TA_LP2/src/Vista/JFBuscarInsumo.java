@@ -75,7 +75,15 @@ public class JFBuscarInsumo extends javax.swing.JDialog {
             new String [] {
                 "ID", "Nombre", "Unidad de Medida"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         buttonBuscar.setText("Buscar");
