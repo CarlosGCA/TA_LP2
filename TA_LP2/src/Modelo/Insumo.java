@@ -3,10 +3,13 @@ package Modelo;
 public class Insumo{
 
     
+
+    
 	private int idInsumo;
 	private String descripcion;
         private String nombre;
 	private unidadMed unidMed;
+        private int cantidaMinima;
         
         public Insumo(){};
 	
@@ -15,6 +18,20 @@ public class Insumo{
 		this.descripcion=descripcion;
 		this.unidMed=unidMed;
 	}
+        
+            /**
+         * @return the cantidaMinima
+         */
+        public int getCantidaMinima() {
+            return cantidaMinima;
+        }
+
+        /**
+         * @param cantidaMinima the cantidaMinima to set
+         */
+        public void setCantidaMinima(int cantidaMinima) {
+            this.cantidaMinima = cantidaMinima;
+        }
 	
 	public void setidInsumo(int idInsumo){
 		this.idInsumo=idInsumo;

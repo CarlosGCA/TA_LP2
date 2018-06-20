@@ -70,6 +70,7 @@ public class InsumoAD {
                 else if(aux.equals("LITROS")) in.setunidMed(unidadMed.lt);
                 else if(aux.equals("KILOGRAMOS")) in.setunidMed(unidadMed.kg);
                 in.setdescripcionm(rs.getString("Descripcion"));
+                in.setCantidaMinima(rs.getInt("CantidadMinima"));
                 String aux1 = rs.getString("Descripcion");
                 
                 lista.add(in);                                
@@ -81,17 +82,18 @@ public class InsumoAD {
         return lista;
     }
     
-    public int registarInsumo(int _id,String _nombre,int _medida,String _descripcion){
+    public int registarInsumo(int _id,String _nombre,int _medida,String _descripcion,int cantidad){
         int id=0;
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
-            CallableStatement sentencia = con.prepareCall("{call REGISTRAR_INSUMO(?,?,?,?,?)}");
+            CallableStatement sentencia = con.prepareCall("{call REGISTRAR_INSUMO(?,?,?,?,?,?)}");
             sentencia.registerOutParameter("_idregistrado", java.sql.Types.INTEGER);
             sentencia.setInt("_id", _id);
             sentencia.setString("_nombre", _nombre);
             sentencia.setInt("_idmedida", _medida);
             sentencia.setString("_descripcion", _descripcion);
+            sentencia.setInt("cant",cantidad);
             sentencia.execute();
             id = sentencia.getInt("_idregistrado");
             con.close();
@@ -118,20 +120,21 @@ public class InsumoAD {
         return auxID;
     }
     
-    public int modificarInsumo(int id,String nombre,int medida,String descripcion){
+    public int modificarInsumo(int id,String nombre,int medida,String descripcion,int cantidad){
         int auxID=0;
         int gg=0;
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
             gg+=1;
-            CallableStatement sentencia = con.prepareCall("{call MODIFICAR_INSUMO(?,?,?,?,?)}");
+            CallableStatement sentencia = con.prepareCall("{call MODIFICAR_INSUMO(?,?,?,?,?,?)}");
             gg+=1;
             sentencia.registerOutParameter("idModificado", java.sql.Types.INTEGER);
             sentencia.setInt("id", id);
             sentencia.setString("nombre", nombre);
             sentencia.setInt("medida", medida);
             sentencia.setString("descripcion", descripcion);
+            sentencia.setInt("cant", cantidad);
             sentencia.execute();
             auxID = sentencia.getInt("idModificado");
             con.close();             
