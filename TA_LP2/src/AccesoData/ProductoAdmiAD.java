@@ -161,4 +161,66 @@ public class ProductoAdmiAD {
         
         return lista;
     }
+    
+    public int actualizarProducto(int id,String nombre,float precio,String descripcion){
+        int aux=0;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+            CallableStatement sentencia = con.prepareCall("{call ACTUALIZAR_PRODUCTO(?,?,?,?,?)}");
+            sentencia.registerOutParameter("idModificado", java.sql.Types.INTEGER);
+            sentencia.setInt("id", id);
+            sentencia.setString("nombre", nombre);
+            sentencia.setFloat("precio", precio);
+            sentencia.setString("descripcion", descripcion);
+            sentencia.execute();
+            aux = sentencia.getInt("idModificado");
+            con.close();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return id;
+    }
+    
+    public int actualizarIngredientesxProducto(int idInsumo,int idProducto,int habilitado){
+        int aux=0;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+            CallableStatement sentencia = con.prepareCall("{call ACTUALIZAR_INGREDIENTESXPRODUCTO(?,?,?,?)}");
+            sentencia.registerOutParameter("idModificado", java.sql.Types.INTEGER);
+            sentencia.setInt("idIng", idInsumo);
+            sentencia.setInt("idPro", idProducto);
+            sentencia.setInt("habil", habilitado);
+            sentencia.execute();
+            aux = sentencia.getInt("idModificado");
+            con.close();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return aux;
+        
+    }
+    
+    public int actualizarIngrediente(int idIngrediente,int cantidad,int idInsumo,int  habilitado){
+          int aux=0;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7", "inf282g7", "0mvK88");
+            CallableStatement sentencia = con.prepareCall("{call ACTUALIZAR_INGREDIENTE(?,?,?,?,?)}");
+            sentencia.registerOutParameter("idModificado", java.sql.Types.INTEGER);
+            sentencia.setInt("idIng", idIngrediente);
+            sentencia.setInt("cant", cantidad);
+            sentencia.setInt("idIn", idInsumo);
+            sentencia.setInt("habil", habilitado);
+            sentencia.execute();
+            aux = sentencia.getInt("idModificado");
+            con.close();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }     
+        
+        return aux;
+    }
+    
 }

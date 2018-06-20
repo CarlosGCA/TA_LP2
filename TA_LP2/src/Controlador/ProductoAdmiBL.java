@@ -46,4 +46,16 @@ public class ProductoAdmiBL {
     public ArrayList<Ingrediente> listarIngredientesxProduct(int id){
         return accesoDatos.listarIngredientesxProducto(id);
     }
+    
+    public int actualizarProducto(int id,String nombre,float precio,String descripcion){
+        return accesoDatos.actualizarProducto(id, nombre, precio, descripcion);
+    }
+    
+    public int actualizarIngrediente(int idIngrediente,int cantidad,int idInsumo,int  habilitado){
+        return accesoDatos.actualizarIngrediente(idIngrediente, cantidad, idInsumo, habilitado);
+    }
+    
+    public int actualizarIngredientesxProducto(int idInsumo,int idProducto,int habilitado){
+        return accesoDatos.actualizarIngredientesxProducto(idInsumo, idProducto, habilitado);
+    }
 }

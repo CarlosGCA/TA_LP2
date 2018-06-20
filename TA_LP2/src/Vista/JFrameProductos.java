@@ -367,7 +367,19 @@ public class JFrameProductos extends javax.swing.JDialog{
         float precioProducto = Float.parseFloat(textPrecio.getText());
         String descripcion = jTextArea1.getText();
         
-         if(idProducto<idMax){
+        if(idProducto<idMax){
+            int resul=logicaNegocio.actualizarProducto(idProducto, nombreProducto, precioProducto, descripcion);
+            int aux=0,aux1=0;
+            for(int i=0;i<ingredientes.size();i++){
+                int idaux=0,habilaux=0;
+                if(ingredientes.get(i).getidIngrediente() != 0) idaux=ingredientes.get(i).getidIngrediente();
+                else idaux=ingredientes.get(i).getinsumo().getidInsumo();
+                if(ingredientes.get(i).getHabilitado()) habilaux=1;
+                aux =logicaNegocio.actualizarIngrediente(ingredientes.get(i).getidIngrediente(),ingredientes.get(i).getcantidad(),ingredientes.get(i).getinsumo().getidInsumo(),habilaux);
+                aux1= logicaNegocio.actualizarIngredientesxProducto(aux, idProducto, habilaux);
+            }
+          
+            if((resul>0)&&(aux>0)&&(aux1>0)) JOptionPane.showMessageDialog(null, "Se ha modificado con exito", "MENSAJE", JOptionPane.INFORMATION_MESSAGE);
             
             
         }
@@ -429,22 +441,37 @@ public class JFrameProductos extends javax.swing.JDialog{
 
     private void btnEliminarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarInsumoActionPerformed
         // TODO add your handling code here:
+       int colum=1;
+        int row = jTable1.getSelectedRow();
+        String iSeleccionado = jTable1.getModel().getValueAt(row, colum).toString();
         int indx = jTable1.getSelectedRow();
+        
         if(ingredientes!=null){
-            ingredientes.remove(indx);
+            for(int i=0;i<ingredientes.size();i++){
+                if(ingredientes.get(i).getinsumo().getNombre()== iSeleccionado)
+                    ingredientes.get(i).setHabilitado(false);
+            }
+            //ingredientes.get(row).setHabilitado(false);
+            //ingredientes.remove(indx);
             aux.setRowCount(0);
             Object[] fila = new Object[4];
             unidadMed um;
             for(int j=0; j<ingredientes.size(); j++){
-                fila[0] = ingredientes.get(j).getinsumo().getidInsumo();
-                fila[1] = ingredientes.get(j).getinsumo().getNombre();
-                fila[2] = ingredientes.get(j).getcantidad();
-                um = ingredientes.get(j).getinsumo().getunidMed();
-                if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
-                else if(um == unidadMed.cajas) fila[3] = "CAJAS";
-                else if(um == unidadMed.lt) fila[3] = "LITROS";
-                else if(um == unidadMed.unid) fila[3] = "UNIDADES";   
-                aux.addRow(fila);
+                if(ingredientes.get(j).getHabilitado()){
+                    int idaux=0;
+                    if(ingredientes.get(j).getidIngrediente() != 0) idaux=ingredientes.get(j).getidIngrediente();
+                    else idaux=ingredientes.get(j).getinsumo().getidInsumo();
+                    fila[0] = idaux;
+                    fila[1] = ingredientes.get(j).getinsumo().getNombre();
+                    fila[2] = ingredientes.get(j).getcantidad();
+                    um = ingredientes.get(j).getinsumo().getunidMed();
+                    if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
+                    else if(um == unidadMed.cajas) fila[3] = "CAJAS";
+                    else if(um == unidadMed.lt) fila[3] = "LITROS";
+                    else if(um == unidadMed.unid) fila[3] = "UNIDADES";   
+                    aux.addRow(fila);                    
+                }
+                
             }   
         }else{           
             p.getReceta().remove(indx);
@@ -482,11 +509,39 @@ public class JFrameProductos extends javax.swing.JDialog{
     private void btnAgregarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarInsumoActionPerformed
         // TODO add your handling code here:
         
+            if(ingredientes!=null){
+            int cantidad = Integer.parseInt(textCantidadInsumo.getText());
+            Ingrediente i = new Ingrediente(cantidad,insumoElegido);
+            ingredientes.add(i);
+            Object[] fila = new Object[4];
+            aux.setRowCount(0);
+            unidadMed um;
+            for(int j=0; j<ingredientes.size(); j++){
+                if(ingredientes.get(j).getHabilitado()){
+                    int idaux=0;
+                    if(ingredientes.get(j).getidIngrediente() != 0) idaux=ingredientes.get(j).getidIngrediente();
+                    else idaux=ingredientes.get(j).getinsumo().getidInsumo();
+                    fila[0] = idaux;
+                    fila[1] = ingredientes.get(j).getinsumo().getNombre();
+                    fila[2] = ingredientes.get(j).getcantidad();
+                    um = ingredientes.get(j).getinsumo().getunidMed();
+                    if(um == unidadMed.kg) fila[3] = "KILOGRAMOS";
+                    else if(um == unidadMed.cajas) fila[3] = "CAJAS";
+                    else if(um == unidadMed.lt) fila[3] = "LITROS";
+                    else if(um == unidadMed.unid) fila[3] = "UNIDADES";   
+                    aux.addRow(fila);                    
+                }
+                
+            }   
+            
+            
+            
+        }else{
             int cantidad = Integer.parseInt(textCantidadInsumo.getText());
             Ingrediente i = new Ingrediente(cantidad,insumoElegido);
             p.agregarIngrediente(i);
-            Object[] fila = new Object[5];
-            //aux.setRowCount(0);
+            Object[] fila = new Object[4];
+            aux.setRowCount(0);
             unidadMed um;
             for(int j=0; j<p.getReceta().size(); j++){
                 fila[0] = p.getReceta().get(j).getinsumo().getidInsumo();
@@ -497,8 +552,10 @@ public class JFrameProductos extends javax.swing.JDialog{
                 else if(um == unidadMed.cajas) fila[3] = "CAJAS";
                 else if(um == unidadMed.lt) fila[3] = "LITROS";
                 else if(um == unidadMed.unid) fila[3] = "UNIDADES";   
-                aux.addRow(fila);
+                aux.addRow(fila);            
             }
+
+        }
     }//GEN-LAST:event_btnAgregarInsumoActionPerformed
 
     /**
