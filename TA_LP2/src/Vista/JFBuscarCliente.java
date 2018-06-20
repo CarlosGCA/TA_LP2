@@ -139,6 +139,7 @@ public class JFBuscarCliente extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(tableCliente);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Tabla de Clientes:");
 
         btnCerrar.setText("Cerrar");
@@ -184,7 +185,7 @@ public class JFBuscarCliente extends javax.swing.JDialog {
                             .addGap(37, 37, 37)
                             .addComponent(btnCerrar))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

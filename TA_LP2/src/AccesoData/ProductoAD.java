@@ -26,7 +26,7 @@ public class ProductoAD {
             Connection con = DriverManager.getConnection("jdbc:mysql://quilla.lab.inf.pucp.edu.pe/inf282g7","inf282g7","0mvK88");
         
             Statement sentencia = con.createStatement();
-            String sql ="Select * from inf282g7.Producto;";
+            String sql ="Select * from inf282g7.Producto where Habilitado=1;";
             ResultSet rs = sentencia.executeQuery(sql);
             while(rs.next()){
                 Producto p = new Producto();
