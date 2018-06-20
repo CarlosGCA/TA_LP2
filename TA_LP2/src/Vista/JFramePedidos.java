@@ -1058,7 +1058,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                     throw new Exception("Coloque una fecha de entrega");
                 if(dateEntrega.before(dateRegistro))
                     throw new Exception("La Fecha de Entrega no puede ser menor a la Fecha de Fedido");
-                if(Pedido.getListaLineasPedido().size()==0)
+                if(Pedido.getNumLineasHabiles()==0)
                     throw new Exception("El pedido no tiene ningun producto agregado");
                 if(Pedido.getcliente()==null)
                     throw new Exception("El pedido no tiene Cliente");
@@ -1105,7 +1105,7 @@ public class JFramePedidos extends javax.swing.JDialog {
                     throw new Exception("La Fecha de Entrega no puede ser menor a la Fecha de Fedido");
                 if(dateEntrega.before(datehoy))
                     throw new Exception("La Fecha de Entrega no puede ser menor a la Fecha de hoy");
-                if(Pedido.getListaLineasPedido().size()==0)
+                if(Pedido.getNumLineasHabiles()==0)
                     throw new Exception("El pedido no tiene ningun producto agregado");
                 if(Pedido.getcliente()==null)
                     throw new Exception("El pedido no tiene Cliente");

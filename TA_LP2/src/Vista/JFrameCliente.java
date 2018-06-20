@@ -570,7 +570,7 @@ public class JFrameCliente extends javax.swing.JDialog {
             if(objeBuscarCli.getEmpresaSeleccionada()!=null){
                 Empresa empresaSeleccionada = objeBuscarCli.getEmpresaSeleccionada();
                 txtIDCliente.setText(Integer.toString(empresaSeleccionada.getId_cliente()));
-                txtRuc.setText(empresaSeleccionada.getRuc());
+                txtRuc.setText(String.format("%011d", Integer.parseInt(empresaSeleccionada.getRuc())));
                 txtNombre1.setText(empresaSeleccionada.getRazonSocial());
                 txtNombre2.setText(empresaSeleccionada.getDireccion());
                 txtDireccion.setText(Integer.toString(empresaSeleccionada.getTelefono()));
@@ -582,7 +582,7 @@ public class JFrameCliente extends javax.swing.JDialog {
             objeBuscarCli.setVisible(true);
             if(objeBuscarCli.getNaturalSeleccionado()!=null){
                Natural naturalSeleccionado= objeBuscarCli.getNaturalSeleccionado();
-                txtRuc.setText(naturalSeleccionado.getDNI());
+                txtRuc.setText(String.format("%08d", Integer.parseInt(naturalSeleccionado.getDNI())));
                 txtNombre1.setText(naturalSeleccionado.getNombre());
                 txtNombre2.setText(naturalSeleccionado.getApellidos());
                 txtDireccion.setText(naturalSeleccionado.getDireccion());

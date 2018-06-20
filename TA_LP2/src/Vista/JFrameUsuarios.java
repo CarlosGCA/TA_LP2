@@ -935,7 +935,7 @@ public class JFrameUsuarios extends javax.swing.JDialog {
         if (objeBuscarEmp.getEmpleadoSeleccionado() != null) {
             Empleado empleadoSeleccionado = objeBuscarEmp.getEmpleadoSeleccionado();
             txtNombres.setText(empleadoSeleccionado.getNombre());
-            txtDNI.setText(Integer.toString(empleadoSeleccionado.getDNI()));
+            txtDNI.setText(String.format("%08d", empleadoSeleccionado.getDNI()));
             txtID.setText(Integer.toString(empleadoSeleccionado.getID()));
             txtApellido.setText(empleadoSeleccionado.getApellido());
             String nn = empleadoSeleccionado.getPuesto().getNombPuesto();

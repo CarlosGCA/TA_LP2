@@ -97,6 +97,15 @@ public class PedidoProducto{
                 total=total+15;
             return total;
         }
+        
+        public int getNumLineasHabiles(){
+            int i=0;
+            for(LineaPedidoProducto lpp : listaLineasPedido){
+                if(lpp.getHabilitado())
+                    i++;
+            }
+            return i;
+        }
 
         /**
          * @param TotalPagar the TotalPagar to set
