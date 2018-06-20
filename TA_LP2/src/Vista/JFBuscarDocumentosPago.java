@@ -369,12 +369,13 @@ public class JFBuscarDocumentosPago extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
         // TODO add your handling code here:
         try{
-            Object filaSeleccionada = documentosConExtraFiltrados.get(tablaDocsPago.getSelectedRow());
+            Object filaSeleccionada = documentosConExtraFiltrados.get(tablaDocsPago.convertRowIndexToModel(tablaDocsPago.getSelectedRow()));
             
                 
             Object[] tupla = (Object[])filaSeleccionada;

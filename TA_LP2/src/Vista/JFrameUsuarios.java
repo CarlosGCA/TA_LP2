@@ -774,12 +774,18 @@ public class JFrameUsuarios extends javax.swing.JDialog {
 
     private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
         // TODO add your handling code here:
-        super.dispose();
+        int decision = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea regresar sin guardar?", "MENSAJE", JOptionPane.YES_NO_OPTION);
+        if(decision==JOptionPane.YES_OPTION){
+               super.dispose(); 
+        }   
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
     private void btnRegresar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar2ActionPerformed
         // TODO add your handling code here:
-        super.dispose();;
+        int decision = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea regresar sin guardar?", "MENSAJE", JOptionPane.YES_NO_OPTION);
+        if(decision==JOptionPane.YES_OPTION){
+               super.dispose(); 
+        } 
     }//GEN-LAST:event_btnRegresar2ActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed

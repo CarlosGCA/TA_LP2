@@ -56,6 +56,7 @@ public class JFrameCliente extends javax.swing.JDialog {
 //                JFPrincipalVendedor.value = 0;
 //            }
 //        });
+        setTitle("Gestion de Clientes");
     }
 
     private int validar() {

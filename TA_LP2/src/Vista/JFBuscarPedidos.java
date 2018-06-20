@@ -142,7 +142,7 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
 
         jLabel3.setText("Estado");
 
-        cbbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Pendiente", "EnProceso", "Listo", "Finalizado", "Cancelado" }));
+        cbbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Pendiente", "En Proceso", "Listo", "Finalizado", "Cancelado" }));
         cbbEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbbEstadoActionPerformed(evt);
@@ -236,12 +236,12 @@ public class JFBuscarPedidos extends javax.swing.JDialog {
         try {
             if (!filtrado) {
                 setPedidoElegido(new PedidoProducto());
-                setPedidoElegido(listaPedidos.get(tablePedidos.getSelectedRow()));
+                setPedidoElegido(listaPedidos.get(tablePedidos.convertRowIndexToModel(tablePedidos.getSelectedRow()) ));
                 pedidoElegido.setListaLineasPedido(logicaNegocio.listarLineasPedido(pedidoElegido.getidPedido()));
                 super.dispose();
             } else {
                 setPedidoElegido(new PedidoProducto());
-                setPedidoElegido(listaFiltroPedidos.get(tablePedidos.getSelectedRow()));
+                setPedidoElegido(listaFiltroPedidos.get(tablePedidos.convertRowIndexToModel(tablePedidos.getSelectedRow())));
                 pedidoElegido.setListaLineasPedido(logicaNegocio.listarLineasPedido(pedidoElegido.getidPedido()));
                 super.dispose();
             }
