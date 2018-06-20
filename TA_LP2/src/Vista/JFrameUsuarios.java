@@ -972,7 +972,6 @@ public class JFrameUsuarios extends javax.swing.JDialog {
 
                 jLabel12.setIcon(image);
             } catch (Exception ex) {
-                System.err.println("AQUi se cae");;
                 System.err.println(ex.getMessage());
             }
         }
